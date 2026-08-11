@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\YuruChara.Domain\YuruChara.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Referenced explicitly, not just pulled in through Npgsql, so that the
+         version pinned in Directory.Packages.props wins across the whole solution. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" />
+    <!-- Design-time only: the `dotnet ef` tooling loads this to scaffold and apply
+         migrations. PrivateAssets keeps it out of anything that references us. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+
+    <!-- Read by YuruCharaDbContextFactory so the EF tooling picks up the connection
+         string from user secrets or the environment. Also private: consumers get
+         their configuration from their own host builder, not from us. -->
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

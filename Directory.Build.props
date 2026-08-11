@@ -1,0 +1,23 @@
+<Project>
+
+  <!--
+    Shared build settings for every project in the solution. Keeping these here
+    rather than repeating them in each .csproj means a single place to change
+    the target framework, and no chance of one project silently drifting off
+    nullable/warnings-as-errors.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- CLAUDE.md conventions: nullable reference types on, warnings are errors. -->
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Surface analyzer suggestions as warnings, which the line above then makes fatal. -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/YuruChara.Api/YuruChara.Api.csproj" />
+    <Project Path="src/YuruChara.Domain/YuruChara.Domain.csproj" />
+    <Project Path="src/YuruChara.Infrastructure/YuruChara.Infrastructure.csproj" />
+    <Project Path="src/YuruChara.Ingestion/YuruChara.Ingestion.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/YuruChara.Api.Tests/YuruChara.Api.Tests.csproj" />
+    <Project Path="tests/YuruChara.Domain.Tests/YuruChara.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

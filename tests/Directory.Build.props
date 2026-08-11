@@ -1,0 +1,22 @@
+<Project>
+
+  <!--
+    Directory.Build.props stops at the first file it finds walking upwards, so the
+    root one has to be imported explicitly or the test projects would lose the
+    target framework, nullable and warnings-as-errors settings entirely.
+  -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!--
+      CA1707 reports underscores in member names. Test method names are the
+      exception: `PointOnSurface_ForNagasaki_FallsInsideThePolygon` is readable in
+      a test report, and `PointOnSurfaceForNagasakiFallsInsideThePolygon` is not.
+      This suppression applies to the test projects only. Production code still
+      reports CA1707 as an error.
+    -->
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+</Project>

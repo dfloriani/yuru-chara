@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--
+      Same id as YuruChara.Api on purpose: both talk to the same local database,
+      so they share one secret store and `dotnet user-secrets set` only has to be
+      run once. Distinct ids would mean setting the same connection string twice
+      and keeping them in step by hand.
+    -->
+    <UserSecretsId>5beb71d8-3b7f-4a76-820f-36b66ce42e92</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\YuruChara.Infrastructure\YuruChara.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" />
+  </ItemGroup>
+
+</Project>

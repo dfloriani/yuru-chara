@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    This project references one package only: NetTopologySuite. The geometry types
+    are part of what a Prefecture is, rather than a persistence detail. It must not
+    reference EF Core or Npgsql. See DECISIONS.md, decision 4.
+  -->
+  <ItemGroup>
+    <PackageReference Include="NetTopologySuite" />
+  </ItemGroup>
+
+</Project>
