@@ -1,0 +1,95 @@
+##### .NET #####
+bin/
+obj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+build/
+bld/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+*.userprefs
+
+# Test results / coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+*.trx
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+
+# ASP.NET / EF
+*.publishsettings
+PublishScripts/
+**/wwwroot/dist/
+
+##### IDE #####
+.vs/
+.idea/
+*.iml
+*.sln.iml
+
+# VS Code — keep shared config, drop personal state
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+##### Node / Vite (web/) #####
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+
+##### Secrets & local config #####
+.env
+.env.*
+!.env.example
+
+# Use `dotnet user-secrets` for the connection string, not this file
+appsettings.Development.json
+appsettings.*.Local.json
+!appsettings.Development.example.json
+
+##### OS #####
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+*~
+.directory
+
+##### Project-specific #####
+# Raw downloads before they're processed into the committed seed file
+data/raw/
+
+# Personal study notes — never committed
+NOTES.md

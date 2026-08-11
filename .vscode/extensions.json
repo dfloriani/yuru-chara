@@ -1,0 +1,33 @@
+{
+  // Prompts anyone opening this folder to install the toolchain the project
+  // actually uses. Recommendations only — VS Code asks, it never installs.
+  "recommendations": [
+    // C# Dev Kit: solution explorer, test explorer, debugging. Pulls in
+    // ms-dotnettools.csharp (the language server) as a dependency.
+    "ms-dotnettools.csdevkit",
+
+    // Microsoft's PostgreSQL client. Enough to browse the schema and to run the
+    // PostGIS functions described in DECISIONS.md against the container without
+    // leaving the editor.
+    "ms-ossdata.vscode-pgsql",
+
+    // Container management for docker-compose.yml — logs and shell into the
+    // database without switching to a terminal.
+    "ms-azuretools.vscode-containers",
+
+    // docker-compose.yml schema validation and completion.
+    "redhat.vscode-yaml",
+
+    // For /web. Vite's React template ships an ESLint config; Prettier keeps
+    // the TypeScript formatted the same way for everyone.
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ],
+
+  // Nothing here is actively harmful, but flagging the ones that duplicate the
+  // above saves a "which of these three do I want?" moment.
+  "unwantedRecommendations": [
+    // Superseded by C# Dev Kit's own solution explorer.
+    "fernandoescolar.vscode-solution-explorer"
+  ]
+}
