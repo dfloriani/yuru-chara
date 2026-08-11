@@ -1,0 +1,91 @@
+# Local development database.
+#
+# This file contains no credentials. Compose reads `.env` from this directory and
+# substitutes the values below. `.env` is excluded by .gitignore and is generated
+# by scripts/dev-setup.sh from the connection string in the .NET user-secrets
+# store, so the password is stored in one place only.
+#
+# The database name, user and port use `:-` defaults, so they only need setting to
+# change them. The password uses `:?`, so Compose stops with the message below
+# instead of starting with a default value that would be the same for everyone.
+
+# The Compose project name. Set here, because Compose otherwise takes it from the
+# name of the directory that holds this file. The project name prefixes the volume
+# and network names, so renaming the directory makes Compose create a new, empty
+# volume and leaves the existing database attached to the old project name.
+name: yuruchara
+
+services:
+  db:
+    # The postgis/postgis images named in CLAUDE.md are published for linux/amd64
+    # only, so `docker compose up` fails on arm64 with "no matching manifest for
+    # linux/arm64/v8". imresamu/postgis is built from the same docker-postgis
+    # sources by a maintainer of that repository and publishes both amd64 and
+    # arm64. Change this back to postgis/postgis:17-3.5 if this project is only
+    # ever built on amd64.
+    image: imresamu/postgis:17-3.5
+    container_name: yuruchara-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-yuruchara}
+      POSTGRES_USER: ${POSTGRES_USER:-yuruchara}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?not set — run ./scripts/dev-setup.sh to generate it}
+      # Fixed collation, so that ordering of Japanese names does not vary with the
+      # host machine's locale.
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      # Published on the loopback interface only. Writing "5432:5432" would listen
+      # on every network interface, which makes the development database reachable
+      # from other machines on the same network.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      # A named volume rather than a bind mount. The database contents can be
+      # rebuilt from the committed seed data, so deleting this volume with
+      # `docker compose down -v` is a supported way to start again.
+      - yuruchara-pgdata:/var/lib/postgresql/data
+      # Runs once, when an empty volume is initialised. Mounted as a single file
+      # rather than a directory, because the image's entrypoint only reads the top
+      # level of /docker-entrypoint-initdb.d and skips subdirectories without
+      # reporting it. The "20-" prefix orders it after the image's own
+      # 10_postgis.sh.
+      - ./docker/initdb/20-trim-extensions.sql:/docker-entrypoint-initdb.d/20-trim-extensions.sql:ro
+    healthcheck:
+      # Two commands, and the "-h db" in the second one is required for the check
+      # to mean anything.
+      #
+      # pg_isready reports success while initdb is still performing its second
+      # startup, so it is only a fast first filter.
+      #
+      # The psql command that follows exists to confirm that the password in
+      # POSTGRES_PASSWORD actually works. That is not guaranteed: PostgreSQL only
+      # writes the password into the data directory when it first creates it, so
+      # if a volume outlives a password change, the container's environment and
+      # the stored password differ, and any client authenticating for real fails
+      # with error 28P01.
+      #
+      # The connection must be made by service name. initdb writes these rules:
+      #
+      #     local all all              trust
+      #     host  all all 127.0.0.1/32 trust
+      #     host  all all all          scram-sha-256
+      #
+      # From inside the container, both the Unix socket and 127.0.0.1 match a
+      # `trust` rule and no password is checked at all. "db" resolves through
+      # Docker's DNS to the container's bridge address, which is not loopback, so
+      # it matches the scram-sha-256 rule and the password is verified.
+      #
+      # "$$" produces a single "$" so the variables are read by the shell inside
+      # the container. The values are already in the container's environment and
+      # are never substituted into this file.
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -q -U $$POSTGRES_USER -d $$POSTGRES_DB && PGPASSWORD=$$POSTGRES_PASSWORD psql -h db -U $$POSTGRES_USER -d $$POSTGRES_DB -c 'SELECT 1' > /dev/null",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+volumes:
+  yuruchara-pgdata:
