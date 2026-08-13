@@ -17,7 +17,20 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The SPARQL query is embedded rather than copied to the output directory, so
+      the query that runs cannot diverge from the .rq file in the repository and
+      cannot go missing from a published build. WikidataMascotPass reads it by
+      resource name, which is namespace + folder + filename:
+      YuruChara.Ingestion.Wikidata.prefecture-mascots.rq
+    -->
+    <EmbeddedResource Include="Wikidata\prefecture-mascots.rq" />
   </ItemGroup>
 
 </Project>

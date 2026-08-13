@@ -1,0 +1,196 @@
+#  Prefecture mascots, from Wikidata.
+#
+#  This file IS the query. It is embedded in YuruChara.Ingestion and sent
+#  verbatim, so what is committed here is what ran. To run it:
+#      dotnet run --project src/YuruChara.Ingestion -- wikidata
+#  Or paste it unchanged into https://query.wikidata.org/.
+#
+#  ---------------------------------------------------------------------------
+#  Identifying the 47 prefectures
+#
+#  Not `?prefecture wdt:P31 wd:Q50337` on its own. Q50337 is "prefecture of
+#  Japan", and it is also the class of the prefectures abolished in the 1870s,
+#  so that triple alone returns Iwai, Chikuma, Okitama and a long tail of
+#  others that have not existed for 150 years.
+#
+#  Requiring an ISO 3166-2 code (P300) fixes that and does a second job at the
+#  same time: the numeric suffix of "JP-NN" IS the JIS X 0401 prefecture code,
+#  which is the primary key this project uses. One constraint therefore both
+#  restricts the result to current prefectures and produces the join key. It
+#  returns exactly 47.
+#
+#  ---------------------------------------------------------------------------
+#  Reaching the mascots
+#
+#  Two directions, because Wikidata is edited from both ends and neither side
+#  is complete on its own:
+#
+#      P822  (mascot)      prefecture -> character.  The prefecture's claim.
+#      P6291 (advertises)  character -> prefecture.  The character's claim.
+#
+#  P6291 is not redundant. Akita's んだッチ (Q110529296) is on Wikidata with an
+#  "advertises Akita Prefecture" statement and no P822 statement on Akita
+#  itself. Without the second branch Akita is a false gap. It is the only
+#  prefecture the second branch adds, and it is worth the clause. ?links
+#  reports which direction found each mascot, so that stays visible.
+#
+#  ---------------------------------------------------------------------------
+#  Excluding things that are not mascots
+#
+#  Both properties also connect prefectures to non-characters, so the property
+#  alone cannot be trusted:
+#
+#      彩の国           Q11487969   an advertising slogan
+#      リメンバーしまね  Q11348471   an online community
+#      ゆる玉応援団      Q11281003   a fictional ORGANISATION - the umbrella
+#                                   group of Saitama's local mascots, which is
+#                                   not itself a mascot
+#
+#  The first two fall out from requiring the item to be a yuru-chara
+#  (Q11280995) or a mascot character (Q386208). The third does not, because it
+#  is also classed as a yuru-chara, so "fictional organisation" (Q14623646) is
+#  excluded explicitly.
+#
+#  Group characters are deliberately NOT excluded. わんこきょうだい is a set of
+#  siblings, みやざき犬 is a trio and Juratic is a group of three dinosaurs, and
+#  each genuinely is its prefecture's mascot. Excluding every group class would
+#  drop three correct answers to remove one wrong one.
+#
+#  ---------------------------------------------------------------------------
+#  Why the class test is written as two constant-object paths
+#
+#  The obvious form of that test does not work:
+#
+#      ?mascot wdt:P31/wdt:P279* ?cls .
+#      FILTER(?cls IN (wd:Q11280995, wd:Q386208))
+#
+#  With the class as an unbound VARIABLE, Blazegraph walks the whole subclass
+#  closure upward from every candidate - hundreds of ancestors each - and then
+#  discards nearly all of it. That form exceeds the public endpoint's 60-second
+#  limit and returns HTTP 504. Binding the class as a CONSTANT object makes
+#  each branch a reachability check instead of an enumeration, and the query
+#  returns in a couple of seconds. Same answer, and the only difference is
+#  which end the path is evaluated from. Using VALUES to bind ?cls first does
+#  not help; the object has to be a literal constant in the triple.
+#
+#  ---------------------------------------------------------------------------
+#  Why every rdfs:label lookup is OPTIONAL, including the ones we require
+#
+#  The Japanese label is not really optional - a mascot with no Japanese name
+#  has nothing to identify it by. It is written as OPTIONAL anyway, and that is
+#  load-bearing rather than sloppy.
+#
+#  Written as a required triple:
+#
+#      ?mascot rdfs:label ?mascotJa .
+#      FILTER(LANG(?mascotJa) = "ja")
+#
+#  ...the query times out at 60 seconds and returns HTTP 504. ?mascot is
+#  produced inside a UNION, so at planning time Blazegraph does not treat it as
+#  bound, and it is free to start from rdfs:label - which is a pattern matching
+#  every label of every item in Wikidata. OPTIONAL is a left join, and a left
+#  join cannot be reordered ahead of its left side, so writing it this way pins
+#  the label lookup to run after ?mascot is known. Same results, 1.5 seconds
+#  instead of never.
+#
+#  The consequence to be aware of: a row with no Japanese label now arrives
+#  with a null instead of being filtered out, so the caller checks for it and
+#  reports it rather than the query guaranteeing it cannot happen. As of the
+#  2026-08-13 run, all 66 rows have one.
+#
+#  ---------------------------------------------------------------------------
+#  Aggregation, and why every descriptive field is OPTIONAL
+#
+#  One row per mascot. Without the GROUP BY, a mascot that matched on both link
+#  directions and had three P31 classes and two websites would come back as
+#  twelve near-identical rows.
+#
+#  Every descriptive field is OPTIONAL for a second, unrelated reason: a mascot
+#  with no recorded inception date must still appear. The seed file needs to
+#  hold a null and say so; the row must not vanish because one fact is missing.
+
+SELECT
+  ?jisCode
+  ?prefectureJa
+  ?mascot
+  ?mascotJa
+  ?mascotEn
+  ?inception
+  ?inceptionPrecision
+  (GROUP_CONCAT(DISTINCT ?link;         SEPARATOR = ",")   AS ?links)
+  (GROUP_CONCAT(DISTINCT ?website;      SEPARATOR = " | ") AS ?officialWebsites)
+  (GROUP_CONCAT(DISTINCT ?classLabel;   SEPARATOR = "; ")  AS ?wikidataClasses)
+WHERE {
+  # Current prefectures only, keyed by JIS X 0401 code. See the note above.
+  ?prefecture wdt:P31 wd:Q50337 ;
+              wdt:P300 ?iso .
+  FILTER(STRSTARTS(?iso, "JP-"))
+  BIND(xsd:integer(STRAFTER(?iso, "JP-")) AS ?jisCode)
+
+  # Both link directions, tagged so the caller can report which one found what.
+  {
+    ?prefecture wdt:P822 ?mascot .
+    BIND("P822" AS ?link)
+  }
+  UNION
+  {
+    ?mascot wdt:P6291 ?prefecture .
+    BIND("P6291" AS ?link)
+  }
+
+  # Must be a mascot of some kind. Constant objects, not a variable - see above.
+  FILTER EXISTS {
+    { ?mascot wdt:P31/wdt:P279* wd:Q11280995 }   # yuru-chara
+    UNION
+    { ?mascot wdt:P31/wdt:P279* wd:Q386208 }     # mascot character
+  }
+
+  # ...but not an umbrella organisation of other mascots.
+  FILTER NOT EXISTS { ?mascot wdt:P31 wd:Q14623646 }   # fictional organisation
+
+  # Labels. OPTIONAL is deliberate on all three - see the note above. The
+  # Japanese one is required by the caller, not by the query.
+  OPTIONAL {
+    ?mascot rdfs:label ?mascotJa .
+    FILTER(LANG(?mascotJa) = "ja")
+  }
+
+  OPTIONAL {
+    ?mascot rdfs:label ?mascotEn .
+    FILTER(LANG(?mascotEn) = "en")
+  }
+
+  OPTIONAL {
+    ?prefecture rdfs:label ?prefectureJa .
+    FILTER(LANG(?prefectureJa) = "ja")
+  }
+
+  # Inception WITH its precision, read from the full statement rather than
+  # through wdt:. Precision matters: Wikidata stores "2010" and "12 March 2011"
+  # in the same field and distinguishes them only by timePrecision
+  # (9 = year, 10 = month, 11 = day). Through wdt: a year-precision value
+  # arrives looking like 2010-01-01, and treating that as a date invents a day
+  # Wikidata never claimed. The seeder only keeps the year, but it should know
+  # that is all it has.
+  OPTIONAL {
+    ?mascot p:P571 ?inceptionStatement .
+    ?inceptionStatement psv:P571 ?inceptionValue .
+    ?inceptionValue wikibase:timeValue     ?inception ;
+                    wikibase:timePrecision ?inceptionPrecision .
+  }
+
+  OPTIONAL { ?mascot wdt:P856 ?website }
+
+  # P31 classes are the only structured hint at a motif that Wikidata offers -
+  # "anthropomorphic bear", "anthropomorphic pigeon". Returned for a human to
+  # read, and deliberately NOT mapped to Motif automatically: "anthropomorphic
+  # bird" is not a motif, and Kobaton's actual motif is a specific species that
+  # only Saitama's own page names.
+  OPTIONAL {
+    ?mascot wdt:P31 ?class .
+    ?class rdfs:label ?classLabel .
+    FILTER(LANG(?classLabel) = "en")
+  }
+}
+GROUP BY ?jisCode ?prefectureJa ?mascot ?mascotJa ?mascotEn ?inception ?inceptionPrecision
+ORDER BY ?jisCode ?mascotJa
