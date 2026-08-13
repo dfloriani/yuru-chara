@@ -1,0 +1,2210 @@
+{
+  "metadata": {
+    "generatedOn": "2026-08-13",
+    "wikidataQuery": "src/YuruChara.Ingestion/Wikidata/prefecture-mascots.rq",
+    "boundaryFile": "data/prefectures.geojson",
+    "notes": "Committed seed. Produced by the Wikidata pass in src/YuruChara.Ingestion/Wikidata/prefecture-mascots.rq (VerificationLevel.Automated for every record), then hand-checked: eleven mascots were verified field by field against the owning body's own website and promoted to VerificationLevel.ManuallyVerified. Reliability is recorded per field in sourceCitations, so an Official citation on DebutYear and an Aggregated one on Motif can sit on the same record. A prefecture with an empty mascots list is a recorded gap in the automated source, not missing work — see DATA-SOURCES.md section 4. Do not fill gaps in from memory."
+  },
+  "prefectures": [
+    {
+      "jisCode": 1,
+      "nameJa": "北海道",
+      "mascots": []
+    },
+    {
+      "jisCode": 2,
+      "nameJa": "青森県",
+      "mascots": []
+    },
+    {
+      "jisCode": 3,
+      "nameJa": "岩手県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3832-75af-852b-edf5b80d31eb",
+          "nameJa": "わんこきょうだい",
+          "nameRomaji": "Wanko Brothers",
+          "motif": null,
+          "debutYear": 2009,
+          "owningBody": null,
+          "officialUrl": "https://iwatetabi.jp/wanko/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q28686779",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara, group of siblings. P571 inception: 2009-01-01T00:00:00Z (year precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q28686779",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q28686779",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q28686779",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q28686779",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q28686779",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 4,
+      "nameJa": "宮城県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7104-ab51-ec31bc52776c",
+          "nameJa": "むすび丸",
+          "nameRomaji": "Musubimaru",
+          "motif": null,
+          "debutYear": 2007,
+          "owningBody": null,
+          "officialUrl": "http://www.sendaimiyagidc.jp/musubimaru/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11279556",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara. P571 inception: 2007-03-08T00:00:00Z (day precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279556",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279556",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279556",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279556",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279556",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 5,
+      "nameJa": "秋田県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7d5f-b6f0-ab109b0ecfca",
+          "nameJa": "んだッチ",
+          "nameRomaji": "Ndatch",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://www.pref.akita.lg.jp/pages/archive/33518",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q110529296",
+          "reviewNotes": "Wikidata link: P6291. P31 classes: yuru-chara, fictional robot.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q110529296",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q110529296",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q110529296",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q110529296",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 6,
+      "nameJa": "山形県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7407-ae3c-a82acad1ff61",
+          "nameJa": "きてけろくん",
+          "nameRomaji": "Kitekero-kun",
+          "motif": null,
+          "debutYear": 2013,
+          "owningBody": null,
+          "officialUrl": null,
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q48754745",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara. P571 inception: 2013-01-01T00:00:00Z (year precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q48754745",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q48754745",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q48754745",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q48754745",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 7,
+      "nameJa": "福島県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-71b6-bf2d-28ff71870f4d",
+          "nameJa": "キビタン",
+          "nameRomaji": "Kibitan",
+          "motif": "bird",
+          "debutYear": 1995,
+          "owningBody": "福島県 総務部広報課",
+          "officialUrl": "https://www.pref.fukushima.lg.jp/site/kibitanroom/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Design use requires written approval under 福島県復興シンボルキャラクター「キビタン」等の使用取扱規程, applied for on a prescribed form to 福島県総務部広報課. Terms and forms: https://www.pref.fukushima.lg.jp/site/kibitanroom/riyoshinsei.html",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11296915",
+          "reviewNotes": "Checked against Fukushima Prefecture's own pages 2026-08-13. Official designation is 福島県復興シンボルキャラクター「キビタン」 and the stated birthday is 8月21日, 県民の日. Neither page gives a year, so DebutYear stays at Wikidata's 1995 (Aggregated). Motif is read from Wikidata's P31 class; no official page names a species.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Fukushima Prefecture — キビタンの部屋",
+              "url": "https://www.pref.fukushima.lg.jp/site/kibitanroom/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11296915",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11296915",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11296915",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Fukushima Prefecture — キビタンの部屋",
+              "url": "https://www.pref.fukushima.lg.jp/site/kibitanroom/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Fukushima Prefecture — キビタンの部屋",
+              "url": "https://www.pref.fukushima.lg.jp/site/kibitanroom/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Fukushima Prefecture — キビタンの部屋",
+              "url": "https://www.pref.fukushima.lg.jp/site/kibitanroom/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Fukushima Prefecture — キビタン利用申請",
+              "url": "https://www.pref.fukushima.lg.jp/site/kibitanroom/riyoshinsei.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 8,
+      "nameJa": "茨城県",
+      "mascots": []
+    },
+    {
+      "jisCode": 9,
+      "nameJa": "栃木県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7661-93f1-cf81e4f8930c",
+          "nameJa": "とちまるくん",
+          "nameRomaji": "Tochimarukun",
+          "motif": "the Japanese horse chestnut (トチノキ) in front of the Tochigi prefectural office",
+          "debutYear": 2009,
+          "owningBody": "栃木県",
+          "officialUrl": "https://www.tochimarukun.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Use of the design requires an application; see the 申請について section of the official site. https://www.tochimarukun.jp/",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q17221996",
+          "reviewNotes": "Checked against tochimarukun.jp 2026-08-13. Official profile gives たんじょうび 11月11日 and うまれたところ 栃木県庁前のトチノキ, and dates the debut to 2009年12月11日 as mascot of スポレク\"エコとちぎ\"2011. Wikidata's inception was year-precision only and the year agrees, so DebutYear is unchanged but is now Official rather than Aggregated. Official URL corrected: Wikidata's https://tochimarukun.jp/ redirects to https://www.tochimarukun.jp/. Job title is 栃木県元気ニコニコ部長, held since 2024-06-15.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17221996",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Tochigi Prefecture — とちまるくんオフィシャルホームページ, プロフィール",
+              "url": "https://www.tochimarukun.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 10,
+      "nameJa": "群馬県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7010-8fcb-591f6bd4f9d9",
+          "nameJa": "ぐんまちゃん",
+          "nameRomaji": "Gunma‐chan",
+          "motif": "horse",
+          "debutYear": 1994,
+          "owningBody": "群馬県",
+          "officialUrl": "https://gunmachan-official.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Illustration use requires a 利用許諾申請 under 「ぐんまちゃん」の利用に関する取扱要領. https://gunmachan-official.jp/",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11265888",
+          "reviewNotes": "CORRECTED. Wikidata gave inception 1983 (year precision). Gunma Prefecture's own 30th-anniversary page states 「2024年2月22日に、ぐんまちゃんが世の中に登場してから30周年を迎えます」, which puts this character's debut at 1994-02-22, so DebutYear is 1994. 1983 belongs to the first-generation character, a different design that was retired; the current ぐんまちゃん dates from 1994. The official profile gives 生年月日 2月22日 with no year and お仕事 群馬県宣伝部長. Motif is read from Wikidata's P31 class — the official profile does not name the animal.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Gunma Prefecture — ぐんまちゃんオフィシャルサイト, プロフィール",
+              "url": "https://gunmachan-official.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Gunma Prefecture — ぐんまちゃんオフィシャルサイト, プロフィール",
+              "url": "https://gunmachan-official.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11265888",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Gunma Prefecture — ぐんまちゃん30周年特集",
+              "url": "https://gunmachan-official.jp/30th/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Gunma Prefecture — ぐんまちゃんオフィシャルサイト, プロフィール",
+              "url": "https://gunmachan-official.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Gunma Prefecture — ぐんまちゃんオフィシャルサイト, プロフィール",
+              "url": "https://gunmachan-official.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Gunma Prefecture — ぐんまちゃんオフィシャルサイト, プロフィール",
+              "url": "https://gunmachan-official.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Gunma Prefecture — ぐんまちゃん30周年特集",
+              "url": "https://gunmachan-official.jp/30th/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 11,
+      "nameJa": "埼玉県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-75c1-b3c7-4974df326be2",
+          "nameJa": "コバトン",
+          "nameRomaji": "Kobaton",
+          "motif": "シラコバト (Eurasian collared dove), the prefectural bird",
+          "debutYear": 2000,
+          "owningBody": "埼玉県",
+          "officialUrl": "https://www.pref.saitama.lg.jp/kense/saitamaken/kobaton/index.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "OfficialMaterialsPublished",
+          "licenseNotes": "Saitama publishes downloadable official design collections together with 使用上のきまり and a 使用取扱規程. Conditions: only the published designs may be used, no alteration, deformation or speech bubbles, specified colours only (monochrome and line art permitted), minimum height 8 mm, and the credit 埼玉県マスコット「コバトン」 must be displayed. A separate 県の承認 procedure applies to some uses, and election campaigning is excluded. https://www.pref.saitama.lg.jp/a0301/kobaton/design-rules.html — note that ImageLicenseStatus cannot express both 'assets published with terms' and 'approval needed for some uses' at once; the published-assets reading is the primary one here.",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11302344",
+          "reviewNotes": "Checked against Saitama Prefecture's own pages 2026-08-13. The prefecture states 生年月日：平成12年5月31日 and モチーフ：県民の鳥「シラコバト」, so Wikidata's 2000-05-31 is confirmed exactly and the motif is now specific rather than 'anthropomorphic pigeon'. Official URL corrected: Wikidata's https://www.pref.saitama.lg.jp/theme/mascot/index.html returns 404. Context from the same page: the winning design was selected on 2000-05-31 from 795 entries for the 59th National Sports Festival, named コバトン on 2001-02-21, and formally appointed the prefecture's mascot on 2005-01-04. DebutYear records the 2000 birth date the prefecture states, not the 2005 appointment.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Saitama Prefecture — コバトン誕生秘話",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/tanjo.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11302344",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Saitama Prefecture — コバトン誕生秘話",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/tanjo.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Saitama Prefecture — コバトン誕生秘話",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/tanjo.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Saitama Prefecture — コバトン誕生秘話",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/tanjo.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Saitama Prefecture — マスコット公式デザイン集, デザインの使用にあたって",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/design-rules.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Saitama Prefecture — コバトン誕生秘話",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/tanjo.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Saitama Prefecture — マスコット公式デザイン集, デザインの使用にあたって",
+              "url": "https://www.pref.saitama.lg.jp/a0301/kobaton/design-rules.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 12,
+      "nameJa": "千葉県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7b26-b252-4be51c9728f5",
+          "nameJa": "チーバくん",
+          "nameRomaji": "CHI-BA+KUN",
+          "motif": "the outline of Chiba Prefecture, seen from the side",
+          "debutYear": 2007,
+          "owningBody": "千葉県",
+          "officialUrl": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Both the design and the costume require an application to the prefecture; the profile page links デザインを使いたい and 着ぐるみを使いたい to those procedures. https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11318593",
+          "reviewNotes": "Checked against Chiba Prefecture's own page 2026-08-13. The prefecture states お誕生日：平成19年1月11日, confirming Wikidata's 2007-01-11 exactly, and describes the motif as 「横から見た姿が千葉県の形をしています」. Created for the 2010 ゆめ半島千葉国体 and ゆめ半島千葉大会, and became the prefecture's own mascot in 平成23年1月 (January 2011) after both events ended. DebutYear records the 2007 birth date the prefecture states, not the 2011 adoption.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11318593",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Chiba Prefecture — チーバくんのプロフィール",
+              "url": "https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 13,
+      "nameJa": "東京都",
+      "mascots": []
+    },
+    {
+      "jisCode": 14,
+      "nameJa": "神奈川県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-758d-b7dd-ec71b77998f0",
+          "nameJa": "かながわキンタロウ",
+          "nameRomaji": "Kanagawa Kintarō",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://www.pref.kanagawa.jp/docs/ie2/chara/01kintaro.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q65234453",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q65234453",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q65234453",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q65234453",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q65234453",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 15,
+      "nameJa": "新潟県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-78d4-8df5-9c9faeb3b1a8",
+          "nameJa": "トッキッキ",
+          "nameRomaji": "Tokkikki",
+          "motif": null,
+          "debutYear": 2005,
+          "owningBody": null,
+          "officialUrl": "https://www.pref.niigata.lg.jp/sec/kouhou/tokkikki.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11321229",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara, anthropomorphic bird, fictional couple. P571 inception: 2005-11-17T00:00:00Z (day precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11321229",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11321229",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11321229",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11321229",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11321229",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 16,
+      "nameJa": "富山県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7169-815a-367a2b4640ab",
+          "nameJa": "きときと君",
+          "nameRomaji": "Kitokito-kun",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": null,
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q30935494",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q30935494",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q30935494",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q30935494",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 17,
+      "nameJa": "石川県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-77e7-bf6c-e091b28d7dc2",
+          "nameJa": "ひゃくまんさん",
+          "nameRomaji": "Hyakumansan",
+          "motif": null,
+          "debutYear": 2013,
+          "owningBody": null,
+          "officialUrl": "https://hyakumansan.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q17225785",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara, anthropomorphic object. P571 inception: 2013-01-01T00:00:00Z (year precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17225785",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17225785",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17225785",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17225785",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17225785",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 18,
+      "nameJa": "福井県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7cb4-bd67-8b70a4cb2a21",
+          "nameJa": "Juratic",
+          "nameRomaji": "Juratic",
+          "motif": null,
+          "debutYear": 2014,
+          "owningBody": null,
+          "officialUrl": "https://www.juratic.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q20044902",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: group of fictional characters, yuru-chara, anthropomorphic dinosaur. P571 inception: 2014-02-14T00:00:00Z (day precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q20044902",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q20044902",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q20044902",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q20044902",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q20044902",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 19,
+      "nameJa": "山梨県",
+      "mascots": []
+    },
+    {
+      "jisCode": 20,
+      "nameJa": "長野県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7720-8237-399f234f5a0e",
+          "nameJa": "アルクマ",
+          "nameRomaji": "Arukuma",
+          "motif": "bear",
+          "debutYear": 2009,
+          "owningBody": "長野県 観光スポーツ部観光誘客課",
+          "officialUrl": "https://arukuma.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Use requires an application; the official site carries a 各種申請 section. https://arukuma.jp/",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q17192118",
+          "reviewNotes": "Checked against arukuma.jp 2026-08-13. The official profile confirms the motif — 「信州に出没する､大変珍しいクマ」 — and names 長野県観光スポーツ部観光誘客課 as the contact, which establishes the owning body. The profile gives 年齢 as ? and states no debut year, so DebutYear stays at Wikidata's 2009 (Aggregated); the site's 15周年 material is consistent with it but does not state a year either.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Nagano Prefecture — アルクマ オフィシャルサイト, アルクマプロフィール",
+              "url": "https://arukuma.jp/about",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17192118",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Nagano Prefecture — アルクマ オフィシャルサイト, アルクマプロフィール",
+              "url": "https://arukuma.jp/about",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17192118",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Nagano Prefecture — アルクマ オフィシャルサイト, アルクマプロフィール",
+              "url": "https://arukuma.jp/about",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Nagano Prefecture — アルクマ オフィシャルサイト, アルクマプロフィール",
+              "url": "https://arukuma.jp/about",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Nagano Prefecture — アルクマ オフィシャルサイト, アルクマプロフィール",
+              "url": "https://arukuma.jp/about",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Nagano Prefecture — アルクマ オフィシャルサイト, アルクマプロフィール",
+              "url": "https://arukuma.jp/about",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 21,
+      "nameJa": "岐阜県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7546-88ee-a26f85824a7c",
+          "nameJa": "ミナモ",
+          "nameRomaji": "Minamo",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://minamo-official.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q105691438",
+          "reviewNotes": "Wikidata link: P822 and P6291. P31 classes: yuru-chara.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q105691438",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q105691438",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q105691438",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q105691438",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 22,
+      "nameJa": "静岡県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7ca4-ab63-2e7880591f01",
+          "nameJa": "ふじっぴー",
+          "nameRomaji": "Fujippi",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://www.pref.shizuoka.jp/kikaku/ki-110/fujippi/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11277063",
+          "reviewNotes": "Wikidata link: P822. P31 classes: yuru-chara.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11277063",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11277063",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11277063",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11277063",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 23,
+      "nameJa": "愛知県",
+      "mascots": []
+    },
+    {
+      "jisCode": 24,
+      "nameJa": "三重県",
+      "mascots": []
+    },
+    {
+      "jisCode": 25,
+      "nameJa": "滋賀県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7fa3-ba96-f0f7c4d63d85",
+          "nameJa": "うぉーたん",
+          "nameRomaji": "Watan",
+          "motif": null,
+          "debutYear": 1999,
+          "owningBody": null,
+          "officialUrl": null,
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11260292",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara. P571 inception: 1999-01-01T00:00:00Z (year precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11260292",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11260292",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11260292",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11260292",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        },
+        {
+          "id": "019ff9eb-3833-7e00-996f-90d3d2e9b0a8",
+          "nameJa": "キャッフィー",
+          "nameRomaji": "Caffy",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": null,
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11297161",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara, anthropomorphic fish.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11297161",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11297161",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11297161",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 26,
+      "nameJa": "京都府",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7dbe-bccb-add56c0334e5",
+          "nameJa": "まゆまろ",
+          "nameRomaji": "Mayumaro",
+          "motif": null,
+          "debutYear": 2009,
+          "owningBody": null,
+          "officialUrl": "http://www.mayumaro.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11278533",
+          "reviewNotes": "Wikidata link: P822 and P6291. P31 classes: yuru-chara. P571 inception: 2009-01-01T00:00:00Z (year precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278533",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278533",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278533",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278533",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278533",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 27,
+      "nameJa": "大阪府",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7f8a-9b27-98d6b181d521",
+          "nameJa": "もずやん",
+          "nameRomaji": "Mozuyan",
+          "motif": "bird",
+          "debutYear": 1997,
+          "owningBody": "大阪府 府民文化部府政情報室広報広聴課",
+          "officialUrl": "https://www.pref.osaka.lg.jp/o070050/koho/character2/index.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "The official site carries a もずやんイラスト等使用について procedure. https://www.pref.osaka.lg.jp/o070050/koho/character2/index.html",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q22129421",
+          "reviewNotes": "Checked against Osaka Prefecture's own page 2026-08-13. Official URL corrected: Wikidata's http://www.pref.osaka.lg.jp/koho/character2/ is plain HTTP and redirects to https://www.pref.osaka.lg.jp/o070050/koho/character2/index.html. The owning body is established by the page's own このページの作成所属: 府民文化部府政情報室広報広聴課. The profile gives 誕生日 10月8日 and 年齢 13歳（永遠に）with no year, so DebutYear stays at Wikidata's 1997 (Aggregated). Job title is 大阪府広報担当副知事. Motif is read from Wikidata's P31 class; the official page confirms only that he is a bird, via 将来の夢 いつかオオタカになりたい.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Osaka Prefecture — もずやんのプロフィール",
+              "url": "https://www.pref.osaka.lg.jp/o070050/koho/character2/mozuyan_profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22129421",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22129421",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22129421",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Osaka Prefecture — もずやんのプロフィール",
+              "url": "https://www.pref.osaka.lg.jp/o070050/koho/character2/mozuyan_profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Osaka Prefecture — もずやんのプロフィール",
+              "url": "https://www.pref.osaka.lg.jp/o070050/koho/character2/mozuyan_profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Osaka Prefecture — もずやんのプロフィール",
+              "url": "https://www.pref.osaka.lg.jp/o070050/koho/character2/mozuyan_profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Osaka Prefecture — もずやんのプロフィール",
+              "url": "https://www.pref.osaka.lg.jp/o070050/koho/character2/mozuyan_profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 28,
+      "nameJa": "兵庫県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7d12-8beb-e11ae0e40b32",
+          "nameJa": "はばタン",
+          "nameRomaji": "Habatan",
+          "motif": null,
+          "debutYear": 2003,
+          "owningBody": null,
+          "officialUrl": "https://web.pref.hyogo.lg.jp/ac02/ac02_3_000000011.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11275720",
+          "reviewNotes": "Wikidata link: P822 and P6291. P31 classes: yuru-chara, anthropomorphic bird, phoenix in a work of fiction. P571 inception: 2003-01-01T00:00:00Z (year precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11275720",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11275720",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11275720",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11275720",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11275720",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 29,
+      "nameJa": "奈良県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7c44-a5b3-813c9dc2b7c4",
+          "nameJa": "せんとくん",
+          "nameRomaji": "Sento-kun",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "http://www.pref.nara.jp/item/125614.htm",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q7451361",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q7451361",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q7451361",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q7451361",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q7451361",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 30,
+      "nameJa": "和歌山県",
+      "mascots": []
+    },
+    {
+      "jisCode": 31,
+      "nameJa": "鳥取県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-763b-954f-5012f6334047",
+          "nameJa": "トリピー",
+          "nameRomaji": "Toripy",
+          "motif": null,
+          "debutYear": 1994,
+          "owningBody": null,
+          "officialUrl": null,
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q22131641",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara, anthropomorphic bird. P571 inception: 1994-11-01T00:00:00Z (month precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22131641",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22131641",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22131641",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q22131641",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 32,
+      "nameJa": "島根県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-79b8-a5e1-514e59ebb85b",
+          "nameJa": "しまねっこ",
+          "nameRomaji": "Shimanekko",
+          "motif": "cat",
+          "debutYear": 2010,
+          "owningBody": "公益社団法人島根県観光連盟 (Shimane Prefectural Tourism Federation)",
+          "officialUrl": "https://www.kankou-shimane.com/shimanekko/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Copyright in the design is held by 公益社団法人島根県観光連盟. A 使用許諾申請 under 島根県観光キャラクター『しまねっこ』キャラクター使用に関する要綱 is mandatory for all use except news reporting and the free uses statutory copyright law allows. Both paid (有償) and free (無償) tiers exist, applicants must submit a sample of the intended use, altering the supplied artwork — including animating it — is prohibited in principle, and an approved use carries a 使用許諾番号 (島観連許諾第○○○○号). https://www.kankou-shimane.com/shimanekko/design/",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11269028",
+          "reviewNotes": "CORRECTED. The owning body is not Shimane Prefecture. The federation's own copyright statement reads 「本サイトのコンテンツの著作権は、（公社）島根県観光連盟、島根県にあります」 and the design usage page states 「デザイン等の著作権は（公社）島根県観光連盟に帰属します」, so the design copyright sits with the tourism federation, a 公益社団法人 (public-interest incorporated association), not the prefectural government. This is the only one of the eleven verified mascots not owned by its prefecture directly, and it is the reason OwningBody is free text rather than an enum. Neither page states a birth year, so DebutYear stays at Wikidata's 2010 (Aggregated, month precision). Motif is read from Wikidata's P31 class.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Shimane Prefectural Tourism Federation — しまねっこの部屋",
+              "url": "https://www.kankou-shimane.com/shimanekko/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269028",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269028",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269028",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Shimane Prefectural Tourism Federation — しまねっこ デザイン利用",
+              "url": "https://www.kankou-shimane.com/shimanekko/design/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Shimane Prefectural Tourism Federation — しまねっこの部屋",
+              "url": "https://www.kankou-shimane.com/shimanekko/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Shimane Prefectural Tourism Federation — しまねっこの部屋",
+              "url": "https://www.kankou-shimane.com/shimanekko/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Shimane Prefectural Tourism Federation — しまねっこ デザイン利用",
+              "url": "https://www.kankou-shimane.com/shimanekko/design/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 33,
+      "nameJa": "岡山県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7a39-b03a-6c7ee6feb61f",
+          "nameJa": "ももっち",
+          "nameRomaji": "Momochi",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://miryoku-harenokuni-okayama.jp/momo-ura/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q17219758",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17219758",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17219758",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17219758",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17219758",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 34,
+      "nameJa": "広島県",
+      "mascots": []
+    },
+    {
+      "jisCode": 35,
+      "nameJa": "山口県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-70c4-bf37-d7dc2494bb78",
+          "nameJa": "ちょるる",
+          "nameRomaji": "Choruru",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://choruru.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11272051",
+          "reviewNotes": "Wikidata link: P822 and P6291. P31 classes: mascot character, advertising character.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11272051",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11272051",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11272051",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11272051",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 36,
+      "nameJa": "徳島県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7b0b-b66c-6e9ac4677b90",
+          "nameJa": "すだちくん",
+          "nameRomaji": "Sudachi-kun",
+          "motif": null,
+          "debutYear": 1990,
+          "owningBody": null,
+          "officialUrl": "https://sudachikun.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11269737",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara. P571 inception: 1990-01-01T00:00:00Z (month precision).",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269737",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269737",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269737",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269737",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11269737",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 37,
+      "nameJa": "香川県",
+      "mascots": []
+    },
+    {
+      "jisCode": 38,
+      "nameJa": "愛媛県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-738f-a464-6dd2868380e6",
+          "nameJa": "みきゃん",
+          "nameRomaji": "Mican",
+          "motif": "dog",
+          "debutYear": 2011,
+          "owningBody": "愛媛県",
+          "officialUrl": "https://www.pref.ehime.jp/site/mican/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Official designation 愛媛県イメージアップキャラクター. Costume loans, and design use with them, require application through the えひめ電子申請システム under 愛媛県イメージアップキャラクターみきゃん等着ぐるみ貸出要領, and are limited to enumerated purposes: use by the prefecture and bodies it belongs to, by municipalities within Ehime, by related and public bodies for non-profit activity, for joint projects with the prefecture, and for PR of Ehime, expansion of markets for its products, and its industrial promotion. https://www.pref.ehime.jp/site/mican/16839.html",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11278802",
+          "reviewNotes": "Checked against Ehime Prefecture's own pages 2026-08-13. The official designation is 愛媛県イメージアップキャラクター and the owning body is 愛媛県. No official page consulted states a birth year, so DebutYear stays at Wikidata's 2011 (Aggregated, year precision). Motif is read from Wikidata's P31 class; the name みきゃん combines みかん (mandarin orange) with the 犬 the class names, but no official page consulted states that, so it is not recorded as a fact.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Ehime Prefecture — みきゃんのかんづめ",
+              "url": "https://www.pref.ehime.jp/site/mican/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278802",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278802",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11278802",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Ehime Prefecture — みきゃんのかんづめ",
+              "url": "https://www.pref.ehime.jp/site/mican/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Ehime Prefecture — みきゃんのかんづめ",
+              "url": "https://www.pref.ehime.jp/site/mican/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Ehime Prefecture — みきゃんのかんづめ",
+              "url": "https://www.pref.ehime.jp/site/mican/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Ehime Prefecture — みきゃん 着ぐるみの貸し出し",
+              "url": "https://www.pref.ehime.jp/site/mican/16839.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        },
+        {
+          "id": "019ff9eb-3833-7bb9-801a-59fb124ad0bc",
+          "nameJa": "ダークみきゃん",
+          "nameRomaji": "Dark Mican",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://www.pref.ehime.jp/site/mican/16880.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q129009908",
+          "reviewNotes": "Wikidata link: P6291. P31 classes: mascot character, yuru-chara, anthropomorphic dog.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q129009908",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q129009908",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q129009908",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q129009908",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 39,
+      "nameJa": "高知県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7e15-bee5-98fa0b8f2a99",
+          "nameJa": "くろしおくん",
+          "nameRomaji": "Kuroshio-kun",
+          "motif": null,
+          "debutYear": 1997,
+          "owningBody": null,
+          "officialUrl": "https://www.pref.kochi.lg.jp/english/symbols-kuroshio.html",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q11265731",
+          "reviewNotes": "Wikidata link: P822 and P6291. P31 classes: yuru-chara. P571 inception: 1997-01-01T00:00:00Z (year precision). Additional P856 values not used: https://www.pref.kochi.lg.jp/chinese/symbols-kuroshio.html, https://www.pref.kochi.lg.jp/kuroshiokun/.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11265731",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11265731",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11265731",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11265731",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11265731",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 40,
+      "nameJa": "福岡県",
+      "mascots": []
+    },
+    {
+      "jisCode": 41,
+      "nameJa": "佐賀県",
+      "mascots": []
+    },
+    {
+      "jisCode": 42,
+      "nameJa": "長崎県",
+      "mascots": []
+    },
+    {
+      "jisCode": 43,
+      "nameJa": "熊本県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7be2-b2b1-3fa091babf10",
+          "nameJa": "くまモン",
+          "nameRomaji": "Kumamon",
+          "motif": "bear",
+          "debutYear": 2011,
+          "owningBody": "熊本県 知事公室国際・くまモン局くまモン課",
+          "officialUrl": "https://kumamon-land.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "Illustration use requires an online 利用許諾申請, which takes roughly one month, and is limited to three purposes: PR of Kumamoto Prefecture, expanding markets for Kumamoto products, and promoting Kumamoto's industry, culture, arts, education and sport. Governed by the 利用の手引き and 利用規程. https://kumamon-land.jp/riyokyodaku/ — Kumamon's royalty-free reputation is a conditional arrangement inside this procedure, not an absence of one. Note that the site's own copyright notice reads © 2010 熊本県, a year earlier than the birthday the same site states.",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q4806134",
+          "reviewNotes": "CORRECTED. Wikidata gave inception 2010 (year precision). Kumamoto Prefecture's own profile states 「2011年3月の九州新幹線全線開業をきっかけに生まれたんだモン」 and 誕生日 3月12日（九州新幹線全線開業の日）, so DebutYear is 2011. 2010 is the year the design was made and is what the site's copyright notice carries; the owning body dates the character itself to 2011, and the owning body's own date is the one this project takes. Official URL corrected: Wikidata's https://kumamon-official.jp/ returns a 301 to https://kumamon-land.jp/. Owning body established from the page footer: 熊本県知事公室国際・くまモン局くまモン課. Motif is read from Wikidata's P31 class — the official profile pointedly declines to state a species, saying only 「オスじゃなくて男の子！」.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Kumamoto Prefecture — くまモンランド, くまモンプロフィール",
+              "url": "https://kumamon-land.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q4806134",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q4806134",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Kumamoto Prefecture — くまモンランド, くまモンプロフィール",
+              "url": "https://kumamon-land.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Kumamoto Prefecture — くまモンランド, くまモンプロフィール",
+              "url": "https://kumamon-land.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Kumamoto Prefecture — くまモンランド, くまモンプロフィール",
+              "url": "https://kumamon-land.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Kumamoto Prefecture — くまモンランド, くまモンプロフィール",
+              "url": "https://kumamon-land.jp/profile/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Kumamoto Prefecture — くまモンイラスト利用許諾申請",
+              "url": "https://kumamon-land.jp/riyokyodaku/",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 44,
+      "nameJa": "大分県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7c5f-b33e-7684579ec0fb",
+          "nameJa": "めじろん",
+          "nameRomaji": "Mejiron",
+          "motif": "bird",
+          "debutYear": 2004,
+          "owningBody": "大分県",
+          "officialUrl": "https://www.pref.oita.jp/site/mejiron/",
+          "isOfficial": true,
+          "imageLicenseStatus": "ApplicationRequired",
+          "licenseNotes": "The official site carries separate デザイン使用申請 and 着ぐるみ借受申請 procedures. https://www.pref.oita.jp/site/mejiron/",
+          "verificationLevel": "ManuallyVerified",
+          "wikidataId": "Q11279725",
+          "reviewNotes": "Checked against Ōita Prefecture's own page 2026-08-13. The prefecture states 生年月日 平成16年12月24日, confirming Wikidata's 2004-12-24 exactly. Created ahead of the 2008 チャレンジ！おおいた国体・おおいた大会, and the site's 20周年 material is consistent with 2004. Motif is read from Wikidata's P31 class.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Ōita Prefecture — めじろん プロフィール",
+              "url": "https://www.pref.oita.jp/site/mejiron/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279725",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "Motif",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q11279725",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "DebutYear",
+              "sourceName": "Ōita Prefecture — めじろん プロフィール",
+              "url": "https://www.pref.oita.jp/site/mejiron/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OwningBody",
+              "sourceName": "Ōita Prefecture — めじろん プロフィール",
+              "url": "https://www.pref.oita.jp/site/mejiron/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Ōita Prefecture — めじろん プロフィール",
+              "url": "https://www.pref.oita.jp/site/mejiron/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Ōita Prefecture — めじろん プロフィール",
+              "url": "https://www.pref.oita.jp/site/mejiron/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            },
+            {
+              "field": "ImageLicenseStatus",
+              "sourceName": "Ōita Prefecture — めじろん プロフィール",
+              "url": "https://www.pref.oita.jp/site/mejiron/profile.html",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Official"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 45,
+      "nameJa": "宮崎県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-79d5-9f7e-da09cda8a133",
+          "nameJa": "みやざき犬",
+          "nameRomaji": "Miyazaki Ken",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "https://ouendan.kanko-miyazaki.jp/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q17215329",
+          "reviewNotes": "Wikidata link: P822 and P6291. P31 classes: yuru-chara, anthropomorphic dog, fictional trio.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17215329",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17215329",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17215329",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17215329",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 46,
+      "nameJa": "鹿児島県",
+      "mascots": [
+        {
+          "id": "019ff9eb-3833-7669-a5a7-ee7404b205df",
+          "nameJa": "ぐりぶー",
+          "nameRomaji": "Greboo",
+          "motif": null,
+          "debutYear": null,
+          "owningBody": null,
+          "officialUrl": "http://greboo.com/",
+          "isOfficial": true,
+          "imageLicenseStatus": "Unknown",
+          "licenseNotes": null,
+          "verificationLevel": "Automated",
+          "wikidataId": "Q17228365",
+          "reviewNotes": "Wikidata link: P6291 and P822. P31 classes: yuru-chara, anthropomorphic pig.",
+          "sourceCitations": [
+            {
+              "field": "NameJa",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17228365",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "NameRomaji",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17228365",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "OfficialUrl",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17228365",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            },
+            {
+              "field": "IsOfficial",
+              "sourceName": "Wikidata Query Service (SPARQL)",
+              "url": "http://www.wikidata.org/entity/Q17228365",
+              "retrievedOn": "2026-08-13",
+              "reliability": "Aggregated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "jisCode": 47,
+      "nameJa": "沖縄県",
+      "mascots": []
+    }
+  ]
+}
