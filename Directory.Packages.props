@@ -9,6 +9,15 @@
   -->
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!--
+      Lets a PackageVersion below apply to a package that arrives transitively, not
+      only to one a project references directly. Without this, the only way to raise
+      a vulnerable transitive dependency is to add a PackageReference to it in every
+      project that pulls it in, which reads as though the project uses it. See the
+      SSH.NET entry under Testing.
+    -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
 
   <ItemGroup Label="Spatial">
@@ -53,10 +62,22 @@
     <PackageVersion Include="xunit.v3" Version="3.2.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <!-- Spins up a real postgis container per test class. See DECISIONS.md
+    <!-- Spins up a real postgis container for the test assembly. See DECISIONS.md 13
          for why this rather than the EF in-memory provider. -->
     <PackageVersion Include="Testcontainers.PostgreSql" Version="4.13.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
+
+    <!-- Transitive, via Testcontainers, which uses it for optional SSH port
+         forwarding. Nothing in this repository goes near that feature.
+         Testcontainers 4.13.0 — the newest release — still depends on SSH.NET
+         2025.1.0, which carries GHSA-q939-rpr3-3284: ScpClient's recursive download
+         trusts server-supplied filenames and can be made to write outside the target
+         directory. High severity, and NuGetAudit reports it, which
+         TreatWarningsAsErrors turns into a failed build. 2026.0.0 is the first fixed
+         version. Pinned here rather than suppressed, so the build keeps failing if a
+         genuinely exploitable advisory appears later.
+         Remove this once a Testcontainers release depends on 2026.0.0 or newer. -->
+    <PackageVersion Include="SSH.NET" Version="2026.0.0" />
   </ItemGroup>
 
 </Project>
