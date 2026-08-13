@@ -17,6 +17,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\YuruChara.Api\YuruChara.Api.csproj" />
+    <!--
+      The ingestion CLI, for its DatabaseSeeder and PrefectureBoundaryReader. The
+      fixture loads the committed data/ files through the same code the real seed
+      command uses, so the integration tests run against real Japanese geometry
+      rather than against fixture polygons built to agree with the assertions.
+      Referencing an Exe project is allowed and pulls in its assembly only.
+    -->
+    <ProjectReference Include="..\..\src\YuruChara.Ingestion\YuruChara.Ingestion.csproj" />
   </ItemGroup>
 
   <ItemGroup>
