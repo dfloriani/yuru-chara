@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using YuruChara.Domain.Mascots;
 using YuruChara.Domain.Prefectures;
 
@@ -34,5 +35,25 @@ public class YuruCharaDbContext(DbContextOptions<YuruCharaDbContext> options) : 
         // in those classes rather than in data annotations on the entities, which is
         // what keeps YuruChara.Domain free of any EF Core reference. See DECISIONS.md.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(YuruCharaDbContext).Assembly);
+
+        // Teaches EF Core that PostGis.Simplify means the PostGIS ST_Simplify
+        // function, so the boundaries query can call it from LINQ. The Npgsql
+        // NetTopologySuite plugin does not translate it — see PostGis.cs for why,
+        // and for what was rejected instead.
+        //
+        // IsBuiltIn() is what makes this work. Without it EF Core treats the
+        // function as user-defined, schema-qualifies it and quotes the identifier,
+        // producing public."ST_Simplify"(...). PostgreSQL does not fold a quoted
+        // identifier to lower case, and the function PostGIS actually installs is
+        // named st_simplify, so the quoted form fails with 42883 "function does not
+        // exist". IsBuiltIn() emits the name bare, which PostgreSQL folds and
+        // resolves.
+        //
+        // This declaration is metadata only. It maps a call onto a function PostGIS
+        // already provides, so it creates nothing and produces no migration.
+        modelBuilder
+            .HasDbFunction(typeof(PostGis).GetMethod(nameof(PostGis.Simplify), [typeof(Geometry), typeof(double)])!)
+            .HasName("ST_Simplify")
+            .IsBuiltIn();
     }
 }
