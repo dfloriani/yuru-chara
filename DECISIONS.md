@@ -457,28 +457,202 @@ recorded in `DATA-SOURCES.md` section 1 under "Simplification tolerance".
 
 ---
 
-## 13. Testcontainers rather than an in-memory provider — **pending (Checkpoint 3)**
+## 13. Testcontainers rather than an in-memory provider
 
-Intended: integration tests run against a real, disposable PostGIS container.
+**Chosen:** The API integration tests run against a PostGIS container started for
+the test run and destroyed with it. One container for the whole test assembly,
+migrated with the real migrations and seeded with the real committed data through
+the real `DatabaseSeeder`.
 
-To be written up when it is implemented. The reasoning: the EF Core in-memory
-provider does not implement PostGIS, so every query this project depends on
-(`ST_Simplify`, `ST_Contains`, and use of the GIST index) is exactly what it
-cannot test. A single shared test database would work, but it makes tests
-dependent on execution order and prevents running them in parallel. The cost is
-that `dotnet test` then requires a running Docker daemon.
+**Rejected:** The EF Core in-memory provider, and a long-lived shared test
+database.
+
+**Why:** The in-memory provider is not a database. It is a LINQ provider over
+dictionaries: no SQL, no PostGIS, no `ST_Simplify`, no `ST_Contains`, no GIST
+index. Everything these tests exist to check is precisely what it cannot execute,
+so a suite passing against it would establish only that the C# compiles. The two
+defects found while building this checkpoint — an `OrderBy` that could not be
+translated, and `Geometry.NumPoints` returning NULL for polygons — are both
+invisible without a real server.
+
+A shared test database can run these queries, but it accumulates state, so tests
+come to depend on the order they ran in and on what ran yesterday. The container
+gives isolation between runs, which is the isolation that matters here.
+
+**Seeded from `data/`, not from fixtures.** The tests assert that Tokyo Station
+resolves to Tokyo and that Cape Ashizuri resolves to Kōchi. Against a hand-made
+square polygon those assertions would pass by construction and mean nothing.
+Against the committed boundaries they mean the query resolved a real coordinate
+against real geometry. It also gives the migrations a genuine test: every run
+applies them to an empty database, `CREATE EXTENSION postgis` included.
+
+**One container for the assembly, not one per class.** Starting PostGIS and
+seeding 47 boundaries takes several seconds and every test is a read, so there is
+nothing for them to corrupt for each other.
+
+**What it costs:**
+
+- `dotnet test` now requires a running Docker daemon, and CI must provide one.
+  There is no fallback: the tests do not degrade to a fake, they fail.
+- The first run pulls the image.
+- Test classes run serially (`DisableTestParallelization`). Not for the
+  database's sake — every test is a read — but because the output cache is
+  process-wide state, and the cache tests have to observe it going from cold to
+  warm without another class warming it underneath them.
+- The fixture depends on `YuruChara.Ingestion`, so a test project references a
+  console application. That is what avoids a second, drifting copy of the seeding
+  logic.
+
+**Where:** `tests/YuruChara.Api.Tests/TestSupport/PostGisApiFixture.cs`,
+`tests/YuruChara.Api.Tests/AssemblyConfiguration.cs`.
 
 ---
 
-## 14. Output caching on the boundaries endpoint — **pending (Checkpoint 3)**
+## 14. Output caching on the boundaries endpoint
 
-Intended: `/api/prefectures` is output-cached, varying by the `detail` query
-parameter.
+**Chosen:** `GET /api/prefectures` is output-cached for one hour, varying by the
+`detail` query parameter and tagged `prefectures`.
 
-To be written up with a statement of what invalidates the cache. The reasoning:
-the boundary data does not change between seed runs and is the largest response
-the application returns, so the cache has a high hit rate and a measurable
-effect.
+**Rejected:** No cache; response caching (`Cache-Control`) instead of output
+caching; caching the other endpoints too.
+
+**Why:** It is by far the largest response the application serves — 593 KB at
+`detail=high` — it is identical for every visitor, and it changes only when the
+ingestion CLI is re-run. That is the shape of problem output caching is for.
+
+Output caching rather than response caching because it is server-side: the app
+stores the rendered response and serves it without touching PostGIS, whereas
+response caching only sets headers and depends on the client or a proxy choosing
+to honour them.
+
+`SetVaryByQuery("detail")` is not optional. Without it the endpoint has one cache
+entry, and whichever detail level was requested first is served to everyone —
+a phone asking for `low` would receive a desktop's `high`, which is four times
+the payload and precisely what the parameter exists to prevent.
+
+Varying by `detail` **and nothing else** is also deliberate. A policy that varied
+by the whole query string would let any caller fill the cache with unbounded
+distinct keys by appending a counter.
+
+**What invalidates it: nothing automatic.** This is the honest description and it
+is stated rather than implied. The store is in-process and in memory, so it is
+emptied by restarting the application, which is also what a deployment does.
+Re-seeding the database underneath a running instance serves stale boundaries for
+up to an hour. The one-hour expiry is what bounds that; it is long because the
+data is static, and finite for exactly this reason. The `prefectures` tag makes
+deliberate eviction possible through `IOutputCacheStore.EvictByTagAsync`, which is
+what a v2 ingestion endpoint would call. Nothing in v1 calls it outside the tests.
+
+**Not applied to `/api/mascots`.** Its response is a few tens of kilobytes and its
+two filters open a much larger key space than the three variants of the boundaries
+endpoint, so a cache there would hold many entries and save little.
+
+**What it costs:** A window during which the API can serve boundaries that no
+longer match the database, and a second copy of the largest response held in
+memory per detail level. Both are bounded and neither is silent — the tests
+observe cache hits through the `Age` and `Date` headers.
+
+**Where:** `src/YuruChara.Api/Program.cs`,
+`src/YuruChara.Api/Prefectures/PrefectureEndpoints.cs`,
+`tests/YuruChara.Api.Tests/OutputCacheTests.cs`.
+
+---
+
+## 14a. `ST_Simplify` declared to EF Core as a database function
+
+**Chosen:** `PostGis.Simplify` is a C# method that throws, mapped onto PostGIS's
+`ST_Simplify` with `modelBuilder.HasDbFunction(...).HasName("ST_Simplify").IsBuiltIn()`.
+The boundaries query then calls it from an ordinary LINQ projection.
+
+**Rejected:** Raw SQL for the whole boundaries query; simplifying client-side with
+NetTopologySuite; serving the full-resolution geometry.
+
+**Why:** The Npgsql NetTopologySuite plugin translates a large part of PostGIS by
+mapping NetTopologySuite's own members onto it — `Geometry.Contains` becomes
+`ST_Contains`, `Geometry.InteriorPoint` becomes `ST_PointOnSurface`. That works
+only where NetTopologySuite has an equivalent member. `ST_Simplify` has none:
+NetTopologySuite does Douglas-Peucker simplification through a separate
+`DouglasPeuckerSimplifier` class rather than a method on `Geometry`, so there is
+nothing for the plugin to map and no `EF.Functions.Simplify` either.
+
+Raw SQL for the whole query would mean hand-writing the column list and losing the
+mascot-count sub-select. Client-side simplification would transfer all 2.3 MB of
+full-resolution geometry from the database on every cache miss in order to send a
+quarter of it to the browser, and would put the work on the web server rather than
+the database built for it.
+
+`IsBuiltIn()` is the part that is easy to get wrong and hard to diagnose. Without
+it EF Core treats the function as user-defined, schema-qualifies it and quotes the
+identifier, producing `public."ST_Simplify"(...)`. PostgreSQL does not case-fold a
+quoted identifier, and the function PostGIS installs is named `st_simplify`, so
+the quoted form fails with 42883 "function does not exist".
+
+**`ST_Simplify` and not `ST_SimplifyPreserveTopology`,** which is the more
+defensive choice and the wrong one here. `ST_Simplify` does two things
+`ST_SimplifyPreserveTopology` does not: it drops rings that collapse, and it can
+produce self-intersecting polygons. Dropping rings is the point — it takes the
+polygon count from 736 to 191 at `detail=low`, which is most of where the phone
+payload comes from, and those are islands far smaller than a pixel at that zoom.
+
+**What it costs:** The served geometry is not guaranteed to be valid. At every
+tolerance in use some prefectures come back self-intersecting; PostGIS reports
+this through `ST_IsValid`. That is acceptable because the output is for drawing —
+Leaflet renders a path either way — and the full-resolution column is what every
+spatial query runs against. It would not be acceptable if a client ever performed
+geometry operations on the response, and if that becomes a requirement the answer
+is `ST_SimplifyPreserveTopology` plus a larger payload, not a different tolerance.
+
+The declaration is also a bet on a package's limitations. If a future Npgsql
+release translates `ST_Simplify` natively, this becomes redundant rather than
+wrong — `PostGisTranslationTests` is what would report it.
+
+**Where:** `src/YuruChara.Infrastructure/PostGis.cs`,
+`src/YuruChara.Infrastructure/YuruCharaDbContext.cs`,
+`tests/YuruChara.Api.Tests/PostGisTranslationTests.cs`.
+
+---
+
+## 14b. Simplification tolerances chosen in pixels, not in metres
+
+**Chosen:** `detail=high` is `ST_Simplify` at 0.005°, `detail=low` at 0.02°. A
+missing `detail` parameter means `high`; an unrecognised one is a 400.
+
+**Rejected:** Tolerances derived from a distance on the ground; a single detail
+level; defaulting to `low`.
+
+**Why:** The tolerances are in degrees because the geometry is SRID 4326, and
+sizing them is a question about pixels rather than about metres — simplification
+is invisible as long as the tolerance stays below the size of a pixel at the zoom
+the shape is drawn at. Japan spans roughly 20° of longitude, which is about
+0.017°/pixel on a 1200-pixel desktop viewport and about 0.05°/pixel on a
+390-pixel phone.
+
+Measured over all 47 prefectures, through the API's own serialiser:
+
+| Level | Tolerance | Bytes | Vertices | Polygons | % of raw |
+|---|---|---:|---:|---:|---:|
+| raw | — | 2,392,871 | 61,033 | 736 | 100.0% |
+| high | 0.005° (~450 m) | 607,184 | 15,197 | 555 | 25.4% |
+| low | 0.02° (~1.8 km) | 158,380 | 3,712 | 191 | 6.6% |
+
+**A missing parameter means `high`, not `low`,** even though the frontend is
+mobile-first. Mobile-first is a constraint on the frontend, not a safe default for
+an API: the client is the only party that knows its viewport, and silently
+returning coarser data than a caller expected is a worse failure than returning
+finer. The frontend opts into `low` explicitly.
+
+An unrecognised value is rejected rather than falling back, so `?detail=medium` is
+a 400 naming the mistake instead of a 200 quietly ignoring it.
+
+**What it costs:** Two fixed tolerances cannot be right at every zoom. `high` is
+sized for viewing all of Japan; zoomed into a single prefecture, 0.005° is a few
+pixels and the faceting is visible. The alternatives are a continuous tolerance
+parameter, which would defeat the output cache by making the key space unbounded,
+or pre-built tiles, which is a much larger piece of machinery than a choropleth of
+47 polygons needs.
+
+**Where:** `src/YuruChara.Api/Prefectures/DetailLevel.cs`,
+`tests/YuruChara.Api.Tests/PayloadSizeTests.cs`.
 
 ---
 

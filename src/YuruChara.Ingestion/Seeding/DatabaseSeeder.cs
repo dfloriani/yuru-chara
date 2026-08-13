@@ -94,25 +94,39 @@ public sealed class DatabaseSeeder(YuruCharaDbContext db)
     /// Computes and stores <see cref="Prefecture.LabelPoint"/> and
     /// <see cref="Prefecture.Centroid"/> with one UPDATE.
     /// <para>
-    /// <b>Raw SQL, and why EF Core LINQ was not enough.</b> The Npgsql provider maps
-    /// <c>ST_Centroid</c> (as <c>Geometry.Centroid</c>) but has no translation for
-    /// <c>ST_PointOnSurface</c> — NetTopologySuite calls the equivalent operation
-    /// <c>InteriorPoint</c>, and that property is not in the provider's function
-    /// mapping table, so a LINQ query using it throws at translation time. It could
-    /// be computed client-side by NTS instead, but that means pulling all 47
-    /// full-resolution boundaries into memory to derive two points from them, and
-    /// PostGIS's own answer is the one that should be stored in a PostGIS column.
+    /// <b>Raw SQL, and why EF Core LINQ was not enough.</b> Not because the functions
+    /// are unreachable — both are. The Npgsql plugin maps <c>Geometry.Centroid</c> to
+    /// <c>ST_Centroid</c>, and it maps <c>Geometry.InteriorPoint</c> to
+    /// <c>ST_PointOnSurface</c>, which is easy to miss only because NetTopologySuite
+    /// gives the operation a different name from the one PostGIS uses.
+    /// <c>PostGisTranslationTests</c> pins both.
     /// </para>
     /// <para>
-    /// <b>Why ST_PointOnSurface and not ST_Centroid for the label.</b> A centroid is
-    /// a centre of mass and is not guaranteed to lie inside its own polygon. Several
-    /// Japanese prefectures are cases where it does not: Nagasaki is hundreds of
-    /// islands around a concave peninsula and its centroid falls in open water, and
-    /// Tokyo includes the Izu and Ogasawara chains, which drag its centroid roughly a
-    /// thousand kilometres out into the Pacific. <c>ST_PointOnSurface</c> always
-    /// returns a point on the geometry, so labels land on the prefecture they name.
-    /// The centroid is stored as well because it remains the right value for "which
-    /// prefecture is nearest". See DECISIONS.md 5.
+    /// The reason is that this is a set-based UPDATE of all 47 rows, from an
+    /// expression over another column of the same row. Writing it in LINQ means
+    /// <c>ExecuteUpdate</c>, whose <c>SetProperty</c> would have to assign a
+    /// <c>Geometry</c>-typed expression to a <c>Point</c>-typed property, and so needs
+    /// a cast that the provider would then have to translate. Loading the entities and
+    /// assigning in .NET is the other option, and it means transferring every
+    /// full-resolution boundary into memory to derive two points from them. One
+    /// statement of plain SQL is shorter and is what actually happens.
+    /// </para>
+    /// <para>
+    /// <b>Why ST_PointOnSurface and not ST_Centroid for the label.</b> A centroid is a
+    /// centre of mass and is not guaranteed to lie inside its own polygon.
+    /// <c>ST_PointOnSurface</c> always returns a point on the geometry, so labels land
+    /// on the prefecture they name. The centroid is stored as well because it remains
+    /// the right value for "which prefecture is nearest".
+    /// </para>
+    /// <para>
+    /// Measured on the committed geometry, 4 of the 47 centroids fall outside their
+    /// prefecture: Okinawa (58.9 km out to sea), Tokyo (34.7 km), Kagoshima (17.1 km,
+    /// in Kinkō Bay) and Kōchi (0.2 km, off its concave coast). Kōchi is the
+    /// instructive one — it has no distant islands, so being non-convex is enough on
+    /// its own. Nagasaki, despite having more islands than any other prefecture, is
+    /// <em>not</em> affected, because <c>ST_Centroid</c> is area-weighted and its
+    /// mainland peninsulas dominate. "Many islands" is the wrong intuition here and
+    /// "the shape is not convex" is the right one. See DECISIONS.md 5.
     /// </para>
     /// <para>
     /// <b>Why at seed time.</b> Both values are functions of a boundary that never
