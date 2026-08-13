@@ -35,11 +35,19 @@ public class Prefecture
     /// ST_PointOnSurface of <see cref="Boundary"/>, computed once at seed time.
     /// <para>
     /// This is the position map labels are drawn at. It is always inside the
-    /// polygon, which <see cref="Centroid"/> is not: the centroid of a concave
-    /// shape, or of one made up of many islands, can fall outside the shape
-    /// entirely. Several of Japan's prefectures are affected. Nagasaki's centroid
-    /// falls in the water between its islands, and Tokyo's is several hundred
-    /// kilometres south of the city because of the Ogasawara island chain.
+    /// polygon, which <see cref="Centroid"/> is not: a centroid is a centre of
+    /// mass, and the centre of mass of a non-convex shape can fall outside the
+    /// shape entirely.
+    /// </para>
+    /// <para>
+    /// Measured on the committed geometry, 4 of the 47 centroids do:
+    /// <b>Okinawa</b> (58.9 km out to sea), <b>Tokyo</b> (34.7 km, pulled south
+    /// by the Izu and Ogasawara chains), <b>Kagoshima</b> (17.1 km, in Kinkō Bay
+    /// between its two peninsulas) and <b>Kōchi</b> (0.2 km, just off its concave
+    /// coast around Tosa Bay). Kōchi is the useful one: it has no distant
+    /// islands, so concavity on its own is enough. Nagasaki, despite having
+    /// hundreds of islands, is <em>not</em> affected — ST_Centroid is
+    /// area-weighted and its mainland peninsulas dominate. See DECISIONS.md 5.
     /// </para>
     /// </summary>
     public Point? LabelPoint { get; set; }

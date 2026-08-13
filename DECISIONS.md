@@ -112,17 +112,43 @@ string in order to avoid the dependency would be worse.
 **Rejected:** Placing labels at `ST_Centroid`.
 
 **Why:** A centroid is a centre of mass, and it is not guaranteed to be inside
-its own polygon. Japan has several prefectures where it is not:
+its own polygon. `ST_PointOnSurface` always returns a point that is on the
+geometry, so labels are drawn on land.
 
-- **Nagasaki** consists of hundreds of islands around a deeply concave
-  peninsula. Its centroid falls in open water.
-- **Tokyo** includes the Izu and Ogasawara island chains, which extend roughly a
-  thousand kilometres south. They move the centroid far out into the Pacific,
-  a long way from the city.
-- **Kagoshima** and **Okinawa** have the same problem for the same reason.
+**Measured, after seeding the committed geometry.** All 47 `ST_PointOnSurface`
+points are inside their own boundary. **43 of the 47 centroids are.** The four
+that are not:
 
-`ST_PointOnSurface` always returns a point that is on the geometry, so labels are
-drawn on land.
+| Prefecture | Centroid distance offshore | Why |
+|---|---:|---|
+| Okinawa | 58.9 km | Islands spread over 800 km of ocean; the centroid is sea between them |
+| Tokyo | 34.7 km | Izu and Ogasawara chains pull it south, into Sagami Bay |
+| Kagoshima | 17.1 km | Two peninsulas around Kinkō Bay; the centroid is in the bay |
+| Kōchi | 0.2 km | Concave crescent around Tosa Bay; the centroid is just offshore |
+
+Distances are computed by casting to `geography`, because `ST_Distance` on 4326
+`geometry` returns degrees — see decision 3.
+
+**An earlier version of this entry named the wrong examples, and the correction
+is worth keeping.** It asserted that Nagasaki's centroid "falls in open water"
+and that Tokyo's is "roughly a thousand kilometres south". Neither is true:
+
+- **Nagasaki's centroid is inside its boundary.** It is the most island-heavy
+  prefecture in the country, which is why it looked like the obvious example,
+  but `ST_Centroid` is **area-weighted**. Nagasaki's mainland peninsulas hold
+  most of its area, so they dominate the result and it lands on land.
+- **Tokyo's centroid is 34.7 km out, not a thousand.** Same reason from the
+  other direction: the Ogasawara islands are a thousand kilometres away but
+  they are tiny, so they contribute almost no area and move the centroid only
+  slightly.
+- **Kōchi was not predicted at all,** and it is the most interesting case. It
+  has no far-flung islands. It is simply concave — a crescent around Tosa Bay —
+  and concavity alone is enough. This is the failure mode that would be missed
+  by reasoning only about islands.
+
+The lesson is that "many islands" is the wrong intuition for this problem and
+"the shape is not convex" is the right one. Islands matter only when they are
+far away *and* carry real area, which is Okinawa.
 
 Both values are computed at seed time rather than per request. They never change,
 and recomputing them on every read of all 47 boundaries would be wasted work.
@@ -133,7 +159,14 @@ close to an edge. A pole-of-inaccessibility algorithm would produce a better
 position and is considerably more work. `Centroid` is stored as well because it
 remains the correct value for questions about which prefecture is nearest.
 
-**Where:** `src/YuruChara.Domain/Prefectures/Prefecture.cs`.
+A second cost, visible in the table above: both values are properties of the
+**committed simplified geometry**, not of the true coastline. Re-source the
+boundary file at a different tolerance and these numbers change. That is
+acceptable because the label has to sit on the polygon actually being drawn,
+which is the simplified one.
+
+**Where:** `src/YuruChara.Domain/Prefectures/Prefecture.cs`,
+`src/YuruChara.Ingestion/Seeding/DatabaseSeeder.cs`.
 
 ---
 
@@ -414,7 +447,13 @@ time sets the maximum detail any `?detail=high` request can return: a further
 simplification at read time can reduce detail, but nothing can restore it. That
 tolerance therefore has to be recorded in `DATA-SOURCES.md` next to the licence.
 
-**Where:** `.gitignore`, `data/` — **to be filled in at Checkpoint 2.**
+**As built.** `data/prefectures.geojson` is 2.4 MB, 47 features, 61,033
+vertices, simplified to 1%. `data/prefecture-mascots.json` is 35 mascot records
+across 33 prefectures with 14 recorded gaps. `data/raw/` holds the draft the
+Wikidata pass writes and is excluded. The tolerance and its consequence are
+recorded in `DATA-SOURCES.md` section 1 under "Simplification tolerance".
+
+**Where:** `.gitignore`, `data/`, `DATA-SOURCES.md`.
 
 ---
 
@@ -450,3 +489,128 @@ frontend's map interface once that interface exists, including what the interfac
 costs and what it does not provide: the tile layer, the projection and the
 interaction model are still visible to the rest of the frontend, so replacing
 Leaflet would touch more than one component.
+
+---
+
+## 16. Boundaries sourced pre-simplified from an N03 derivative, not from MLIT
+
+**Chosen:** `data/prefectures.geojson` is
+`smartnews-smri/japan-topography`'s `prefectures.json` at 1% simplification,
+committed byte-for-byte and verified by SHA-256.
+
+**Rejected:** Downloading 国土数値情報 N03 from MLIT directly and simplifying it
+in this repository.
+
+**Why:** The direct route means reading a shapefile or GML, a raw input of tens
+of megabytes carrying coastline detail this map will never draw, and a
+simplification step of our own to build and tune. The 1% build already exists,
+is derived from the same MLIT dataset, and is small enough to commit. Both hops
+of the licence chain were checked before committing: the intermediary imposes no
+condition of its own, and MLIT publishes N03 as CC BY 4.0 / PDL 1.0 for FY2018
+onwards. See `DATA-SOURCES.md` section 1.
+
+**What it costs:**
+
+- The vintage is fixed at the intermediary's 2021 retrieval, not ours. This
+  matters much less for prefectures than it would for municipalities, which
+  merge and rename; prefecture boundaries have been stable since 1972.
+- The 1% tolerance is theirs, so the detail ceiling was chosen by someone else.
+  Raising it means changing source, not changing a parameter.
+- One more party in the chain who could remove the file. The SHA-256 in
+  `DATA-SOURCES.md` means a replacement can at least be recognised as different.
+- The file has **no JIS code** in it — its only property is the Japanese name —
+  so the join is by name. See decision 17.
+
+**Where:** `data/prefectures.geojson`, `DATA-SOURCES.md` section 1.
+
+---
+
+## 17. The boundary file is joined to prefectures by Japanese name
+
+**Chosen:** `PrefectureBoundaryReader` looks each feature's `N03_001` value up in
+`JisPrefectures.ByNameJa`, and throws if any feature is unmatched or the count is
+not 47.
+
+**Rejected:** Trusting array position. The file's features are in fact in JIS
+code order — feature 1 is 北海道, feature 47 is 沖縄県 — so `features[i]` would
+work today.
+
+**Why:** Order is not a documented guarantee of the source, and the failure mode
+of relying on it is the worst kind available here: if a future release reorders
+or inserts a feature, every prefecture silently gets the wrong shape, and the
+map still renders. Nothing would look broken. Joining by name fails loudly
+instead, and it was checked before being relied on — all 47 `N03_001` values
+match the Japanese labels Wikidata returns, character for character.
+
+**What it costs:** The join now depends on exact string equality of Japanese
+text, which makes it sensitive to things position is not: a normalisation change
+(NFC versus NFD), a full-width/half-width difference, or a genuine rename. All
+three surface as a hard failure naming the unmatched value, which is the
+intended trade.
+
+**Where:** `src/YuruChara.Ingestion/Seeding/PrefectureBoundaryReader.cs`,
+`src/YuruChara.Ingestion/Seeding/JisPrefectures.cs`.
+
+---
+
+## 18. The automated pass writes a draft; the committed seed is hand-curated
+
+**Chosen:** `ingestion wikidata` writes `data/raw/prefecture-mascots.draft.json`,
+which is gitignored. It never writes `data/prefecture-mascots.json`. Applying a
+new automated pass means diffing the draft against the committed file and
+merging by hand.
+
+**Rejected:** Having the Wikidata pass write the seed file directly, with the
+manual corrections applied afterwards as a patch file or an override table.
+
+**Why:** The committed seed contains work that no automated pass can reproduce —
+eleven records checked field by field against an owning body's own website, two
+corrected debut years, three corrected URLs. If the automated pass wrote that
+file, then re-running it would destroy all of it, and the destruction would look
+like a successful run. Making the two files different paths means the automated
+pass has no way to do that.
+
+An override table was the closer alternative and was rejected because it splits
+one mascot's facts across two files. The seed file is meant to be readable as
+the answer to "what do we believe about this mascot and why", and that stops
+being true when half the answer is somewhere else.
+
+**What it costs:** Refreshing from Wikidata is a manual merge rather than a
+command. With 47 prefectures that is the right trade; if this became thousands of
+municipal mascots (a v2 goal) it would not be, and the correct answer then is
+probably to keep the same split but generate the merge — comparing per field
+against the recorded citation reliability, so an `Official` fact is never
+overwritten by an `Aggregated` one.
+
+**Where:** `src/YuruChara.Ingestion/Wikidata/WikidataMascotPass.cs`,
+`src/YuruChara.Ingestion/Program.cs`, `.gitignore`.
+
+---
+
+## 19. Source citations are per field, not per record
+
+**Chosen:** `SourceCitations` holds one entry per fact, each naming the field it
+backs and its own `SourceReliability`. A single mascot routinely carries a mix.
+
+**Rejected:** One source and one reliability per mascot record.
+
+**Why:** Because the mixture is the normal case, not an edge case. Of the eleven
+hand-checked mascots, most have an `Official` citation on `DebutYear`,
+`OwningBody` and `OfficialUrl`, and an `Aggregated` one on `Motif`, because the
+owning body's own page does not name the animal. Kumamoto's profile page
+explicitly declines to say Kumamon is a bear. Under one reliability per record
+that mascot has to be described as either wholly official — which overstates the
+motif — or wholly aggregated, which discards a verified debut year. Neither is
+true, and the per-field version can simply say what is.
+
+It also makes `VerificationLevel` meaningful rather than decorative:
+`ManuallyVerified` means someone checked this record against the owning body,
+and the citations say precisely which fields that produced.
+
+**What it costs:** Every seed record carries eight or so citation objects, which
+is most of the bulk of a 2,200-line file. The `jsonb` column is written and read
+whole and never queried on its own (see the comment in `MascotConfiguration`), so
+the cost is file size and review effort rather than query time.
+
+**Where:** `src/YuruChara.Domain/Mascots/SourceCitation.cs`,
+`data/prefecture-mascots.json`.
