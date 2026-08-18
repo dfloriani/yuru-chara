@@ -1,0 +1,60 @@
+/*
+ * Overrides for Leaflet's own stylesheet, plus the prefecture labels.
+ *
+ * These have to be global rather than scoped: Leaflet writes its class names onto
+ * elements it creates itself, so there is nothing to attach a scoped class to.
+ */
+
+.leaflet-map {
+  width: 100%;
+  height: 100%;
+  /* The sea. There is no tile layer under the polygons — see the note in
+     LeafletPrefectureMap.tsx — so this colour is the whole background. */
+  background: var(--ground);
+  /* Leaflet's default is a cursor grab affordance on a map that can be dragged.
+     Kept, because this one can. */
+  outline: none;
+}
+
+/* Leaflet sets a white background on the container by default, which shows
+   through as a white frame around the sea colour above. */
+.leaflet-container {
+  background: var(--ground);
+  font-family: var(--font);
+}
+
+/*
+ * A prefecture name label.
+ *
+ * The marker's own div is zero-sized and sits exactly on the stored
+ * ST_PointOnSurface. The span is pulled back by half its own size so the text is
+ * centred on that point rather than starting at it.
+ */
+.leaflet-map__label {
+  /* Labels must never take a tap that was aimed at a prefecture. The marker is
+     created non-interactive as well; this is the belt to that pair of braces. */
+  pointer-events: none;
+}
+
+.leaflet-map__label-text {
+  position: absolute;
+  inset: 0 auto auto 0;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+  /* A halo rather than a background box. The label sits on top of a filled
+     polygon whose colour is data, and a box would hide some of it. */
+  paint-order: stroke fill;
+  -webkit-text-stroke: 3px var(--ground);
+}
+
+/* Wider viewports have room for a legible label, and Japan fits at a zoom where
+   all 47 are drawn from the start. */
+@media (min-width: 768px) {
+  .leaflet-map__label-text {
+    font-size: 12px;
+  }
+}
