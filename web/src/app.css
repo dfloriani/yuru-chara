@@ -1,0 +1,158 @@
+/*
+ * The app shell: a header, a main area that takes the rest, and a footer that is
+ * always visible because it carries a licence condition.
+ *
+ * Narrow-first. Everything here is the phone layout; the wide layout is the one
+ * media query at the bottom.
+ */
+.app {
+  display: flex;
+  flex-direction: column;
+  /* dvh, not vh: on mobile browsers vh is the height with the toolbars hidden, so
+     a 100vh shell is taller than the screen until the visitor scrolls — and this
+     shell must never scroll. */
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.app__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.app__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.app__title-note {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* Segmented control: two buttons in one bordered box. */
+.app__views {
+  flex: none;
+  display: flex;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.app__view {
+  /* 44px tall, so the two buttons a phone visitor uses most are full targets. */
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--surface);
+  border: 0;
+  cursor: pointer;
+}
+
+.app__view + .app__view {
+  border-left: 1px solid var(--border-strong);
+}
+
+.app__view[aria-pressed='true'] {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.app__main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  /* The bottom sheet is positioned against the map section inside this. */
+  position: relative;
+}
+
+.app__map {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.app__sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface);
+}
+
+/* `hidden` on a flex child is overridden by `display: flex` without this. The
+   attribute is what carries the meaning — it also removes the section from the
+   accessibility tree — so the stylesheet has to honour it. */
+.app__map[hidden],
+.app__sidebar[hidden] {
+  display: none;
+}
+
+.app__status {
+  margin: auto;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.app__status-detail {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.app__retry {
+  min-height: 44px;
+  margin-top: 12px;
+  padding: 0 18px;
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+/*
+ * Wide: the list and the map side by side, with the detail panel above the list
+ * in the same column.
+ *
+ * One sidebar rather than three columns, so that at 768px — where this layout
+ * starts — the map still has more than half the width. Both the list and the
+ * panel stay on screen, which is the point: selecting a prefecture from the list
+ * must not hide the list.
+ */
+@media (min-width: 768px) {
+  .app__header {
+    padding: 10px 16px;
+  }
+
+  .app__title {
+    font-size: 18px;
+  }
+
+  .app__main {
+    /* The sidebar first in the source order is the list, which is the accessible
+       path through the data; `row-reverse` puts it on the left of the map
+       without moving it in the document. */
+    flex-direction: row-reverse;
+  }
+
+  .app__sidebar {
+    flex: none;
+    width: 360px;
+    border-right: 1px solid var(--border);
+  }
+}
