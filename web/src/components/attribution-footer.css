@@ -1,0 +1,39 @@
+/*
+ * A row of the app shell rather than something inside a scrolling pane. The
+ * Japanese statement is a licence condition, so it is on screen at every width
+ * and never behind a toggle.
+ */
+.attribution {
+  flex: none;
+  padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+  font-size: 10px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  background: var(--surface-sunken);
+  border-top: 1px solid var(--border);
+  /* Two open paragraphs of English are taller than a phone should give a footer,
+     so the row scrolls rather than pushing the map off the screen. */
+  max-height: 30dvh;
+  overflow-y: auto;
+}
+
+.attribution p {
+  margin: 0;
+}
+
+.attribution a {
+  color: inherit;
+}
+
+.attribution__details > summary {
+  /* A real tap target, because on a narrow viewport this is the control that
+     reveals the English text. */
+  min-height: 28px;
+  line-height: 28px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.attribution__details p {
+  margin-bottom: 4px;
+}

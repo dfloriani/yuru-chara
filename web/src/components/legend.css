@@ -1,0 +1,74 @@
+/*
+ * Sits over the top-left of the map. An overlay rather than a row beneath it,
+ * because on a 375px screen the map has no vertical pixels to give up.
+ *
+ * Top-left and not bottom-left for two reasons, both about what is underneath:
+ * Okinawa is drawn in the bottom-left corner of the initial view, and the bottom
+ * of the map is where the sheet opens. The top-left is open sea at every zoom
+ * this map starts at.
+ */
+.legend {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 500; /* Above Leaflet's overlay pane (400), below its popups (700). */
+  max-width: 232px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow);
+  /* The legend explains the map; it must never take a tap meant for it. */
+  pointer-events: none;
+}
+
+.legend__title {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.legend__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend__item {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.legend__swatch {
+  width: 12px;
+  height: 12px;
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+.legend__count {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.legend__note {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
+/* The second sentence only. The first one is what tells a visitor that grey is an
+   answer rather than a failure, so it is shown at every width. */
+@media (max-width: 767px) {
+  .legend__note-detail {
+    display: none;
+  }
+}

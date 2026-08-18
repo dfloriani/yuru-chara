@@ -1,0 +1,241 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  color: var(--text);
+}
+
+/*
+ * Narrow: a bottom sheet over the map.
+ *
+ * Capped at 45% of the viewport so the map it explains stays partly visible —
+ * the map pans a selected prefecture out of this strip, and it can only do that
+ * if there is a strip left to pan into. Height is in dvh, not vh, so the sheet
+ * does not sit under a mobile browser's toolbar when that toolbar is showing.
+ */
+.detail--sheet {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 600; /* Over the legend (500) and Leaflet's overlays. */
+  max-height: min(45dvh, 320px);
+  border-top: 1px solid var(--border-strong);
+  border-radius: 14px 14px 0 0;
+  box-shadow: var(--shadow-sheet);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/*
+ * Wide: a panel in the sidebar beside the map rather than a sheet over it.
+ *
+ * It sits above the prefecture list in the same column, and is capped at half of
+ * it so that selecting a prefecture never squeezes the list out of view.
+ */
+.detail--panel {
+  flex: none;
+  width: 100%;
+  max-height: 55%;
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.detail__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail__titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail__title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.detail__title-ja {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.detail__subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.detail__close {
+  flex: none;
+  /* 44px square: the minimum comfortable touch target, and the reason this is a
+     button with a padded hidden label rather than a bare glyph. */
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.detail__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px 12px 16px;
+}
+
+.detail__coverage {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.detail__empty-headline {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.detail__empty p {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.mascot {
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+.mascot:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.mascot__name {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.mascot__name-ja {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.mascot__name-romaji {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.mascot__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.mascot__tag {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-muted);
+}
+
+.mascot__tag--official,
+.mascot__tag--verified {
+  color: var(--accent-text);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.mascot__facts {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 2px 10px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.mascot__facts dt {
+  color: var(--text-muted);
+}
+
+.mascot__facts dd {
+  margin: 0;
+}
+
+.mascot__fact--missing {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.mascot__link {
+  margin: 10px 0 0;
+  font-size: 13px;
+}
+
+.mascot__link a {
+  /* A link in a sheet is a tap target like any other. */
+  display: inline-block;
+  min-height: 32px;
+  line-height: 32px;
+}
+
+.mascot__link-host {
+  color: var(--text-muted);
+}
+
+.mascot__licence {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mascot__licence-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 10px;
+}
+
+.mascot__sources {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.mascot__sources summary {
+  min-height: 32px;
+  line-height: 32px;
+  cursor: pointer;
+}
+
+.mascot__sources ul {
+  margin: 0 0 0 4px;
+  padding-left: 14px;
+}
+
+.mascot__sources li {
+  margin-bottom: 4px;
+  overflow-wrap: anywhere;
+}
+
+.mascot__source-field {
+  font-weight: 600;
+  color: var(--text);
+}
