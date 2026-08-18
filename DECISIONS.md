@@ -656,13 +656,50 @@ or pre-built tiles, which is a much larger piece of machinery than a choropleth 
 
 ---
 
-## 15. Leaflet and PostGIS rather than Google data-driven styling — **pending (Checkpoint 4)**
+## 15. Leaflet and PostGIS rather than Google data-driven styling
 
-The reasoning is set out in CLAUDE.md. To be restated here alongside the
-frontend's map interface once that interface exists, including what the interface
-costs and what it does not provide: the tile layer, the projection and the
-interaction model are still visible to the rest of the frontend, so replacing
-Leaflet would touch more than one component.
+**Chosen:** The map draws GeoJSON served by this project's own API from its own
+PostGIS database, rendered by Leaflet, behind the interface in
+`web/src/map/PrefectureMap.ts`.
+
+**Rejected:** Google Maps Platform's data-driven styling for boundaries, which
+would style `ADMINISTRATIVE_AREA_LEVEL_1` features Google already holds.
+
+**Why:** Four reasons, set out in CLAUDE.md and unchanged by building it. It
+moves all spatial work off the backend, and PostGIS is the point of this project.
+Google's terms do not permit storing or caching their geometry, so the two cannot
+be run side by side. It requires a billing account, an API key and a vector Map
+ID. It keys the data on Google Place IDs rather than on JIS prefecture codes,
+which are open and are what every Japanese dataset uses.
+
+**What crosses the interface**, which is the part that decides what a swap would
+cost:
+
+- GeoJSON in. Every mapping library reads it, and it is what the API serves.
+- JIS prefecture codes out, on selection. Not a library's internal layer handle,
+  and not a Place ID.
+- A `Coverage` value per prefecture, not a colour. The implementation resolves it
+  to a fill through the one table in `web/src/data/coverage.ts`, so a replacement
+  map cannot draw a palette the legend disagrees with.
+- A zoom threshold for labels, and the pixel height of whatever is covering the
+  bottom of the map.
+
+**What it costs:** Zoom is a map-shaped idea and it is in the interface. Any
+replacement has to have a compatible notion of zoom levels for the label
+threshold to mean anything, and Google's zoom levels are on the same scale, so
+this is a real constraint rather than a leak. The larger cost is unchanged: this
+project renders and simplifies its own geometry, and the labels, the zoom
+behaviour and the interaction model are ours to get right rather than Google's.
+
+Three things a map library normally leaks do not appear at the seam. There is no
+tile layer to configure (entry 20), the projection is never named outside the
+implementation, and the palette is resolved from a coverage state rather than
+passed in. What remains visible is the interaction model, and it is the four
+items listed above.
+
+**Where:** `web/src/map/PrefectureMap.ts` is the interface;
+`web/src/map/LeafletPrefectureMap.tsx` is the only file in the frontend that
+imports `leaflet` or `react-leaflet`.
 
 ---
 
@@ -788,3 +825,181 @@ the cost is file size and review effort rather than query time.
 
 **Where:** `src/YuruChara.Domain/Mascots/SourceCitation.cs`,
 `data/prefecture-mascots.json`.
+
+---
+
+## 20. No basemap tile layer under the choropleth
+
+**Chosen:** The prefecture polygons are drawn on a flat background colour.
+
+**Rejected:** An OpenStreetMap, Carto or MapTiler raster tile layer underneath
+them, which is what a Leaflet map normally starts with.
+
+**Why:** Three reasons, in order of weight. A tile layer is a data source, and
+`DATA-SOURCES.md` governs every source this project displays — adding one that is
+not recorded there would break the rule that file exists to enforce. It brings a
+second attribution requirement, alongside the MLIT statement the footer already
+has to carry in full. And it is a runtime dependency on a third-party server for
+every pan and zoom, on a map whose entire content is already served by this
+project.
+
+There is also a design reason, which would not have been sufficient on its own: a
+choropleth encodes its data as fill colour, and a photographic basemap underneath
+competes with exactly the channel that carries the meaning.
+
+**What it costs:** No coastline detail beyond prefecture borders, no cities, no
+roads, and no sense of scale from a familiar backdrop. A visitor who does not
+recognise the shape of Japan gets no help from the map — which is part of why the
+searchable list is a first-class view rather than a fallback.
+
+**Where:** `web/src/map/LeafletPrefectureMap.tsx`.
+
+---
+
+## 21. A transparent wide stroke for tap targets, on a second layer
+
+**Chosen:** Every prefecture is drawn twice. The visible layer carries the fill
+and a hairline border and takes no events. An identical layer above it takes all
+the events and is drawn with a 20px stroke and a fill that are both fully
+transparent.
+
+**Rejected:** Widening the visible border, which changes the map to fix the
+input; enlarging small prefectures' geometry, which would be a lie about the
+data; and a single interactive layer, which offers no target beyond the shape.
+
+**Why:** CLAUDE.md requires small prefectures to be tappable, and at the zoom that
+fits Japan on a 375px screen Kagawa is about 12 pixels across against a 44px
+minimum touch target. Transparency does not remove a shape from hit testing —
+SVG decides that from whether `fill` and `stroke` are set at all, not from their
+opacity — so the second layer is a target roughly 20px wider than the prefecture
+and invisible. Measured in a browser at 1280px, Kagawa answers a click up to 16
+pixels away from its label point, where its drawn width is about 8.
+
+The hit layers are added largest first, so the smallest prefectures end up last
+in the SVG and their strokes sit above their neighbours'. Ordering is by the
+shoelace area of the real polygons rather than by bounding box, because Tokyo's
+box spans a thousand kilometres of ocean while Tokyo itself is one of the
+smallest prefectures — the exact case the ordering exists to get right.
+
+**What it costs:** 47 more paths in the DOM, and a 20px stroke necessarily
+overlaps its neighbours', so a tap in the gap between two prefectures resolves to
+whichever is later in the SVG rather than to the nearer one.
+
+**Where:** `web/src/map/LeafletPrefectureMap.tsx`.
+
+---
+
+## 22. Prefecture names labelled from a zoom threshold, not always
+
+**Chosen:** All 47 labels are drawn at zoom 5 and above. Below it, only the
+selected prefecture is labelled.
+
+**Rejected:** Drawing all 47 at every zoom, and drawing none at all.
+
+**Why:** CLAUDE.md asks for names rendered at the stored `ST_PointOnSurface`
+points, and that is what the labels do — the point of storing them. But at the
+zoom that fits Japan into a 375px viewport the whole country is about 200 pixels
+across, and 47 names in that space overlap into something no one can read.
+
+The threshold is 5 because that is where the split falls in practice, counted in
+a browser at 375, 768, 1280 and 1920 pixels wide. Leaflet's default `zoomSnap` of
+1 makes the initial fit land on a whole zoom level: 4 while the map pane is
+narrower than roughly 500px, and 5 above it. A window from about 900px across
+therefore opens with every label drawn, and anything narrower opens with none.
+Set to 6 — the value that looks right by eye — no width a browser opens at shows
+a label at all.
+
+**What it costs:** A phone visitor sees an unlabelled map until they zoom in.
+That is survivable only because the searchable list is a first-class view
+carrying every name in English, Japanese and romaji, and because a tap always
+labels what it selected.
+
+**Where:** `web/src/layout.ts`, `web/src/map/LeafletPrefectureMap.tsx`.
+
+---
+
+## 23. Two requests for the whole dataset, and no use of `/api/prefectures/{id}`
+
+**Chosen:** The frontend fetches `GET /api/prefectures` and `GET /api/mascots`
+once each, joins them on the JIS code, and answers every later question from
+memory. Search runs in the browser. The per-prefecture detail endpoint is not
+called.
+
+**Rejected:** Fetching a prefecture's detail on each selection, and passing the
+search text to `/api/mascots?motif=`.
+
+**Why:** The mascot list has to be fetched whole regardless, for a reason that is
+not about the list view: the map colours a prefecture by whether any of its
+mascots is `ManuallyVerified`, and the boundaries response carries only a count.
+Once all 35 mascot records are in memory — a few tens of kilobytes — a request per
+selection would fetch data the client already holds, and a request per keystroke
+would make the search slower than the array scan it replaces.
+
+**What it costs:** `/api/prefectures/{id}` and the two `/api/mascots` filters are
+built, tested and unused by this frontend. They are the right shape for v2, where
+thousands of municipal mascots make fetching everything the wrong default — and
+that is the point at which this decision has to be revisited rather than
+extended.
+
+**Where:** `web/src/data/useAtlas.ts`, `web/src/api/client.ts`.
+
+---
+
+## 24. A single client-side retry on a 5xx, and the server bug behind it
+
+**Chosen:** `getJson` retries once, after 300ms, when a response is 5xx. It does
+not retry a 4xx.
+
+**Why:** Output caching on `/api/prefectures` (entry 14) collapses concurrent
+requests for the same cache key: the first request executes the endpoint and the
+rest wait for its response. If that first client disconnects, its cancellation
+token fires, the endpoint throws `TaskCanceledException`, and the waiting requests
+are handed a 500 they did nothing to cause.
+
+Reproducible with two shells and no browser, against a cold cache:
+
+```bash
+curl -s -m 0.06 'http://localhost:5180/api/prefectures?detail=high' -o /dev/null &
+curl -s -o /dev/null -w '%{http_code}
+' 'http://localhost:5180/api/prefectures?detail=high'
+# 500
+```
+
+React's StrictMode starts and immediately aborts one request per effect in
+development, which is that pattern exactly, on every cold start.
+
+**What it costs:** The retry is a client-side accommodation for a server-side
+defect, and it hides the symptom at the point where it would otherwise be
+noticed. The defect is on the API and is not fixed by it: a follower request
+should not inherit the leader's cancellation. Retrying is defensible here on its
+own terms — these are idempotent GETs of static data — but it is not the fix.
+
+**Where:** `web/src/api/client.ts`.
+
+---
+
+## 25. One breakpoint, read in one place
+
+**Chosen:** `WIDE_VIEWPORT_QUERY` in `web/src/layout.ts` is `(min-width: 768px)`,
+read by `App.tsx` and by nothing else. Three things hang off it: the `?detail=`
+level requested from the boundaries endpoint, whether the detail view is a bottom
+sheet or a side panel, and whether the map and the list are shown together or one
+at a time.
+
+**Rejected:** Deciding each of the three where it is needed, and a container
+query per component.
+
+**Why:** CLAUDE.md asks for the sheet-or-panel choice to be made up front rather
+than retrofitted, and the same argument applies to the other two. All three are
+answers to one question — is this a phone? — and answering it three times is three
+places for the answer to drift. Reading it in `App.tsx` also means the detail
+level is known before the first request goes out, which is why the media query is
+read through `useSyncExternalStore` rather than an effect: an effect would fire
+after the first render, and the first render is what starts the fetch.
+
+**What it costs:** A viewport between 768px and about 900px gets the wide layout,
+where the sidebar takes 360px and leaves the map about 400 — narrower than the map
+gets on a phone. The layout is correct there but the map is cramped, and a second
+breakpoint would fix it.
+
+**Where:** `web/src/layout.ts`, `web/src/App.tsx`.
