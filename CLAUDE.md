@@ -256,18 +256,37 @@ dotnet test
 cd web && npm run dev
 ```
 
-## Decisions that must be documented in code
+## Decisions on record
 
-Each of the following is a deliberate choice with a viable alternative.
-Wherever one appears, leave a comment or an entry in `DECISIONS.md` stating
-the reasoning:
+An index of `DECISIONS.md`, which holds the reasoning, the rejected alternative and the cost
+for each of these. Read the entry itself before changing anything a line below covers; the
+line here is a pointer, not the decision. Add a line here whenever an entry is added there.
 
-- Minimal APIs rather than controllers.
-- `IEntityTypeConfiguration<T>` rather than data annotations.
-- Testcontainers rather than an in-memory provider or a shared test database.
-- `geometry` rather than `geography`.
-- Output caching on the boundaries endpoint, and what invalidates it.
-- No EF Core reference in the domain project.
-- Leaflet + PostGIS over Google data-driven styling, and what that choice costs.
-- `ST_PointOnSurface` rather than `ST_Centroid` for label placement.
-- Coverage and confidence as two separate fields.
+1. Minimal APIs rather than MVC controllers
+2. `IEntityTypeConfiguration<T>` rather than data annotations
+3. `geometry` rather than `geography`
+4. No EF Core reference in the Domain project
+5. `ST_PointOnSurface` rather than `ST_Centroid` for label placement
+6. Coverage and confidence as two separate fields
+7. No repository pattern over `DbContext`
+8. PostGIS extension enabled by migration, never by hand
+9. Migrations applied at startup in Development only
+10. `imresamu/postgis` image rather than `postgis/postgis`
+11. One stored copy of the database password, in user secrets
+    11a. The container healthcheck authenticates by service name, not loopback
+12. Seed data committed and simplified, not Git LFS
+13. Testcontainers rather than an in-memory provider
+14. Output caching on the boundaries endpoint
+    14a. `ST_Simplify` declared to EF Core as a database function
+    14b. Simplification tolerances chosen in pixels, not in metres
+15. Leaflet and PostGIS rather than Google data-driven styling
+16. Boundaries sourced pre-simplified from an N03 derivative, not from MLIT
+17. The boundary file is joined to prefectures by Japanese name
+18. The automated pass writes a draft; the committed seed is hand-curated
+19. Source citations are per field, not per record
+20. No basemap tile layer under the choropleth
+21. A transparent wide stroke for tap targets, on a second layer
+22. Prefecture names labelled from a zoom threshold, not always
+23. Two requests for the whole dataset, and no use of `/api/prefectures/{id}`
+24. A single client-side retry on a 5xx, and the server bug behind it
+25. One breakpoint, read in one place
