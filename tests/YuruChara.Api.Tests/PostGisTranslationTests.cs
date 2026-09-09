@@ -27,7 +27,7 @@ public class PostGisTranslationTests(PostGisApiFixture fixture)
         await using var db = fixture.CreateDbContext();
 
         var sql = db.Prefectures
-            .Where(prefecture => prefecture.Boundary.Contains(prefecture.LabelPoint!))
+            .Where(prefecture => prefecture.Boundary.Contains(prefecture.LabelPoint))
             .Select(prefecture => prefecture.Id)
             .ToQueryString();
 
