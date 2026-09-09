@@ -42,9 +42,9 @@ export function LeafletPrefectureMap(props: PrefectureMapProps) {
       // Panning is allowed out to the real extent of the geometry, so Tokyo's far
       // islands are reachable even though nothing starts there.
       maxBounds={PANNABLE_BOUNDS}
-      maxBoundsViscosity={0.9}
-      minZoom={3}
-      maxZoom={10}
+      maxBoundsViscosity={MAX_BOUNDS_VISCOSITY}
+      minZoom={MIN_ZOOM}
+      maxZoom={MAX_ZOOM}
       // The footer carries the MLIT attribution in full, including the
       // processing declaration its terms require. That text is far longer than a
       // corner control, so Leaflet's own attribution control is turned off rather
@@ -90,6 +90,46 @@ const HIT_STROKE_WEIGHT = 20;
 
 /** Selection outline. Warm orange, so it cannot be read as a coverage state. */
 const SELECTED_STROKE = '#c2410c';
+
+/**
+ * How far out and in the visitor may zoom.
+ *
+ * The lower bound stops the map reaching a state where Japan is a few pixels
+ * across and nothing can be tapped. The upper bound is past any detail this data
+ * holds: at `low` the geometry is simplified to 0.02°, roughly 1.8 km, so
+ * magnifying further only shows that the coastline has become straight lines.
+ * See DetailLevel.cs.
+ */
+const MIN_ZOOM = 3;
+const MAX_ZOOM = 10;
+
+/**
+ * How firmly the map resists a drag past {@link PANNABLE_BOUNDS}. 0 lets it move
+ * freely and spring back on release; 1 is a hard edge the drag cannot cross.
+ * Just under 1 leaves the edge slightly soft, so a drag there still moves the map
+ * a little rather than appearing to be ignored.
+ */
+const MAX_BOUNDS_VISCOSITY = 0.9;
+
+/**
+ * Margin kept around a selected prefecture when the map pans to it, in pixels,
+ * so it does not end up against an edge. `obscuredBottomPx` is added to the
+ * bottom, which is what keeps a selection out from under the bottom sheet.
+ */
+const SELECTION_PADDING = 24;
+
+/**
+ * Fill opacity and stroke weight, unselected and selected.
+ *
+ * A selection changes three things at once — the stroke colour to
+ * {@link SELECTED_STROKE}, the stroke weight, and the fill to full opacity — so
+ * it stays visible to a reader who cannot separate that orange from the three
+ * coverage fills.
+ */
+const FILL_OPACITY_DEFAULT = 0.85;
+const FILL_OPACITY_SELECTED = 1;
+const STROKE_WEIGHT_DEFAULT = 0.6;
+const STROKE_WEIGHT_SELECTED = 2.5;
 
 function PrefectureLayers({
   collection,
@@ -293,8 +333,8 @@ function PrefectureLayers({
     // that tapped it. The bottom padding is the strip the sheet covers, which is
     // why a selection made behind the sheet rises above it.
     map.panInside(point, {
-      paddingTopLeft: [24, 24],
-      paddingBottomRight: [24, obscuredBottomPx + 24]
+      paddingTopLeft: [SELECTION_PADDING, SELECTION_PADDING],
+      paddingBottomRight: [SELECTION_PADDING, obscuredBottomPx + SELECTION_PADDING]
     });
   }, [map, selectedJisCode, obscuredBottomPx]);
 
@@ -335,9 +375,9 @@ function shapeStyle(coverage: Coverage, selected: boolean): L.PathOptions {
 
   return {
     fillColor: style.fill,
-    fillOpacity: selected ? 1 : 0.85,
+    fillOpacity: selected ? FILL_OPACITY_SELECTED : FILL_OPACITY_DEFAULT,
     color: selected ? SELECTED_STROKE : style.stroke,
-    weight: selected ? 2.5 : 0.6,
+    weight: selected ? STROKE_WEIGHT_SELECTED : STROKE_WEIGHT_DEFAULT,
     opacity: 1,
     lineJoin: 'round'
   };
