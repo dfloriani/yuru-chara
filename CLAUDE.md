@@ -104,8 +104,9 @@ because:
 
 - It moves all spatial work off our backend. PostGIS is the point of this
   project, not incidental to it.
-- Google's terms don't permit storing or caching their geometry, so there's
-  no hedging — it's one or the other.
+- Google's terms don't permit storing or caching their geometry, so this
+  project can't use Google's boundaries and keep its own copy at the same
+  time. It has to be one or the other.
 - It requires a billing account, an API key, and a vector Map ID.
 - It keys our data on Google Place IDs rather than JIS prefecture codes,
   which are open and are what every Japanese dataset uses.

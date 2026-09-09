@@ -17,12 +17,12 @@ name: yuruchara
 
 services:
   db:
-    # The postgis/postgis images named in CLAUDE.md are published for linux/amd64
-    # only, so `docker compose up` fails on arm64 with "no matching manifest for
+    # The canonical postgis/postgis images are published for linux/amd64 only, so
+    # `docker compose up` fails on arm64 with "no matching manifest for
     # linux/arm64/v8". imresamu/postgis is built from the same docker-postgis
     # sources by a maintainer of that repository and publishes both amd64 and
-    # arm64. Change this back to postgis/postgis:17-3.5 if this project is only
-    # ever built on amd64.
+    # arm64. See DECISIONS.md 10, which records what this costs and when to
+    # change back.
     image: imresamu/postgis:17-3.5
     container_name: yuruchara-db
     restart: unless-stopped

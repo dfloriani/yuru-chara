@@ -14,19 +14,23 @@ namespace YuruChara.Api.Prefectures;
 /// a 390-pixel phone, which is where these two values come from.
 /// </para>
 /// <para>
-/// Measured on the committed geometry, over all 47 prefectures:
+/// Measured on the committed geometry, over all 47 prefectures. The polygon
+/// figures are <c>ST_NumGeometries</c> summed over the 47 rows, which is what
+/// <c>PostGisTranslationTests</c> asserts; the vertex figures are counted from
+/// the serialised GeoJSON, because no vertex-counting function is reachable from
+/// LINQ here — see that test for why.
 /// </para>
 /// <list type="table">
-///   <listheader><term>Level</term><description>tolerance / vertices / polygon rings</description></listheader>
+///   <listheader><term>Level</term><description>tolerance / vertices / polygons</description></listheader>
 ///   <item><term>raw</term><description>— / 61,033 / 736</description></item>
 ///   <item><term>high</term><description>0.005° (~450 m) / 15,197 / 555</description></item>
 ///   <item><term>low</term><description>0.02° (~1.8 km) / 3,712 / 191</description></item>
 /// </list>
 /// <para>
-/// The falling ring count is the point of <c>low</c>: <c>ST_Simplify</c> drops
-/// rings that collapse, so the small islands go and Nagasaki and Okinawa stop
-/// costing what they cost. That is a deliberate loss, not a defect — at phone
-/// zoom those islands are smaller than a pixel.
+/// The falling polygon count is the point of <c>low</c>: a ring that collapses
+/// under <c>ST_Simplify</c> takes its whole polygon with it, so the small islands
+/// go and Nagasaki and Okinawa stop costing what they cost. That is a deliberate
+/// loss, not a defect — at phone zoom those islands are smaller than a pixel.
 /// </para>
 /// </remarks>
 public enum DetailLevel

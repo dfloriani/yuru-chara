@@ -11,8 +11,11 @@
   /* The sea. There is no tile layer under the polygons — see the note in
      LeafletPrefectureMap.tsx — so this colour is the whole background. */
   background: var(--ground);
-  /* Leaflet's default is a cursor grab affordance on a map that can be dragged.
-     Kept, because this one can. */
+  /* Leaflet gives the container tabindex="0" so it can be focused, and a browser
+     draws its own focus ring on a focused element. This removes that ring, so a
+     mouse click on the map leaves no outline behind. A keyboard user still gets
+     one: the :focus-visible rule in index.css has the same specificity and is
+     applied later in the bundle, so it wins whenever it matches. */
   outline: none;
 }
 
@@ -32,7 +35,8 @@
  */
 .leaflet-map__label {
   /* Labels must never take a tap that was aimed at a prefecture. The marker is
-     created non-interactive as well; this is the belt to that pair of braces. */
+     created with interactive: false as well. This rule is a second, independent
+     guarantee of the same thing. */
   pointer-events: none;
 }
 

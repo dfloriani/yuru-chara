@@ -108,19 +108,20 @@ public class PrefectureBoundariesTests(PostGisApiFixture fixture)
     }
 
     /// <summary>
-    /// Low detail drops whole rings, which is how it gets small: ST_Simplify removes
-    /// a ring that collapses rather than keeping a degenerate one. That is the
-    /// behaviour ST_SimplifyPreserveTopology would not have, and the reason it is not
-    /// used here. See PostGis.Simplify.
+    /// Low detail drops whole polygons, which is how it gets small: ST_Simplify
+    /// removes a ring that collapses rather than keeping a degenerate one, and a
+    /// polygon whose outer ring goes is removed with it. That is the behaviour
+    /// ST_SimplifyPreserveTopology would not have, and the reason it is not used
+    /// here. See PostGis.Simplify.
     /// </summary>
     [Fact]
     public async Task LowDetail_DropsTheSmallIslands()
     {
-        var highRings = await CountPolygonsAsync("high");
-        var lowRings = await CountPolygonsAsync("low");
+        var highPolygons = await CountPolygonsAsync("high");
+        var lowPolygons = await CountPolygonsAsync("low");
 
-        Assert.True(lowRings < highRings,
-            $"Expected low detail to contain fewer polygons than high. low={lowRings}, high={highRings}.");
+        Assert.True(lowPolygons < highPolygons,
+            $"Expected low detail to contain fewer polygons than high. low={lowPolygons}, high={highPolygons}.");
     }
 
     [Fact]

@@ -30,7 +30,11 @@ public class Mascot
 
     public int? DebutYear { get; set; }
 
-    /// <summary>Prefectural government, tourism board, and so on.</summary>
+    /// <summary>
+    /// The body that owns the mascot. In the committed seed this is a prefectural
+    /// government, a named department within one such as 熊本県 知事公室国際・くまモン局くまモン課,
+    /// or a prefectural tourism federation such as 公益社団法人島根県観光連盟.
+    /// </summary>
     public string? OwningBody { get; set; }
 
     public Uri? OfficialUrl { get; set; }
