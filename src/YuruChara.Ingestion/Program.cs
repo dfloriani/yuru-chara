@@ -5,7 +5,7 @@ using YuruChara.Infrastructure;
 using YuruChara.Ingestion.Seeding;
 using YuruChara.Ingestion.Wikidata;
 
-// Seed-building CLI. Two commands, one per half of Checkpoint 2:
+// Seed-building CLI. Two commands:
 //
 //   wikidata  Runs the committed SPARQL query and writes a DRAFT seed file to
 //             data/raw/ (gitignored), plus a coverage report. It never writes
@@ -88,7 +88,7 @@ async Task<int> RunWikidataPassAsync(CancellationToken cancellationToken)
     // WDQS requires a descriptive User-Agent and throttles or blocks requests that
     // do not send one. https://foundation.wikimedia.org/wiki/Policy:User-Agent_policy
     http.DefaultRequestHeaders.UserAgent.ParseAdd(
-        "YuruCharaMap/0.1 (https://github.com/dfloriani/yuru_chara; educational project)");
+        "YuruCharaMap/0.1 (https://github.com/dfloriani/yuru-chara; educational project)");
 
     var retrievedOn = DateOnly.FromDateTime(DateTime.UtcNow);
     Console.WriteLine($"Querying Wikidata Query Service ({retrievedOn:yyyy-MM-dd})...");
