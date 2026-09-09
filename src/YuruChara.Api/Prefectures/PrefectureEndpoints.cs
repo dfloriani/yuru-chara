@@ -15,6 +15,18 @@ public static class PrefectureEndpoints
     /// <summary>Output-cache policy for the boundaries endpoint. Defined in Program.cs.</summary>
     public const string BoundariesCachePolicy = "prefecture-boundaries";
 
+    /// <summary>
+    /// Output-cache tag the boundaries policy applies to every entry it stores.
+    /// <para>
+    /// A constant rather than a literal at each site, because the name has to
+    /// match in three places that never compile together as one unit: the policy
+    /// in Program.cs that applies it, any future caller of
+    /// <c>IOutputCacheStore.EvictByTagAsync</c>, and the eviction tests. A typo in
+    /// any one of them evicts nothing and reports no error. See DECISIONS.md 14.
+    /// </para>
+    /// </summary>
+    public const string BoundariesCacheTag = "prefectures";
+
     public static RouteGroupBuilder MapPrefectureEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes.MapGroup("/api/prefectures");
@@ -225,7 +237,7 @@ public static class PrefectureEndpoints
         // using the && operator, which the GIST index on Boundary answers, followed by
         // an exact test on only the rows that survive. So it reads one or two polygons
         // in full instead of doing exact point-in-polygon against all 47 — which at
-        // full resolution means all 736 rings.
+        // full resolution means all 736 polygons.
         //
         // FirstOrDefault, not Single: a point on the shared edge of two prefectures is
         // contained by neither, because ST_Contains excludes the boundary itself, and

@@ -47,9 +47,10 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     // Teaches System.Text.Json to write NetTopologySuite types as GeoJSON:
     // Geometry, Feature, FeatureCollection and AttributesTable. Without it the
-    // boundaries endpoint would serialise the .NET shape of a MultiPolygon —
-    // Shell, Holes, Envelope, IsValid and so on — instead of GeoJSON, and this
-    // project would have to write its own GeoJSON writer.
+    // boundaries endpoint would serialise the .NET object model of a MultiPolygon
+    // — its Shell, Holes, Envelope, IsValid, IsSimple, Area and Length members —
+    // instead of GeoJSON, and this project would have to write its own GeoJSON
+    // writer.
     options.SerializerOptions.Converters.Add(new GeoJsonConverterFactory());
 
     // Enums as their names, not their numeric values. ImageLicenseStatus and
@@ -86,7 +87,7 @@ builder.Services.AddOutputCache(options =>
         // everyone — a phone asking for ?detail=low would get whatever a desktop
         // asked for a moment earlier.
         .SetVaryByQuery("detail")
-        .Tag("prefectures"));
+        .Tag(PrefectureEndpoints.BoundariesCacheTag));
 });
 
 var app = builder.Build();
@@ -119,9 +120,3 @@ app.MapPrefectureEndpoints();
 app.MapMascotEndpoints();
 
 app.Run();
-
-// Exposed so the integration tests can drive the real host through
-// WebApplicationFactory<Program>. Top-level statements generate this class as
-// internal, and the InternalsVisibleTo in the .csproj is what lets the test
-// project see it.
-public partial class Program;

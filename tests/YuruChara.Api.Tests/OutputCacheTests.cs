@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.DependencyInjection;
+using YuruChara.Api.Prefectures;
 using YuruChara.Api.Tests.TestSupport;
 
 namespace YuruChara.Api.Tests;
@@ -17,8 +18,8 @@ namespace YuruChara.Api.Tests;
 /// <para>
 /// These tests evict by tag before measuring, because they need to start from a
 /// known-cold cache and every other test class in this assembly warms it. That is
-/// also the only exercise the <c>"prefectures"</c> tag gets — see DECISIONS.md 14 for
-/// why it exists.
+/// also the only exercise <see cref="PrefectureEndpoints.BoundariesCacheTag"/> gets
+/// — see DECISIONS.md 14 for why it exists.
 /// </para>
 /// </summary>
 public class OutputCacheTests(PostGisApiFixture fixture)
@@ -112,6 +113,7 @@ public class OutputCacheTests(PostGisApiFixture fixture)
     {
         var store = fixture.Factory.Services.GetRequiredService<IOutputCacheStore>();
 
-        await store.EvictByTagAsync("prefectures", TestContext.Current.CancellationToken);
+        await store.EvictByTagAsync(
+            PrefectureEndpoints.BoundariesCacheTag, TestContext.Current.CancellationToken);
     }
 }
