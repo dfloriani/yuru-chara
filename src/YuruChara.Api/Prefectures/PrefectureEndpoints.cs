@@ -35,12 +35,17 @@ public static class PrefectureEndpoints
             .CacheOutput(BoundariesCachePolicy)
             .WithName("GetPrefectureBoundaries");
 
-        // Registered before "/{id:int}" for readability only. There is no ambiguity
-        // to resolve: the :int constraint means "at" cannot match that route, which
-        // is as much the reason for the constraint as validation is.
+        // A literal segment outranks a parameter segment when both templates match a
+        // request, so "/at" is chosen over "/{id:int}" independently of the constraint
+        // and of the order these two lines appear in. Registering it first is for
+        // readability.
         group.MapGet("/at", GetPrefectureAtAsync)
             .WithName("GetPrefectureAtPoint");
 
+        // The :int constraint decides what a segment that is neither "at" nor a number
+        // gets: it matches no route and returns 404, rather than binding to the int
+        // parameter and failing as a 400 about the binding. PrefectureDetailTests
+        // pins that with NonIntegerId_Returns404.
         group.MapGet("/{id:int}", GetPrefectureAsync)
             .WithName("GetPrefecture");
 

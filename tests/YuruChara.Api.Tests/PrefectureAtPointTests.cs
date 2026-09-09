@@ -109,19 +109,6 @@ public class PrefectureAtPointTests(PostGisApiFixture fixture)
     }
 
     /// <summary>
-    /// The route with the <c>:int</c> constraint must not swallow <c>/at</c>. Without
-    /// the constraint, "at" would be a candidate for <c>/{id}</c> and the failure
-    /// would be a confusing 400 about binding rather than a lookup.
-    /// </summary>
-    [Fact]
-    public async Task AtRoute_IsNotCapturedByTheIdRoute()
-    {
-        using var response = await fixture.GetAsync("/api/prefectures/at?lat=35.681236&lng=139.767125");
-
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-    }
-
-    /// <summary>
     /// The lookup has to use the GIST index rather than scanning all 47 polygons. The
     /// index is what makes ST_Contains cheap, and it is invisible in the response —
     /// so the only way to test it is to ask the database how it ran the query.

@@ -106,6 +106,21 @@ public class PrefectureDetailTests(PostGisApiFixture fixture)
     }
 
     /// <summary>
+    /// The <c>:int</c> route constraint, which is the only thing this request's status
+    /// code depends on. With the constraint the segment matches no route and the answer
+    /// is 404. Without it the segment binds to the <c>int id</c> parameter, binding
+    /// fails, and the answer is 400 — a message about the framework rather than about
+    /// the prefecture that does not exist.
+    /// </summary>
+    [Fact]
+    public async Task NonIntegerId_Returns404()
+    {
+        using var response = await fixture.GetAsync("/api/prefectures/notanumber");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    /// <summary>
     /// All 47 JIS codes resolve. This is coverage rather than behaviour, and it is
     /// worth having because a gap would otherwise only appear as a blank detail panel
     /// for one prefecture.
