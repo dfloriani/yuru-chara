@@ -5,8 +5,8 @@
  */
 .attribution {
   flex: none;
-  padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
-  font-size: 10px;
+  padding: 0.375rem 0.75rem calc(0.375rem + env(safe-area-inset-bottom));
+  font-size: 0.625rem;
   line-height: 1.4;
   color: var(--text-muted);
   background: var(--surface-sunken);
@@ -28,12 +28,12 @@
 .attribution__details > summary {
   /* A real tap target, because on a narrow viewport this is the control that
      reveals the English text. */
-  min-height: 28px;
-  line-height: 28px;
+  min-height: 1.75rem;
+  line-height: 1.75rem;
   cursor: pointer;
   color: var(--text-muted);
 }
 
 .attribution__details p {
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
 }

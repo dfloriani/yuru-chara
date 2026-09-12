@@ -980,7 +980,7 @@ own terms — these are idempotent GETs of static data — but it is not the fix
 
 ## 25. One breakpoint, read in one place
 
-**Chosen:** `WIDE_VIEWPORT_QUERY` in `web/src/layout.ts` is `(min-width: 768px)`,
+**Chosen:** `WIDE_VIEWPORT_QUERY` in `web/src/layout.ts` is `(min-width: 48rem)`,
 read by `App.tsx` and by nothing else. Three things hang off it: the `?detail=`
 level requested from the boundaries endpoint, whether the detail view is a bottom
 sheet or a side panel, and whether the map and the list are shown together or one
@@ -1002,7 +1002,8 @@ where the sidebar takes 360px and leaves the map about 400 — narrower than the
 gets on a phone. The layout is correct there but the map is cramped, and a second
 breakpoint would fix it.
 
-**Where:** `web/src/layout.ts`, `web/src/App.tsx`.
+**Where:** `web/src/layout.ts`, `web/src/App.tsx`, `web/src/app.css`,
+`web/src/components/legend.css`, `web/src/map/leaflet-map.css`.
 
 ---
 

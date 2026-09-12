@@ -12,19 +12,20 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  padding: 10px 12px 8px;
+  padding: 0.625rem 0.75rem 0.5rem;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
 
 .prefecture-list__input {
   width: 100%;
-  /* 44px is the minimum comfortable touch target, and a 16px font is what stops
-     iOS Safari zooming the page when the field takes focus. */
-  min-height: 44px;
-  padding: 0 12px;
+  /* 2.75rem (44px at the default font size) is the minimum comfortable touch
+     target. iOS Safari zooms the page when a focused field's text is smaller than
+     16px, and 1rem is 16px at the default font size. */
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
   font: inherit;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--text);
   background: var(--surface-sunken);
   border: 1px solid var(--border-strong);
@@ -32,13 +33,13 @@
 }
 
 .prefecture-list__count {
-  margin: 6px 2px 0;
-  font-size: 12px;
+  margin: 0.375rem 0.125rem 0;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .prefecture-list__empty {
-  margin: 24px 16px;
+  margin: 1.5rem 1rem;
   color: var(--text-muted);
 }
 
@@ -63,8 +64,8 @@
   position: sticky;
   top: 0;
   margin: 0;
-  padding: 6px 12px;
-  font-size: 11px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -78,10 +79,10 @@
   /* Two columns, two rows: the names and the coverage badge on the first line,
      the mascot spanning the full width underneath. */
   grid-template-columns: 1fr auto;
-  gap: 2px 8px;
+  gap: 0.125rem 0.5rem;
   width: 100%;
-  min-height: 56px;
-  padding: 8px 12px;
+  min-height: 3.5rem;
+  padding: 0.5rem 0.75rem;
   text-align: left;
   background: none;
   border: 0;
@@ -93,13 +94,13 @@
   background: var(--surface-sunken);
   /* Matches the map's selection outline, so the two views agree about which
      prefecture is the current one. */
-  box-shadow: inset 3px 0 0 var(--selection);
+  box-shadow: inset 0.1875rem 0 0 var(--selection);
 }
 
 .prefecture-row__names {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 0.375rem;
   min-width: 0;
 }
 
@@ -108,23 +109,24 @@
 }
 
 .prefecture-row__name-ja {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--text-muted);
 }
 
 .prefecture-row__badge {
   align-self: center;
-  padding: 1px 7px;
-  font-size: 11px;
+  padding: 0.0625rem 0.4375rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   white-space: nowrap;
   border: 1px solid;
-  border-radius: 999px;
+  /* Any radius larger than half the badge's height gives fully round ends. */
+  border-radius: 999rem;
 }
 
 .prefecture-row__mascot {
   grid-column: 1 / -1;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.35;
   color: var(--text);
 }

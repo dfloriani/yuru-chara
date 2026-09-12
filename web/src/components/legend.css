@@ -9,11 +9,11 @@
  */
 .legend {
   position: absolute;
-  left: 8px;
-  top: 8px;
+  left: 0.5rem;
+  top: 0.5rem;
   z-index: 500; /* Above Leaflet's overlay pane (400), below its popups (700). */
-  max-width: 232px;
-  padding: 8px 10px;
+  max-width: 14.5rem;
+  padding: 0.5rem 0.625rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
@@ -23,8 +23,8 @@
 }
 
 .legend__title {
-  margin: 0 0 4px;
-  font-size: 11px;
+  margin: 0 0 0.25rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -39,18 +39,18 @@
 
 .legend__item {
   display: grid;
-  grid-template-columns: 12px 1fr auto;
-  gap: 6px;
+  grid-template-columns: 0.75rem 1fr auto;
+  gap: 0.375rem;
   align-items: center;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.6;
 }
 
 .legend__swatch {
-  width: 12px;
-  height: 12px;
+  width: 0.75rem;
+  height: 0.75rem;
   border: 1px solid;
-  border-radius: 3px;
+  border-radius: 0.1875rem;
 }
 
 .legend__count {
@@ -59,16 +59,21 @@
 }
 
 .legend__note {
-  margin: 6px 0 0;
-  font-size: 11px;
+  margin: 0.375rem 0 0;
+  font-size: 0.6875rem;
   line-height: 1.35;
   color: var(--text-muted);
 }
 
-/* The second sentence only. The first one is what tells a visitor that grey is an
-   answer rather than a failure, so it is shown at every width. */
-@media (max-width: 767px) {
+/* The second sentence is hidden on narrow viewports and shown on wide ones. The
+   first one is what tells a visitor that grey is an answer rather than a
+   failure, so it is shown at every width. */
+.legend__note-detail {
+  display: none;
+}
+
+@media (min-width: 48rem) {
   .legend__note-detail {
-    display: none;
+    display: inline;
   }
 }

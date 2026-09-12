@@ -45,20 +45,20 @@
   inset: 0 auto auto 0;
   transform: translate(-50%, -50%);
   white-space: nowrap;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   line-height: 1;
   color: var(--text);
   /* A halo rather than a background box. The label sits on top of a filled
      polygon whose colour is data, and a box would hide some of it. */
   paint-order: stroke fill;
-  -webkit-text-stroke: 3px var(--ground);
+  -webkit-text-stroke: 0.1875rem var(--ground);
 }
 
 /* Wider viewports have room for a legible label, and Japan fits at a zoom where
    all 47 are drawn from the start. */
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .leaflet-map__label-text {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }

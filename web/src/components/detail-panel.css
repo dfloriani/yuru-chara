@@ -12,14 +12,17 @@
  * the map pans a selected prefecture out of this strip, and it can only do that
  * if there is a strip left to pan into. Height is in dvh, not vh, so the sheet
  * does not sit under a mobile browser's toolbar when that toolbar is showing.
+ *
+ * The 20rem cap is also BOTTOM_SHEET_MAX_HEIGHT_REM in layout.ts, which the map
+ * uses to keep a selected prefecture out from under the sheet.
  */
 .detail--sheet {
   position: absolute;
   inset: auto 0 0;
   z-index: 600; /* Over the legend (500) and Leaflet's overlays. */
-  max-height: min(45dvh, 320px);
+  max-height: min(45dvh, 20rem);
   border-top: 1px solid var(--border-strong);
-  border-radius: 14px 14px 0 0;
+  border-radius: 0.875rem 0.875rem 0 0;
   box-shadow: var(--shadow-sheet);
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -40,8 +43,8 @@
 .detail__header {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  padding: 10px 12px 8px;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem 0.5rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -54,31 +57,32 @@
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
   margin: 0;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.2;
 }
 
 .detail__title-ja {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--text-muted);
 }
 
 .detail__subtitle {
-  margin: 2px 0 0;
-  font-size: 12px;
+  margin: 0.125rem 0 0;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .detail__close {
   flex: none;
-  /* 44px square: the minimum comfortable touch target, and the reason this is a
-     button with a padded hidden label rather than a bare glyph. */
-  width: 44px;
-  height: 44px;
-  font-size: 16px;
+  /* 2.75rem square (44px at the default font size): the minimum comfortable
+     touch target, and the reason this is a button with a padded hidden label
+     rather than a bare glyph. */
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1rem;
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -90,29 +94,29 @@
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 10px 12px 16px;
+  padding: 0.625rem 0.75rem 1rem;
 }
 
 .detail__coverage {
-  margin: 0 0 10px;
-  font-size: 12px;
+  margin: 0 0 0.625rem;
+  font-size: 0.75rem;
   font-weight: 600;
 }
 
 .detail__empty-headline {
-  margin: 0 0 6px;
-  font-size: 16px;
+  margin: 0 0 0.375rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
 .detail__empty p {
-  margin: 0 0 8px;
-  font-size: 13px;
+  margin: 0 0 0.5rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
 }
 
 .mascot {
-  padding: 10px 0;
+  padding: 0.625rem 0;
   border-top: 1px solid var(--border);
 }
 
@@ -125,17 +129,17 @@
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
   margin: 0;
 }
 
 .mascot__name-ja {
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.25;
 }
 
 .mascot__name-romaji {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   color: var(--text-muted);
 }
@@ -143,16 +147,17 @@
 .mascot__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin: 8px 0;
+  gap: 0.375rem;
+  margin: 0.5rem 0;
 }
 
 .mascot__tag {
-  padding: 2px 8px;
-  font-size: 11px;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   border: 1px solid var(--border-strong);
-  border-radius: 999px;
+  /* Any radius larger than half the tag's height gives fully round ends. */
+  border-radius: 999rem;
   color: var(--text-muted);
 }
 
@@ -165,10 +170,10 @@
 
 .mascot__facts {
   display: grid;
-  grid-template-columns: 72px 1fr;
-  gap: 2px 10px;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.125rem 0.625rem;
   margin: 0;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .mascot__facts dt {
@@ -185,15 +190,15 @@
 }
 
 .mascot__link {
-  margin: 10px 0 0;
-  font-size: 13px;
+  margin: 0.625rem 0 0;
+  font-size: 0.8125rem;
 }
 
 .mascot__link a {
   /* A link in a sheet is a tap target like any other. */
   display: inline-block;
-  min-height: 32px;
-  line-height: 32px;
+  min-height: 2rem;
+  line-height: 2rem;
 }
 
 .mascot__link-host {
@@ -201,8 +206,8 @@
 }
 
 .mascot__licence {
-  margin: 8px 0 0;
-  font-size: 12px;
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
@@ -210,28 +215,28 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 10px;
+  font-size: 0.625rem;
 }
 
 .mascot__sources {
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .mascot__sources summary {
-  min-height: 32px;
-  line-height: 32px;
+  min-height: 2rem;
+  line-height: 2rem;
   cursor: pointer;
 }
 
 .mascot__sources ul {
-  margin: 0 0 0 4px;
-  padding-left: 14px;
+  margin: 0 0 0 0.25rem;
+  padding-left: 0.875rem;
 }
 
 .mascot__sources li {
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
   overflow-wrap: anywhere;
 }
 
