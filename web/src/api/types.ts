@@ -17,14 +17,7 @@ import type { Feature, FeatureCollection, MultiPolygon } from 'geojson';
 
 /** The eight conventional regions. ASCII names, as the C# enum declares them. */
 export type Region =
-  | 'Hokkaido'
-  | 'Tohoku'
-  | 'Kanto'
-  | 'Chubu'
-  | 'Kansai'
-  | 'Chugoku'
-  | 'Shikoku'
-  | 'Kyushu';
+  'Hokkaido' | 'Tohoku' | 'Kanto' | 'Chubu' | 'Kansai' | 'Chugoku' | 'Shikoku' | 'Kyushu';
 
 /**
  * Confidence in a mascot record. Separate from whether a record exists at all —

@@ -19,7 +19,10 @@ export function Legend({ counts }: { readonly counts: Readonly<Record<Coverage, 
               className="legend__swatch"
               // Inline, from the same table the map draws from. A CSS class per
               // state would be a second place for the palette to live in.
-              style={{ background: COVERAGE[coverage].fill, borderColor: COVERAGE[coverage].stroke }}
+              style={{
+                background: COVERAGE[coverage].fill,
+                borderColor: COVERAGE[coverage].stroke
+              }}
               aria-hidden="true"
             />
             <span className="legend__label">{COVERAGE[coverage].label}</span>

@@ -46,7 +46,9 @@ export function buildEntries(
     }
   }
 
-  return collection.features.map((feature) => toEntry(feature, byPrefecture.get(feature.properties.jisCode) ?? []));
+  return collection.features.map((feature) =>
+    toEntry(feature, byPrefecture.get(feature.properties.jisCode) ?? [])
+  );
 }
 
 function toEntry(feature: PrefectureFeature, mascots: Mascot[]): PrefectureEntry {
@@ -57,7 +59,8 @@ function toEntry(feature: PrefectureFeature, mascots: Mascot[]): PrefectureEntry
   // arrives sorted by prefecture rather than within it.
   const sorted = [...mascots].sort(
     (left, right) =>
-      Number(right.isOfficial) - Number(left.isOfficial) || left.nameJa.localeCompare(right.nameJa, 'ja')
+      Number(right.isOfficial) - Number(left.isOfficial) ||
+      left.nameJa.localeCompare(right.nameJa, 'ja')
   );
 
   const searchable = [
@@ -68,7 +71,12 @@ function toEntry(feature: PrefectureFeature, mascots: Mascot[]): PrefectureEntry
     // Searching for "Kumamon" or for "pear" should find the prefecture, not just
     // the mascot. The list view is the primary interface on a phone, so it has to
     // answer the question the visitor actually has.
-    ...sorted.flatMap((mascot) => [mascot.nameJa, mascot.nameRomaji, mascot.motif, mascot.owningBody])
+    ...sorted.flatMap((mascot) => [
+      mascot.nameJa,
+      mascot.nameRomaji,
+      mascot.motif,
+      mascot.owningBody
+    ])
   ];
 
   return {
@@ -80,7 +88,10 @@ function toEntry(feature: PrefectureFeature, mascots: Mascot[]): PrefectureEntry
     regionLabel,
     mascots: sorted,
     coverage: coverageOf(sorted),
-    searchText: searchable.filter((value): value is string => value !== null).join(' ').toLowerCase()
+    searchText: searchable
+      .filter((value): value is string => value !== null)
+      .join(' ')
+      .toLowerCase()
   };
 }
 
@@ -92,8 +103,14 @@ function toEntry(feature: PrefectureFeature, mascots: Mascot[]): PrefectureEntry
  * "chara" should find "yuru-chara" and because a Japanese query has no spaces to
  * anchor a prefix to.
  */
-export function filterEntries(entries: readonly PrefectureEntry[], query: string): readonly PrefectureEntry[] {
-  const terms = query.toLowerCase().split(/\s+/).filter((term) => term.length > 0);
+export function filterEntries(
+  entries: readonly PrefectureEntry[],
+  query: string
+): readonly PrefectureEntry[] {
+  const terms = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((term) => term.length > 0);
 
   if (terms.length === 0) {
     return entries;
@@ -103,9 +120,11 @@ export function filterEntries(entries: readonly PrefectureEntry[], query: string
 }
 
 /** Entries grouped by region, in JIS code order — which is already north to south. */
-export function groupByRegion(
-  entries: readonly PrefectureEntry[]
-): readonly { readonly region: Region; readonly label: string; readonly entries: readonly PrefectureEntry[] }[] {
+export function groupByRegion(entries: readonly PrefectureEntry[]): readonly {
+  readonly region: Region;
+  readonly label: string;
+  readonly entries: readonly PrefectureEntry[];
+}[] {
   const groups: { region: Region; label: string; entries: PrefectureEntry[] }[] = [];
 
   for (const entry of entries) {

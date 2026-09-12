@@ -60,8 +60,8 @@ export function PrefectureList({
 
       {groups.length === 0 ? (
         <p className="prefecture-list__empty">
-          Nothing matches “{deferredQuery}”. Try a prefecture name, a mascot name, or a motif such as
-          “bear” or “pear”.
+          Nothing matches “{deferredQuery}”. Try a prefecture name, a mascot name, or a motif such
+          as “bear” or “pear”.
         </p>
       ) : (
         <ul className="prefecture-list__groups">
@@ -127,7 +127,9 @@ function PrefectureRow({
         {lead ? (
           <>
             <span lang="ja">{lead.nameJa}</span>
-            {lead.nameRomaji !== null && <span className="prefecture-row__romaji"> {lead.nameRomaji}</span>}
+            {lead.nameRomaji !== null && (
+              <span className="prefecture-row__romaji"> {lead.nameRomaji}</span>
+            )}
             {lead.motif !== null && <span className="prefecture-row__motif"> · {lead.motif}</span>}
             {/* Some prefectures have more than one recorded mascot. Saying how
                 many is more useful than silently showing the first. */}

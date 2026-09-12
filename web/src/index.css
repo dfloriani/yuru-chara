@@ -26,8 +26,9 @@
   /* Japanese names sit next to Latin ones everywhere in this app, so the stack
      names a Japanese face before the generic fallback. Without it a browser
      picks a CJK fallback that does not match the Latin text beside it. */
-  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue',
-    'Hiragino Kaku Gothic ProN', 'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
+  --font:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Hiragino Kaku Gothic ProN',
+    'Noto Sans JP', 'Yu Gothic', Meiryo, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {

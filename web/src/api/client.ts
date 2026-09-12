@@ -84,7 +84,10 @@ async function getWithOneRetry(url: string, signal: AbortSignal): Promise<Respon
  * that is a deliberate loss at phone zoom, where those islands are smaller than a
  * pixel. See DetailLevel.cs for how the two tolerances were sized.
  */
-export function fetchPrefectures(detail: DetailLevel, signal: AbortSignal): Promise<PrefectureCollection> {
+export function fetchPrefectures(
+  detail: DetailLevel,
+  signal: AbortSignal
+): Promise<PrefectureCollection> {
   return getJson<PrefectureCollection>(`/api/prefectures?detail=${detail}`, signal);
 }
 

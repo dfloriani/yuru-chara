@@ -103,11 +103,15 @@ function MascotCard({ mascot }: { readonly mascot: Mascot }) {
         <span className="mascot__name-ja" lang="ja">
           {mascot.nameJa}
         </span>
-        {mascot.nameRomaji !== null && <span className="mascot__name-romaji">{mascot.nameRomaji}</span>}
+        {mascot.nameRomaji !== null && (
+          <span className="mascot__name-romaji">{mascot.nameRomaji}</span>
+        )}
       </h3>
 
       <p className="mascot__tags">
-        <span className={`mascot__tag mascot__tag--${mascot.isOfficial ? 'official' : 'unofficial'}`}>
+        <span
+          className={`mascot__tag mascot__tag--${mascot.isOfficial ? 'official' : 'unofficial'}`}
+        >
           {mascot.isOfficial ? 'Official mascot' : 'Unofficial mascot'}
         </span>
         {/* Coverage and confidence are separate fields, and this is the
@@ -142,7 +146,8 @@ function MascotCard({ mascot }: { readonly mascot: Mascot }) {
           researched data rather than silence, is the whole reason
           ImageLicenseStatus exists. See CLAUDE.md, "Image licensing". */}
       <p className="mascot__licence">
-        <span className="mascot__licence-label">Image</span> {IMAGE_LICENCE_TEXT[mascot.imageLicenseStatus]}
+        <span className="mascot__licence-label">Image</span>{' '}
+        {IMAGE_LICENCE_TEXT[mascot.imageLicenseStatus]}
         {mascot.licenseNotes !== null && <> {mascot.licenseNotes}</>}
       </p>
 
@@ -182,7 +187,9 @@ function Fact({ label, value }: { readonly label: string; readonly value: string
   return (
     <>
       <dt>{label}</dt>
-      <dd className={value === null ? 'mascot__fact--missing' : undefined}>{value ?? 'Not recorded'}</dd>
+      <dd className={value === null ? 'mascot__fact--missing' : undefined}>
+        {value ?? 'Not recorded'}
+      </dd>
     </>
   );
 }
@@ -191,8 +198,10 @@ function Fact({ label, value }: { readonly label: string; readonly value: string
 const IMAGE_LICENCE_TEXT: Record<ImageLicenseStatus, string> = {
   Unknown: 'Licence not researched yet. No image is shown.',
   ApplicationRequired: 'The owning body requires a usage application. No image is shown.',
-  OfficialMaterialsPublished: 'The owning body publishes assets with terms. No image is shown here.',
-  CommonsFreeLicense: 'A freely licensed photograph exists on Wikimedia Commons. No image is shown here.',
+  OfficialMaterialsPublished:
+    'The owning body publishes assets with terms. No image is shown here.',
+  CommonsFreeLicense:
+    'A freely licensed photograph exists on Wikimedia Commons. No image is shown here.',
   NoReuseGranted: 'The terms forbid third-party reuse. No image is shown.'
 };
 

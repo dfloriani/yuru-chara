@@ -43,7 +43,10 @@ export function App() {
     [byJisCode]
   );
 
-  const counts = useMemo(() => countByCoverage(atlas.entries.map((entry) => entry.coverage)), [atlas.entries]);
+  const counts = useMemo(
+    () => countByCoverage(atlas.entries.map((entry) => entry.coverage)),
+    [atlas.entries]
+  );
 
   const selected = selectedJisCode === null ? null : (byJisCode.get(selectedJisCode) ?? null);
   const closeDetail = useCallback(() => setSelectedJisCode(null), []);
@@ -81,7 +84,9 @@ export function App() {
           </div>
         )}
 
-        {atlas.status === 'loading' && <p className="app__status">Loading Japan’s 47 prefectures…</p>}
+        {atlas.status === 'loading' && (
+          <p className="app__status">Loading Japan’s 47 prefectures…</p>
+        )}
 
         {atlas.status === 'ready' && atlas.collection && (
           <>

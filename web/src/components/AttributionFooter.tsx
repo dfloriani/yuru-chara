@@ -33,14 +33,14 @@ export function AttributionFooter({ expanded }: { readonly expanded: boolean }) 
         <summary>Sources and licensing, in English</summary>
         <p>
           Boundaries: National Land Numerical Information (Administrative Divisions), Ministry of
-          Land, Infrastructure, Transport and Tourism of Japan, processed by SmartNews Media Research
-          Institute and by this project (boundaries simplified). Not produced by, or endorsed by, the
-          Government of Japan.
+          Land, Infrastructure, Transport and Tourism of Japan, processed by SmartNews Media
+          Research Institute and by this project (boundaries simplified). Not produced by, or
+          endorsed by, the Government of Japan.
         </p>
         <p>
-          Mascot facts: Wikidata, and the owning bodies’ own sites for the hand-checked records. Each
-          mascot lists its own sources. No mascot images are used anywhere in this project — the
-          designs are copyrighted by the prefectures that own them.
+          Mascot facts: Wikidata, and the owning bodies’ own sites for the hand-checked records.
+          Each mascot lists its own sources. No mascot images are used anywhere in this project —
+          the designs are copyrighted by the prefectures that own them.
         </p>
       </details>
     </footer>
