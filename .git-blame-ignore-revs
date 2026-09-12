@@ -1,0 +1,5 @@
+# Commits that changed only layout. git blame skips them when blame.ignoreRevsFile
+# points at this file; GitHub reads it automatically.
+
+# style(web): format the source with Prettier
+0cf291cd85d9e2e86dbec334083219066958d24c
