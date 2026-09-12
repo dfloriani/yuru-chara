@@ -255,6 +255,9 @@ dotnet run --project src/YuruChara.Api
 dotnet ef migrations add <Name> --project src/YuruChara.Infrastructure
 dotnet test
 cd web && npm run dev
+cd web && npm run format                   # prettier --write, TypeScript and CSS
+cd web && npm run format:check             # prettier --check, fails on unformatted files
+cd web && npm run lint                     # eslint for TypeScript, then stylelint for CSS
 ```
 
 ## Decisions on record
@@ -291,3 +294,4 @@ line here is a pointer, not the decision. Add a line here whenever an entry is a
 23. Two requests for the whole dataset, and no use of `/api/prefectures/{id}`
 24. A single client-side retry on a 5xx, and the server bug behind it
 25. One breakpoint, read in one place
+26. Stylelint lints the stylesheets, not ESLint's CSS plugin

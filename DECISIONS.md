@@ -1003,3 +1003,33 @@ gets on a phone. The layout is correct there but the map is cramped, and a secon
 breakpoint would fix it.
 
 **Where:** `web/src/layout.ts`, `web/src/App.tsx`.
+
+---
+
+## 26. Stylelint lints the stylesheets, not ESLint's CSS plugin
+
+**Chosen:** Stylelint, with `stylelint-config-recommended`, lints the CSS in `web/`.
+ESLint lints the TypeScript. Prettier formats both.
+
+**Rejected:** `@eslint/css`, the ESLint team's plugin that makes ESLint read CSS
+files. It would make ESLint the one linter for both languages.
+
+**Why:** The stylesheets must use `rem` for font sizes, spacing, container widths
+and focus indicators, and `px` only for hairline borders. That rule is an
+accessibility requirement, so a linter checks it. Stylelint's
+`declaration-property-unit-allowed-list` takes a list of properties and the units
+each one allows, so it can check every part of the rule. The only unit rule in
+`@eslint/css`, `relative-font-units`, checks `font-size` and the `font` shorthand.
+It does not check `padding`, `margin`, `gap`, `width`, `max-height`, `outline` or
+`outline-offset`.
+
+`stylelint-config-recommended` enables only rules that find errors, for example an
+unknown property or a duplicate selector. Prettier decides the layout of the CSS,
+so no layout rules are needed.
+
+**What it costs:** A third tool in `web/`: one more development dependency, one
+more config file, and two lint commands where `@eslint/css` would need one.
+`npm run lint` runs both.
+
+**Where:** `web/stylelint.config.js`, `web/eslint.config.js`, `web/.prettierrc.json`,
+`web/package.json`.

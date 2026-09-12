@@ -18,9 +18,9 @@
     // docker-compose.yml schema validation and completion.
     "redhat.vscode-yaml",
 
-    // For /web. Vite's React template ships an ESLint config; Prettier keeps
-    // the TypeScript formatted the same way for everyone.
+    // For /web. The configs these three extensions read are in web/.
     "dbaeumer.vscode-eslint",
+    "stylelint.vscode-stylelint",
     "esbenp.prettier-vscode"
   ],
 
