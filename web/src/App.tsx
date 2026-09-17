@@ -17,7 +17,8 @@ import './app.css';
  * Three things hang off that one query, all of them decided here rather than
  * discovered further down: which detail level the boundaries are requested at,
  * whether the detail view is a bottom sheet or a side panel, and whether the map
- * and the list are stacked or side by side.
+ * and the list are stacked or side by side. It also sets whether the list's
+ * regions start open or closed.
  */
 export function App() {
   const wide = useMediaQuery(WIDE_VIEWPORT_QUERY);
@@ -181,6 +182,7 @@ export function App() {
                 entries={atlas.entries}
                 selectedJisCode={selectedJisCode}
                 onSelect={selectFromList}
+                defaultExpanded={wide}
               />
             </section>
 

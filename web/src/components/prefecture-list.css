@@ -1,16 +1,21 @@
+/*
+ * Narrow-first. On a narrow viewport the list is part of the page, and the page
+ * scrolls. On a wide viewport the list is a column of the fixed shell, and the
+ * groups scroll inside it (the media query at the end of this block).
+ */
 .prefecture-list {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 0; /* Lets the rows scroll inside a flex parent instead of growing it. */
   background: var(--surface);
 }
 
-/* The field stays put while the rows move under it. On a phone the list is long
-   and a search you have to scroll back up to reach is a search you stop using. */
+/* The field stays put while the rows move under it. The list is long, and a
+   search you have to scroll back up to reach is a search you stop using. On a
+   narrow viewport the page scrolls, so the field sticks below the sticky
+   header. */
 .prefecture-list__search {
   position: sticky;
-  top: 0;
+  top: var(--header-height);
   z-index: 1;
   padding: 0.625rem 0.75rem 0.5rem;
   background: var(--surface);
@@ -32,10 +37,33 @@
   border-radius: var(--radius);
 }
 
+.prefecture-list__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
 .prefecture-list__count {
-  margin: 0.375rem 0.125rem 0;
+  margin: 0 0.125rem;
   font-size: 0.75rem;
   color: var(--text-muted);
+}
+
+/* A border and a background, so it reads as a button. An underline would make it
+   read as a link, which goes to another place. */
+.prefecture-list__all {
+  flex: none;
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
 }
 
 .prefecture-list__empty {
@@ -51,27 +79,99 @@
 }
 
 .prefecture-list__groups {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  /* Momentum scrolling stops at the ends of this pane rather than dragging the
-     page behind it. */
-  overscroll-behavior: contain;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .prefecture-list__region {
-  position: sticky;
-  top: 0;
   margin: 0;
-  padding: 0.375rem 0.75rem;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  font-size: 0.875rem;
   background: var(--surface-sunken);
   border-bottom: 1px solid var(--border);
+}
+
+/* The same layout for the toggle button and for the plain label shown during a
+   search, so the heading does not move when a search starts. */
+.prefecture-list__region-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  /* 2.75rem (44px at the default font size): the whole heading row is the
+     target. */
+  min-height: 2.75rem;
+  padding: 0 0.75rem;
+  text-align: left;
+}
+
+.prefecture-list__toggle {
+  font: inherit;
+  color: var(--text);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.prefecture-list__region-name {
+  font-weight: 700;
+}
+
+.prefecture-list__region-count {
+  flex: 1;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.prefecture-list__toggle-word {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.prefecture-list__chevron {
+  flex: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  color: var(--accent);
+}
+
+.prefecture-list__toggle[aria-expanded='true'] .prefecture-list__chevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .prefecture-list__chevron {
+    transition: transform 150ms ease;
+  }
+}
+
+@media (min-width: 48rem) {
+  .prefecture-list {
+    height: 100%;
+    min-height: 0; /* Lets the rows scroll inside a flex parent instead of growing it. */
+  }
+
+  /* The shell does not scroll here, and nothing is above the list in its own
+     scroll area. */
+  .prefecture-list__search {
+    top: 0;
+  }
+
+  .prefecture-list__groups {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* Momentum scrolling stops at the ends of this pane rather than dragging the
+       page behind it. */
+    overscroll-behavior: contain;
+  }
+
+  /* The region stays named while its rows scroll under it. On a narrow viewport
+     the headings are not sticky: the sticky header and the sticky search field
+     already take the top of the screen. */
+  .prefecture-list__region {
+    position: sticky;
+    top: 0;
+  }
 }
 
 .prefecture-row {
