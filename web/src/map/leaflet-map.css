@@ -45,7 +45,10 @@
   inset: 0 auto auto 0;
   transform: translate(-50%, -50%);
   white-space: nowrap;
-  font-size: 0.6875rem;
+  /* The same size at every width. A smaller label overlaps fewer neighbours, so
+     more of the 47 are drawn. LeafletPrefectureMap.tsx measures this size once
+     and hides the labels that overlap. */
+  font-size: 0.625rem;
   font-weight: 600;
   line-height: 1;
   color: var(--text);
@@ -55,10 +58,33 @@
   -webkit-text-stroke: 0.1875rem var(--ground);
 }
 
-/* Wider viewports have room for a legible label, and Japan fits at a zoom where
-   all 47 are drawn from the start. */
-@media (min-width: 48rem) {
-  .leaflet-map__label-text {
-    font-size: 0.75rem;
-  }
+/* The + and − zoom buttons. Leaflet draws them 26px square (30px on a touch
+   screen), which is smaller than the 44px minimum target. The .leaflet-map prefix
+   makes these rules more specific than Leaflet's `.leaflet-touch .leaflet-bar a`. */
+.leaflet-map .leaflet-control-zoom {
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.leaflet-map .leaflet-control-zoom a {
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 1.25rem;
+  line-height: 2.75rem;
+  color: var(--text);
+  background: var(--surface);
+  border-bottom-color: var(--border);
+  border-radius: 0;
+}
+
+.leaflet-map .leaflet-control-zoom a:hover {
+  background: var(--surface-sunken);
+}
+
+/* Leaflet sets this class on a button at the minimum or the maximum zoom. */
+.leaflet-map .leaflet-control-zoom a.leaflet-disabled {
+  color: var(--text-muted);
+  background: var(--surface-sunken);
 }

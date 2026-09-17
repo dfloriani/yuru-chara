@@ -24,9 +24,11 @@ import { LeafletPrefectureMap } from './LeafletPrefectureMap';
  *    fill through the shared table in data/coverage.ts, so a replacement map
  *    cannot quietly draw a different palette from the legend.
  *
- * `zoom` is the one map-shaped idea in here. Every mapping library has it, and
- * label density has to be a function of it, so the threshold is passed rather
- * than hidden inside an implementation where a swap would lose it.
+ * One rule does not cross the seam as a prop, because it has no value to pass,
+ * and a replacement must keep it: prefecture name labels never overlap. A label
+ * that would overlap one already drawn is not drawn, the selected prefecture is
+ * always labelled, and larger prefectures are labelled before smaller ones. See
+ * DECISIONS.md 22.
  */
 export interface PrefectureMapProps {
   /** All 47 prefectures, as `GET /api/prefectures` returned them. */
@@ -40,9 +42,6 @@ export interface PrefectureMapProps {
 
   /** Called with a JIS code on tap, or with null when the background is tapped. */
   readonly onSelect: (jisCode: number | null) => void;
-
-  /** Zoom at or above which every prefecture is labelled. See layout.ts. */
-  readonly labelMinZoom: number;
 
   /**
    * Pixels at the bottom of the map that something else is covering — the bottom

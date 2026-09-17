@@ -6,7 +6,7 @@ import { PrefectureList } from './components/PrefectureList';
 import { COVERAGE_ORDER, type Coverage } from './data/coverage';
 import { useAtlas } from './data/useAtlas';
 import { useMediaQuery } from './hooks/useMediaQuery';
-import { bottomSheetHeightPx, LABEL_MIN_ZOOM, WIDE_VIEWPORT_QUERY } from './layout';
+import { bottomSheetHeightPx, WIDE_VIEWPORT_QUERY } from './layout';
 import { PrefectureMap } from './map/PrefectureMap';
 import './app.css';
 
@@ -102,7 +102,6 @@ export function App() {
                 coverageFor={coverageFor}
                 selectedJisCode={selectedJisCode}
                 onSelect={setSelectedJisCode}
-                labelMinZoom={LABEL_MIN_ZOOM}
                 // The map only needs to know about the sheet, which is the only
                 // thing that covers it. The wide layout puts the panel beside the
                 // map instead of over it.

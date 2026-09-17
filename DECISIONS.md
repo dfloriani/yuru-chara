@@ -681,21 +681,21 @@ cost:
 - A `Coverage` value per prefecture, not a colour. The implementation resolves it
   to a fill through the one table in `web/src/data/coverage.ts`, so a replacement
   map cannot draw a palette the legend disagrees with.
-- A zoom threshold for labels, and the pixel height of whatever is covering the
-  bottom of the map.
+- The pixel height of whatever is covering the bottom of the map.
 
-**What it costs:** Zoom is a map-shaped idea and it is in the interface. Any
-replacement has to have a compatible notion of zoom levels for the label
-threshold to mean anything, and Google's zoom levels are on the same scale, so
-this is a real constraint rather than a leak. The larger cost is unchanged: this
+One rule has no value to pass and is stated in the interface's comment instead: name
+labels never overlap, and the selected prefecture is always labelled (entry 22).
+
+**What it costs:** A replacement has to implement the label rule itself, because
+the interface cannot enforce it. The larger cost is unchanged: this
 project renders and simplifies its own geometry, and the labels, the zoom
 behaviour and the interaction model are ours to get right rather than Google's.
 
 Three things a map library normally leaks do not appear at the seam. There is no
 tile layer to configure (entry 20), the projection is never named outside the
 implementation, and the palette is resolved from a coverage state rather than
-passed in. What remains visible is the interaction model, and it is the four
-items listed above.
+passed in. What remains visible is the interaction model, and it is the items
+listed above.
 
 **Where:** `web/src/map/PrefectureMap.ts` is the interface;
 `web/src/map/LeafletPrefectureMap.tsx` is the only file in the frontend that
@@ -889,32 +889,50 @@ whichever is later in the SVG rather than to the nearer one.
 
 ---
 
-## 22. Prefecture names labelled from a zoom threshold, not always
+## 22. Prefecture names placed by collision, not by a zoom threshold
 
-**Chosen:** All 47 labels are drawn at zoom 5 and above. Below it, only the
-selected prefecture is labelled.
+**Chosen:** After every zoom, the map places the 47 name labels in priority order
+and does not draw a label whose box overlaps a label already drawn. The selected
+prefecture is first, and after it the prefectures are ordered largest first. Each
+box includes a gap of 0.25rem. The labels are 0.625rem at every width.
 
-**Rejected:** Drawing all 47 at every zoom, and drawing none at all.
+**Rejected:** Drawing all 47 labels from a fixed zoom threshold and none below it;
+drawing all 47 at every zoom; and drawing none.
 
 **Why:** CLAUDE.md asks for names rendered at the stored `ST_PointOnSurface`
-points, and that is what the labels do — the point of storing them. But at the
-zoom that fits Japan into a 375px viewport the whole country is about 200 pixels
-across, and 47 names in that space overlap into something no one can read.
+points. The Kansai prefectures are within about 100 pixels of each other at the
+zoom that fits Japan on a laptop screen, so all 47 labels at that zoom overlap and
+cannot be read. A threshold gives a choice of "all labels, overlapping" or "no
+labels". It also depends on the exact zoom that the initial fit gives, and the map
+fits at a zoom step of 0.1, so a threshold measured in whole zoom levels is not
+valid.
 
-The threshold is 5 because that is where the split falls in practice, counted in
-a browser at 375, 768, 1280 and 1920 pixels wide. Leaflet's default `zoomSnap` of
-1 makes the initial fit land on a whole zoom level: 4 while the map pane is
-narrower than roughly 500px, and 5 above it. A window from about 900px across
-therefore opens with every label drawn, and anything narrower opens with none.
-Set to 6 — the value that looks right by eye — no width a browser opens at shows
-a label at all.
+Collision placement is how Google Maps, Apple Maps, Mapbox GL and MapLibre place
+labels. It needs no threshold value: the number of labels follows the space
+available. Counted in headless Chromium at the default font size, at the initial
+view:
 
-**What it costs:** A phone visitor sees an unlabelled map until they zoom in.
-That is survivable only because the searchable list is a first-class view
-carrying every name in English, Japanese and romaji, and because a tap always
-labels what it selected.
+| Viewport size | Labels drawn |
+| ------------- | ------------ |
+| 375 × 667     | 15           |
+| 1280 × 720    | 20           |
+| 1500 × 800    | 23           |
+| 1920 × 950    | 27           |
 
-**Where:** `web/src/layout.ts`, `web/src/map/LeafletPrefectureMap.tsx`.
+Label sizes are measured once, when the layers are built, while every label is
+attached. A detached label has no layout, so it cannot be measured later. A pan
+moves every label by the same amount, so placement runs on `zoomend` and on a
+change of selection only.
+
+**What it costs:** The smallest prefectures lose their labels first, and they are
+also the hardest to find on the map: Ōsaka, Kagawa and Tokyo are usually not
+labelled at the initial zoom. The searchable list carries every name, and the
+selected prefecture is always labelled. A replacement map component must
+implement the same rule, because the rule has no value to pass through
+`PrefectureMapProps`.
+
+**Where:** `web/src/map/LeafletPrefectureMap.tsx`, `web/src/map/PrefectureMap.ts`,
+`web/src/map/leaflet-map.css`.
 
 ---
 

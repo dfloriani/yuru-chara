@@ -34,23 +34,3 @@ export function bottomSheetHeightPx(): number {
   const rootFontSizePx = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
   return BOTTOM_SHEET_MAX_HEIGHT_REM * rootFontSizePx;
 }
-
-/**
- * The zoom at which the map starts drawing all 47 prefecture name labels. Below
- * it, only the selected prefecture is labelled.
- *
- * At the zoom that fits Japan into a 375px-wide phone the whole country is about
- * 200px across, and 47 names in that space overlap into something unreadable. So
- * the labels are drawn when there is room for them, and the list view carries the
- * names when there is not.
- *
- * 5 is the value that puts the split in the right place, and it was measured
- * rather than guessed. Leaflet's default `zoomSnap` of 1 makes the initial fit
- * land on a whole zoom level: that level is 4 while the map pane is narrower than
- * roughly 500px, and 5 above it. At the default font size the wide layout gives
- * 22.5rem (360px) of the window to the sidebar, so in practice a window from about
- * 900px across opens with all 47 labels drawn and anything narrower opens with
- * none. Counted in a browser at 375, 768, 1280 and 1920 pixels wide, at the default
- * font size; at 6 no width a browser actually opens at would show a label at all.
- */
-export const LABEL_MIN_ZOOM = 5;

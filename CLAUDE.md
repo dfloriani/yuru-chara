@@ -290,7 +290,7 @@ line here is a pointer, not the decision. Add a line here whenever an entry is a
 19. Source citations are per field, not per record
 20. No basemap tile layer under the choropleth
 21. A transparent wide stroke for tap targets, on a second layer
-22. Prefecture names labelled from a zoom threshold, not always
+22. Prefecture names placed by collision, not by a zoom threshold
 23. Two requests for the whole dataset, and no use of `/api/prefectures/{id}`
 24. A single client-side retry on a 5xx, and the server bug behind it
 25. One breakpoint, read in one place
