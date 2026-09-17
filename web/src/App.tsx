@@ -133,7 +133,7 @@ export function App() {
         )}
       </main>
 
-      <AttributionFooter expanded={wide} />
+      <AttributionFooter />
     </div>
   );
 }
