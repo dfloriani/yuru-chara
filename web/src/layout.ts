@@ -10,27 +10,6 @@
  *
  *  - `?detail=low` or `?detail=high` on the boundaries request.
  *  - Bottom sheet or side panel for the detail view.
- *  - Whether the map and the list are shown together or one at a time.
+ *  - Whether the map and the list are stacked or side by side.
  */
 export const WIDE_VIEWPORT_QUERY = '(min-width: 48rem)';
-
-/**
- * The most of the map a bottom sheet covers, in rem: the same 20rem as the sheet's
- * `max-height` in detail-panel.css.
- *
- * A number here and a `max-height` in the stylesheet is duplication, and the
- * alternative — measuring the sheet element and feeding its height back in — adds
- * a ResizeObserver and a render pass to place a pan by a few pixels either way.
- */
-const BOTTOM_SHEET_MAX_HEIGHT_REM = 20;
-
-/**
- * The bottom sheet's maximum height in CSS pixels, which is the unit Leaflet pans
- * in. The map uses it to keep a selected prefecture out from under the sheet.
- *
- * 1rem is the computed font size of the root element.
- */
-export function bottomSheetHeightPx(): number {
-  const rootFontSizePx = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
-  return BOTTOM_SHEET_MAX_HEIGHT_REM * rootFontSizePx;
-}

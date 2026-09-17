@@ -60,9 +60,11 @@ export function LeafletPrefectureMap(props: PrefectureMapProps) {
       // <ZoomControl> below puts the same buttons at the top right instead.
       zoomControl={false}
       renderer={RENDERER}
-      // Leaflet's default is to require ctrl/cmd with the wheel only when
-      // scroll-through is a risk. The map fills its own pane and the page does not
-      // scroll behind it, so a plain wheel zoom is not a trap here.
+      // A plain mouse wheel zooms the map. On a wide viewport the page does not
+      // scroll, so the wheel has no other job. On a narrow viewport the page
+      // scrolls, and a wheel over the map zooms instead of scrolling; narrow
+      // viewports are phones, which have no wheel, and a swipe on the list
+      // below the map scrolls the page.
       scrollWheelZoom
       aria-label="Choropleth map of Japan's 47 prefectures, coloured by how complete their mascot data is. The prefecture list beside it carries the same information as text."
     >
@@ -453,7 +455,7 @@ function PrefectureLayers({
       return;
     }
 
-    const covered = obscuredBottomPx;
+    const covered = obscuredBottomPx();
 
     // The part of the map a label must be inside to count as in view: the map
     // less a margin, and less the strip the bottom sheet covers.

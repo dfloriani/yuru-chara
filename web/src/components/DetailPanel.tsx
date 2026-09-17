@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type Ref } from 'react';
 import type { ImageLicenseStatus, Mascot } from '../api/types';
 import { COVERAGE } from '../data/coverage';
 import type { PrefectureEntry } from '../data/prefectures';
@@ -20,11 +20,14 @@ import './detail-panel.css';
 export function DetailPanel({
   entry,
   variant,
-  onClose
+  onClose,
+  ref
 }: {
   readonly entry: PrefectureEntry;
   readonly variant: 'sheet' | 'panel';
   readonly onClose: () => void;
+  /** The panel element. App.tsx measures the sheet's height from it. */
+  readonly ref?: Ref<HTMLElement>;
 }) {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -41,6 +44,7 @@ export function DetailPanel({
 
   return (
     <aside
+      ref={ref}
       className={`detail detail--${variant}`}
       aria-label={`${entry.nameEn} Prefecture details`}
       // The panel's contents are replaced when another prefecture is selected

@@ -1,25 +1,33 @@
 /*
- * The app shell: a header, a main area that takes the rest, and a footer that is
- * always visible because it carries a licence condition.
+ * The app shell: a header, a main area, and a footer.
  *
  * Narrow-first. Everything here is the phone layout; the wide layout is the one
  * media query at the bottom.
+ *
+ * Narrow: one page that scrolls. The header sticks to the top, and below it are
+ * the instruction, the map, the list and the footer, in that order.
  */
 .app {
   display: flex;
   flex-direction: column;
-  /* dvh, not vh: on mobile browsers vh is the height with the toolbars hidden, so
-     a 100vh shell is taller than the screen until the visitor scrolls — and this
-     shell must never scroll. */
-  height: 100dvh;
-  overflow: hidden;
+  /* dvh, not vh: on mobile browsers vh is the height with the toolbars hidden,
+     so a 100vh page is taller than the screen before the visitor scrolls. */
+  min-height: 100dvh;
 }
 
 .app__header {
+  position: sticky;
+  top: 0;
+  /* Over the map frame (its own stacking context, see .app__map-frame) and the
+     sticky search field, which scroll under the header. */
+  z-index: 700;
   flex: none;
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  /* The sticky search field and the jump targets are offset by this height, so
+     it is a minimum here and a token in index.css. */
+  min-height: var(--header-height);
   padding: 0.5rem 0.75rem;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -40,8 +48,8 @@
   color: var(--text-muted);
 }
 
-/* Segmented control: two buttons in one bordered box. */
-.app__views {
+/* Two links in one bordered box. */
+.app__jump {
   flex: none;
   display: flex;
   border: 1px solid var(--border-strong);
@@ -49,57 +57,91 @@
   overflow: hidden;
 }
 
-.app__view {
-  /* 2.75rem (44px at the default font size) tall, so the two buttons a phone
+.app__jump-link {
+  display: flex;
+  align-items: center;
+  /* 2.75rem (44px at the default font size) tall, so the two controls a phone
      visitor uses most are full targets. */
   min-height: 2.75rem;
   padding: 0 0.875rem;
   font-size: 0.875rem;
   font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
   background: var(--surface);
-  border: 0;
-  cursor: pointer;
 }
 
-.app__view + .app__view {
+.app__jump-link + .app__jump-link {
   border-left: 1px solid var(--border-strong);
 }
 
-.app__view[aria-pressed='true'] {
-  background: var(--accent);
-  color: var(--accent-text);
+/* The section already on screen. The link is disabled there (see JumpLink in
+   App.tsx). */
+.app__jump-link[aria-current='location'] {
+  color: var(--text-muted);
+  cursor: default;
+  background: var(--surface-sunken);
 }
 
 .app__main {
   flex: 1;
-  min-height: 0;
   display: flex;
-  /* The bottom sheet is positioned against the map section inside this. */
-  position: relative;
+  flex-direction: column;
 }
 
+/* A jump link scrolls its target to the top of the viewport, which is under the
+   sticky header. This offset stops the header covering the target. */
+.app__map,
+.app__sidebar {
+  scroll-margin-top: var(--header-height);
+}
+
+.app__instruction {
+  flex: none;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.35;
+  color: var(--text);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* The instruction and the map. The section is the viewport height, less the
+   sticky header and a strip at the bottom where the top of the list is visible.
+   A swipe that starts on the map moves the map, so the strip is where a swipe
+   scrolls the page. 10rem is the list's search block (the field and the row
+   with "Show all regions") plus the first region heading, so the strip ends at
+   the bottom of a control rather than through the middle of one.
+   svh, not dvh: dvh changes while a mobile browser's toolbar hides during a
+   scroll, and a change in height makes Leaflet redraw the map. */
 .app__map {
+  display: flex;
+  flex-direction: column;
+  height: calc(100svh - var(--header-height) - 10rem);
+  min-height: 22rem;
+}
+
+.app__map-frame {
   position: relative;
   flex: 1;
-  min-width: 0;
-  min-height: 0;
+  min-height: 18rem;
+  /* Leaflet's panes carry z-index values from 400 to 1000. A new stacking
+     context keeps all of them inside this box, under the sticky header. */
+  isolation: isolate;
 }
 
 .app__sidebar {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-width: 0;
-  min-height: 0;
   background: var(--surface);
 }
 
-/* `hidden` on a flex child is overridden by `display: flex` without this. The
-   attribute is what carries the meaning — it also removes the section from the
-   accessibility tree — so the stylesheet has to honour it. */
-.app__map[hidden],
-.app__sidebar[hidden] {
-  display: none;
+/* The bottom sheet is fixed over the end of the page. Without this space the
+   last rows of the list could not be scrolled out from under it. 20rem is the
+   largest height of the sheet (its max-height in detail-panel.css). */
+.app__sidebar--under-sheet {
+  padding-bottom: 20rem;
 }
 
 .app__status {
@@ -127,8 +169,8 @@
 }
 
 /*
- * Wide: the list and the map side by side, with the detail panel above the list
- * in the same column.
+ * Wide: a shell that fills the viewport and does not scroll, with the list and
+ * the map side by side and the detail panel above the list in the same column.
  *
  * One sidebar rather than three columns, so that at 48rem — where this layout
  * starts — the map still has more than half the width. Both the list and the
@@ -136,7 +178,13 @@
  * must not hide the list.
  */
 @media (min-width: 48rem) {
+  .app {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
   .app__header {
+    position: static;
     padding: 0.625rem 1rem;
   }
 
@@ -145,15 +193,32 @@
   }
 
   .app__main {
+    min-height: 0;
     /* The sidebar first in the source order is the list, which is the accessible
        path through the data; `row-reverse` puts it on the left of the map
        without moving it in the document. */
     flex-direction: row-reverse;
   }
 
+  .app__map {
+    flex: 1;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .app__instruction {
+    padding: 0.5rem 1rem;
+  }
+
+  .app__map-frame {
+    min-height: 0;
+  }
+
   .app__sidebar {
     flex: none;
     width: 22.5rem;
+    min-height: 0;
     border-right: 1px solid var(--border);
   }
 }

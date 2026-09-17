@@ -1001,8 +1001,8 @@ own terms — these are idempotent GETs of static data — but it is not the fix
 **Chosen:** `WIDE_VIEWPORT_QUERY` in `web/src/layout.ts` is `(min-width: 48rem)`,
 read by `App.tsx` and by nothing else. Three things hang off it: the `?detail=`
 level requested from the boundaries endpoint, whether the detail view is a bottom
-sheet or a side panel, and whether the map and the list are shown together or one
-at a time.
+sheet or a side panel, and whether the map and the list are stacked on one
+scrolling page or side by side.
 
 **Rejected:** Deciding each of the three where it is needed, and a container
 query per component.
@@ -1021,7 +1021,8 @@ gets on a phone. The layout is correct there but the map is cramped, and a secon
 breakpoint would fix it.
 
 **Where:** `web/src/layout.ts`, `web/src/App.tsx`, `web/src/app.css`,
-`web/src/components/legend.css`, `web/src/map/leaflet-map.css`.
+`web/src/components/legend.css`, `web/src/components/prefecture-list.css`,
+`web/src/components/attribution-footer.css`, `web/src/components/detail-panel.css`.
 
 ---
 

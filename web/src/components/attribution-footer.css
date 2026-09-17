@@ -1,7 +1,8 @@
 /*
- * A row of the app shell rather than something inside a scrolling pane. The
- * Japanese statement is a licence condition, so it is on screen at every width
- * and never behind a toggle.
+ * The last row of the page. On a wide viewport the shell does not scroll, so the
+ * footer is always on screen. On a narrow viewport the page scrolls and the
+ * footer follows the list. The Japanese statement is a licence condition, so it
+ * is never behind a toggle at any width.
  */
 .attribution {
   flex: none;
@@ -11,10 +12,17 @@
   color: var(--text-muted);
   background: var(--surface-sunken);
   border-top: 1px solid var(--border);
-  /* Two open paragraphs of English are taller than a phone should give a footer,
-     so the row scrolls rather than pushing the map off the screen. */
-  max-height: 30dvh;
-  overflow-y: auto;
+}
+
+/* On a wide viewport the shell does not scroll. If the English text is opened
+   in a short window, the footer scrolls rather than pushing the map off the
+   screen. On a narrow viewport the page scrolls, so the footer does not need a
+   second scroll area. */
+@media (min-width: 48rem) {
+  .attribution {
+    max-height: 30dvh;
+    overflow-y: auto;
+  }
 }
 
 .attribution p {

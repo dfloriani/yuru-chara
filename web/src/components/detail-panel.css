@@ -6,18 +6,19 @@
 }
 
 /*
- * Narrow: a bottom sheet over the map.
+ * Narrow: a bottom sheet, fixed to the bottom of the viewport. Fixed rather than
+ * absolute, because the page scrolls, and the sheet must stay on screen at every
+ * scroll position.
  *
  * Capped at 45% of the viewport so the map it explains stays partly visible —
  * the map pans a selected prefecture out of this strip, and it can only do that
  * if there is a strip left to pan into. Height is in dvh, not vh, so the sheet
  * does not sit under a mobile browser's toolbar when that toolbar is showing.
  *
- * The 20rem cap is also BOTTOM_SHEET_MAX_HEIGHT_REM in layout.ts, which the map
- * uses to keep a selected prefecture out from under the sheet.
+ * App.tsx measures this element to tell the map how much of it the sheet covers.
  */
 .detail--sheet {
-  position: absolute;
+  position: fixed;
   inset: auto 0 0;
   z-index: 600; /* Over the legend (500) and Leaflet's overlays. */
   max-height: min(45dvh, 20rem);
@@ -95,6 +96,16 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 0.625rem 0.75rem 1rem;
+}
+
+/* In the sheet, the text usually continues below the bottom of the screen. A
+   line cut through the middle by the screen edge looks like a rendering fault,
+   so the last 1.5rem of the scroll area fades out, which also shows that there
+   is more to scroll. The bottom padding is as tall as the fade, so the last line
+   is fully visible when the text is scrolled to the end. */
+.detail--sheet .detail__body {
+  padding-bottom: 1.5rem;
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 1.5rem), transparent);
 }
 
 .detail__coverage {

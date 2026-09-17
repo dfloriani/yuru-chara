@@ -23,6 +23,11 @@
   --shadow: 0 0.125rem 0.625rem rgb(20 32 38 / 12%);
   --shadow-sheet: 0 -0.375rem 1.5rem rgb(20 32 38 / 18%);
 
+  /* The height of the sticky header on a narrow viewport. The list's search
+     field sticks directly below it, and the jump links scroll their targets to
+     below it. */
+  --header-height: 4rem;
+
   /* Japanese names sit next to Latin ones everywhere in this app, so the stack
      names a Japanese face before the generic fallback. Without it a browser
      picks a CJK fallback that does not match the Latin text beside it. */
@@ -66,9 +71,17 @@ body {
   font-family: var(--font);
   font-size: 1rem;
   line-height: 1.45;
-  /* The app owns the viewport; only the panes inside it scroll. Without this a
-     drag on the map rubber-bands the whole page on iOS. */
+  /* Without this, a scroll past the top or the end of the page moves the whole
+     page, header included, on iOS. */
   overscroll-behavior: none;
+}
+
+/* The Map and List jump links scroll the page. Smooth only for readers who have
+   not asked their system to reduce motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 button {

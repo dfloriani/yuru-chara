@@ -44,11 +44,13 @@ export interface PrefectureMapProps {
   readonly onSelect: (jisCode: number | null) => void;
 
   /**
-   * Pixels at the bottom of the map that something else is covering — the bottom
-   * sheet on a narrow viewport. The map keeps the selected prefecture out of that
-   * strip when it pans to it.
+   * Returns how many pixels at the bottom of the map something else covers — the
+   * bottom sheet on a narrow viewport. The map calls it when it brings a
+   * selection into view, and keeps the selected prefecture's label out of that
+   * strip. A function rather than a number, because the answer can only be
+   * measured once the sheet for the new selection is on the page.
    */
-  readonly obscuredBottomPx: number;
+  readonly obscuredBottomPx: () => number;
 }
 
 /**

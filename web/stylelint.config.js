@@ -16,7 +16,7 @@ export default {
       '/^font-size$|^line-height$/': ['rem'],
       'letter-spacing': ['em'],
       '/^(padding|margin|gap|row-gap|column-gap|inset|top|right|bottom|left)/': ['rem'],
-      '/^(min-|max-)?(width|height)$/': ['rem', '%', 'dvh', 'vh', 'vw'],
+      '/^(min-|max-)?(width|height)$/': ['rem', '%', 'dvh', 'svh', 'vh', 'vw'],
       '/^grid-template-/': ['rem', 'fr', '%'],
       '/^outline/': ['rem', 'em'],
       '/^border(-[a-z]+)*-radius$/': ['rem', '%'],
