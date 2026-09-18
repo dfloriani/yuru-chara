@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using YuruChara.Api.Caching;
 using YuruChara.Infrastructure;
 
 namespace YuruChara.Api.Mascots;
@@ -38,10 +39,17 @@ public static class MascotEndpoints
     /// </param>
     private static async Task<IResult> GetMascotsAsync(
         YuruCharaDbContext db,
+        HttpResponse response,
         string? motif,
         int? debutBefore,
         CancellationToken cancellationToken)
     {
+        // Declared cacheable to the CDN even though it is not output-cached here. A
+        // CDN stores one copy per URL, query string included, so each combination of
+        // filters is stored separately and none of them is served for another. The
+        // copies are held by the CDN and cost this app no memory.
+        response.SetCdnCacheControl(CdnCache.OneHour);
+
         // Not output-cached, unlike the boundaries endpoint. The response is a few
         // kilobytes, and the two filters open up a much larger key space than the
         // three variants of /api/prefectures — the cache would hold many entries and

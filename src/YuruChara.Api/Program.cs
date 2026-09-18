@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.IO.Converters;
 using YuruChara.Api.Health;
@@ -90,6 +92,49 @@ builder.Services.AddOutputCache(options =>
         .Tag(PrefectureEndpoints.BoundariesCacheTag));
 });
 
+// Compression for the GeoJSON. /api/prefectures?detail=high is 607 KB of coordinate
+// text, which is the largest thing this app sends and compresses well. The default
+// MIME-type list covers application/json but not application/geo+json, which is what
+// the boundaries endpoint returns, so that type is added; without it the one response
+// that most needs compressing is the one that does not get it.
+builder.Services.AddResponseCompression(options =>
+{
+    // Compression over TLS is off by default because of BREACH, an attack that
+    // recovers a secret from compressed response sizes. It needs a secret in the
+    // response body and a way to inject text into it. These endpoints are anonymous
+    // GETs of public, static data: there is no session, no cookie and no user input
+    // in any response.
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = [.. ResponseCompressionDefaults.MimeTypes, "application/geo+json"];
+});
+
+// A cap on requests per minute for the whole app, not per caller.
+//
+// Per-caller limiting belongs in front of this app, where the visitor's address is
+// known. Behind a CDN every request arrives from the CDN's own addresses, so a
+// per-address limit here would count all visitors as one caller and refuse them
+// together.
+//
+// What this cap does is bound the requests that reach the endpoints at all, which is
+// what protects the hosting quotas and the database from a request loop aimed
+// straight at this app's address. A visitor costs two requests per page load, so the
+// limit below allows about 60 page loads a second.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(_ =>
+        RateLimitPartition.GetFixedWindowLimiter("global", _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 120,
+            Window = TimeSpan.FromMinutes(1),
+            // No queue. A refused request answers immediately with 429 instead of
+            // holding a connection open, and the client retries once on a 5xx only.
+            QueueLimit = 0
+        }));
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -104,6 +149,17 @@ if (app.Environment.IsDevelopment())
     var dbContext = scope.ServiceProvider.GetRequiredService<YuruCharaDbContext>();
     await dbContext.Database.MigrateAsync();
 }
+
+// Outside the output cache, deliberately. The output cache does not vary its entries
+// by Accept-Encoding, so a stored compressed body would be served to a client that
+// asked for none. Registered here, compression runs on the way out, on the cached
+// body as well as a fresh one, and each caller gets the encoding it accepts.
+app.UseResponseCompression();
+
+// Before the output cache, so that a cache hit is counted too. Registered after it,
+// the cache would short-circuit the pipeline on a hit and the limit would only ever
+// see the requests that miss.
+app.UseRateLimiter();
 
 // Must come before the endpoints it caches. The output cache middleware works by
 // short-circuiting the pipeline on a hit, so anything registered after it never

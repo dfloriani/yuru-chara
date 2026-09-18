@@ -1053,3 +1053,135 @@ more config file, and two lint commands where `@eslint/css` would need one.
 
 **Where:** `web/stylelint.config.js`, `web/eslint.config.js`, `web/.prettierrc.json`,
 `web/package.json`.
+
+---
+
+## 27. Vercel in front of Azure App Service F1, with Neon for PostGIS
+
+**Chosen:** Three hosts. Vercel's Hobby plan serves the React build and forwards
+`/api/*` to the API. Azure App Service on the Free (F1) Linux plan runs
+`YuruChara.Api`. Neon, in AWS `eu-central-1`, runs PostgreSQL 17 with PostGIS.
+
+**Rejected:**
+
+- Google Cloud Run and AWS Lightsail for the API. Both run this app well. Cloud Run
+  bills per request and per byte sent, so it needs a budget that disconnects billing
+  to be safe, and that stop arrives after the charge. Lightsail costs a fixed $7 a
+  month, and no AWS budget action can stop a Lightsail instance, so the only control
+  is deleting it by hand.
+- Serving the React build from the API, on one host. This removes the CDN in front of
+  the API, so every visit spends the API host's daily data allowance, and the public
+  address then changes when the API moves.
+
+**Why:** Each of the three stops serving instead of charging when a limit is reached:
+Vercel pauses the feature, App Service F1 returns 403 until midnight UTC, and Neon
+suspends compute until the next month. The deployment therefore cannot produce a
+bill. Neon needs no payment card at all.
+
+Vercel's CDN stores the API responses (see entry 30), so most visits never reach the
+API, and F1's 60 CPU minutes and 165 MB of outbound data per day are enough for this
+site. Vercel's Hobby plan also includes DDoS mitigation and one WAF rate-limit rule
+keyed by the visitor's address, which is the only place in this setup that knows that
+address.
+
+The public address is `<project>.vercel.app`, which needs no domain name. Because
+visitors only ever connect to Vercel, moving the API to another host is one edit in
+`web/vercel.json` and does not change the address, the frontend or any API code.
+
+**What it costs:** The Free App Service plan has no SLA, and Microsoft states it is
+intended for development and testing. The app is unloaded when idle, so the first
+request after a quiet period waits for .NET to start and for Neon to resume. Azure
+requires a payment card, and after 30 days the subscription must move to
+pay-as-you-go, which has no spending limit; F1 itself remains free, so a charge
+requires creating a paid resource. Vercel's Hobby plan forbids commercial use,
+advertising included, so adding advertisements requires a different frontend host or
+a paid plan.
+
+**Where:** `web/vercel.json`, `.github/workflows/deploy-api.yml`.
+
+---
+
+## 28. A Vercel rewrite rather than CORS on the API
+
+**Chosen:** Vercel forwards `/api/*` to the API host. The browser sends every request
+to the Vercel address, so the API and the frontend share one origin.
+
+**Rejected:** The frontend calling the API host directly, with an absolute address in
+`web/src/api/client.ts` and a CORS policy on the API.
+
+**Why:** The frontend already requests `/api/...` as a relative path in both
+development, where Vite proxies it, and production. One origin means no preflight
+request, no cross-origin policy to maintain on a server that serves only public GETs,
+and no API address compiled into the frontend bundle. The API host can change without
+rebuilding the frontend.
+
+**What it costs:** The rewrite is Vercel configuration, so a move to another frontend
+host requires an equivalent rule there. Requests that reach the API host directly do
+not pass through the CDN or the rate-limit rule, which is why the API also enforces
+its own limit (entry 30).
+
+**Where:** `web/vercel.json`, `web/vite.config.ts`, `web/src/api/client.ts`.
+
+---
+
+## 29. The deployed API connects with a read-only database role
+
+**Chosen:** Two database logins. The owner role runs migrations and the ingestion CLI
+from a developer machine. A separate role, `yuruchara_app`, holds only SELECT rights
+and is the one in the deployed API's connection string.
+
+**Rejected:** One login for both, which is what local development uses against the
+Docker Compose database.
+
+**Why:** Every deployed endpoint reads. Nothing in `YuruChara.Api` writes, and entry 9
+keeps the startup migration in Development only, so the deployed app needs no
+schema-modification or write rights. A connection string that reaches an attacker
+through the hosting platform then cannot drop a table or alter a row.
+
+**What it costs:** Two connection strings to manage, and a new migration requires the
+owner string in the environment of whoever applies it. A future write endpoint needs a
+grant, and the failure until then is a database permission error rather than silent
+success.
+
+**Where:** `src/YuruChara.Api/Program.cs` reads
+`ConnectionStrings__YuruChara` from the environment (entry 11).
+
+---
+
+## 30. Cache headers, compression and a global request limit
+
+**Chosen:** Three controls in the API:
+
+- `/api/prefectures` and `/api/mascots` send `CDN-Cache-Control: max-age=3600`.
+- Response compression with Brotli and gzip, with `application/geo+json` added to the
+  compressed MIME types.
+- One rate limiter for the whole app: 120 requests a minute, no queue, registered
+  before the output cache.
+
+**Rejected:**
+
+- A per-address rate limit in the API. Behind a CDN every request carries the CDN's
+  address, so this would count all visitors as one caller and refuse them together.
+  Per-address limiting belongs in the CDN, which knows the visitor's address.
+- `Cache-Control` instead of `CDN-Cache-Control`. That header is also read by
+  browsers, so a visitor would keep boundaries from a previous seed run for an hour.
+- Compression inside the output cache. Output-cache entries do not vary by
+  `Accept-Encoding`, so a stored compressed body can be served to a client that
+  accepts none.
+
+**Why:** The boundaries response is the largest thing the app serves: 607 KB for
+`detail=high`, 158 KB for `detail=low`. The CDN header moves repeat requests off the
+API entirely, compression reduces what the remaining requests send, and the request
+limit bounds what a request loop aimed at the API address can consume. Together these
+keep the deployment inside the free daily quotas of entry 27.
+
+**What it costs:** A re-seed is visible to visitors after up to an hour, because the
+CDN keeps a stored copy for that long; the CDN cache can be purged to shorten it.
+Compression spends CPU on every response that is not answered by the CDN. The global
+limit refuses legitimate visitors during a flood, because it cannot tell them apart
+from the flood; 120 requests a minute is about 60 page loads, as a page load costs
+two requests.
+
+**Where:** `src/YuruChara.Api/Program.cs`, `src/YuruChara.Api/Caching/CdnCache.cs`,
+`src/YuruChara.Api/Prefectures/PrefectureEndpoints.cs`,
+`src/YuruChara.Api/Mascots/MascotEndpoints.cs`.

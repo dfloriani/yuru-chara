@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
+using YuruChara.Api.Caching;
 using YuruChara.Domain.Prefectures;
 using YuruChara.Infrastructure;
 
@@ -58,6 +59,7 @@ public static class PrefectureEndpoints
     /// </summary>
     private static async Task<IResult> GetBoundariesAsync(
         YuruCharaDbContext db,
+        HttpResponse response,
         string? detail,
         CancellationToken cancellationToken)
     {
@@ -70,6 +72,10 @@ public static class PrefectureEndpoints
         }
 
         var collection = await BuildFeatureCollectionAsync(db, level.Tolerance(), cancellationToken);
+
+        // Set after the detail level parses, so a rejected request is not declared
+        // cacheable.
+        response.SetCdnCacheControl(CdnCache.OneHour);
 
         // application/geo+json is GeoJSON's registered media type (RFC 7946 §12).
         // The +json structured-syntax suffix means every JSON client still treats it

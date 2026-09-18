@@ -1,0 +1,56 @@
+# Deploys YuruChara.Api to Azure App Service.
+name: Deploy API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "Directory.Build.props"
+      - "Directory.Packages.props"
+      - "global.json"
+      - ".github/workflows/deploy-api.yml"
+  workflow_dispatch:
+
+permissions:
+  # Lets the workflow request a short-lived OpenID Connect token, which is what it
+  # signs in to Azure with. No Azure credential is stored in this repository or in
+  # GitHub's secrets.
+  id-token: write
+  contents: read
+
+concurrency:
+  # One deployment at a time. A second push while a deployment runs cancels the
+  # earlier one rather than racing it.
+  group: deploy-api
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          # The SDK version comes from global.json, so the workflow and a developer
+          # machine build with the same one.
+          global-json-file: global.json
+
+      - name: Publish
+        run: dotnet publish src/YuruChara.Api/YuruChara.Api.csproj --configuration Release --output publish
+
+      - name: Sign in to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ vars.AZURE_WEBAPP_NAME }}
+          package: publish

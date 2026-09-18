@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://yuru-chara-api-hkanaqgdc0fdhpdr.swedencentral-01.azurewebsites.net/api/:path*"
+    }
+  ]
+}
