@@ -295,3 +295,7 @@ line here is a pointer, not the decision. Add a line here whenever an entry is a
 24. A single client-side retry on a 5xx, and the server bug behind it
 25. One breakpoint, read in one place
 26. Stylelint lints the stylesheets, not ESLint's CSS plugin
+27. Vercel in front of Azure App Service F1, with Neon for PostGIS
+28. A Vercel rewrite rather than CORS on the API
+29. The deployed API connects with a read-only database role
+30. Cache headers, compression and a global request limit
