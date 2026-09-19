@@ -73,9 +73,11 @@ public enum ImageLicenseStatus
 }
 ```
 
-Where a mascot has no usable image, render the prefecture's motif as a
-neutral icon plus the mascot name. This is a deliberate design decision, not
-a gap to be filled later without checking terms.
+The detail panel shows no image for any mascot. In the place of an image, it
+shows one sentence that states the mascot's `ImageLicenseStatus`, followed by
+`LicenseNotes` when that field has a value. The missing image is a deliberate design
+decision. Do not add an image later without first checking the owning body's
+terms.
 
 ## Stack
 
