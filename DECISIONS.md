@@ -1200,3 +1200,42 @@ two requests.
 **Where:** `src/YuruChara.Api/Program.cs`, `src/YuruChara.Api/Caching/CdnCache.cs`,
 `src/YuruChara.Api/Prefectures/PrefectureEndpoints.cs`,
 `src/YuruChara.Api/Mascots/MascotEndpoints.cs`.
+
+---
+
+## 31. App Service warms up the API through `/health` before it forwards visitors
+
+**Chosen:** The App Service app setting `WEBSITE_WARMUP_PATH=/health`. Each time App
+Service starts the API, it requests `/health` and forwards visitors to the API only
+after that request has an answer. `/health` runs a database query, so EF Core builds
+its model and the first connection to Neon opens during that request.
+`WEBSITE_WARMUP_STATUSES` is not set.
+
+**Rejected:**
+
+- A step at the end of `deploy-api.yml` that requests the endpoints. It runs only after
+  a deployment and not after a restart by the platform. It also sends its requests
+  after App Service already forwards visitors to the API.
+- Start-up code in the API that runs a query. It works on every host, but it runs in
+  every environment, the integration tests included, and it repeats the query that
+  `/health` already makes.
+- `WEBSITE_WARMUP_STATUSES=200`. When the database is unavailable, `/health` answers
+  503. With this setting App Service treats the API as never ready: it stops the API,
+  starts it again, and answers every request with its own 503 page instead of the
+  API's error.
+
+**Why:** The first database query after the API starts takes about 6 seconds longer
+than the queries after it, because EF Core builds its model and the first connection
+to Neon opens. Without a warm-up, the first visitor after each start waits for that.
+App Service starts the API after each deployment, after a platform restart, and on
+the Free plan after an idle unload (entry 27).
+
+**What it costs:** The setting is stored in Azure, not in this repository. Re-creating
+the App Service app, or moving the API to another host, removes it without an error,
+and the first visitor after each start then waits again. The warm-up request also
+resumes Neon on each start, which uses Neon's monthly compute allowance; a start
+happens only after a deployment, a platform restart or an idle unload, so the amount
+is small.
+
+**Where:** The `WEBSITE_WARMUP_PATH` app setting of the App Service app, in Azure.
+`src/YuruChara.Api/Health/DatabaseHealthCheck.cs`.
