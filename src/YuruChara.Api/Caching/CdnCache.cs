@@ -7,11 +7,18 @@ namespace YuruChara.Api.Caching;
 public static class CdnCache
 {
     /// <summary>
-    /// One hour, matching the output-cache expiry in Program.cs. The two answer
-    /// different callers — the CDN and this process — and a re-seed shows up after
-    /// whichever is longer, so they are kept equal.
+    /// Fresh for one hour, matching the output-cache expiry in Program.cs. The two
+    /// answer different callers — the CDN and this process — and a re-seed shows up
+    /// after whichever is longer, so they are kept equal.
+    /// <para>
+    /// <c>stale-while-revalidate</c>: for one week after the hour ends, the CDN
+    /// answers with the stored copy at once and fetches a new copy from this app in
+    /// the background. The request that finds an expired copy therefore does not
+    /// wait for this app, which on the free hosting plan has usually stopped after a
+    /// period with no requests and must start again. See DECISIONS.md 30.
+    /// </para>
     /// </summary>
-    public const string OneHour = "max-age=3600";
+    public const string OneHourThenStaleForAWeek = "max-age=3600, stale-while-revalidate=604800";
 
     /// <summary>
     /// Declares how long a CDN may reuse this response.

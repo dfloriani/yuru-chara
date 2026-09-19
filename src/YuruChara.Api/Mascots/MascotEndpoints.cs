@@ -48,7 +48,7 @@ public static class MascotEndpoints
         // CDN stores one copy per URL, query string included, so each combination of
         // filters is stored separately and none of them is served for another. The
         // copies are held by the CDN and cost this app no memory.
-        response.SetCdnCacheControl(CdnCache.OneHour);
+        response.SetCdnCacheControl(CdnCache.OneHourThenStaleForAWeek);
 
         // Not output-cached, unlike the boundaries endpoint. The response is a few
         // kilobytes, and the two filters open up a much larger key space than the

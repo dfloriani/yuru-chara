@@ -75,7 +75,7 @@ public static class PrefectureEndpoints
 
         // Set after the detail level parses, so a rejected request is not declared
         // cacheable.
-        response.SetCdnCacheControl(CdnCache.OneHour);
+        response.SetCdnCacheControl(CdnCache.OneHourThenStaleForAWeek);
 
         // application/geo+json is GeoJSON's registered media type (RFC 7946 §12).
         // The +json structured-syntax suffix means every JSON client still treats it

@@ -1152,7 +1152,8 @@ success.
 
 **Chosen:** Three controls in the API:
 
-- `/api/prefectures` and `/api/mascots` send `CDN-Cache-Control: max-age=3600`.
+- `/api/prefectures` and `/api/mascots` send
+  `CDN-Cache-Control: max-age=3600, stale-while-revalidate=604800`.
 - Response compression with Brotli and gzip, with `application/geo+json` added to the
   compressed MIME types.
 - One rate limiter for the whole app: 120 requests a minute, no queue, registered
@@ -1163,6 +1164,9 @@ success.
 - A per-address rate limit in the API. Behind a CDN every request carries the CDN's
   address, so this would count all visitors as one caller and refuse them together.
   Per-address limiting belongs in the CDN, which knows the visitor's address.
+- A longer `max-age` instead of `stale-while-revalidate`. A re-seed would then stay
+  invisible for the whole of the longer period. With `stale-while-revalidate`, one
+  request after the hour receives the stored copy and makes the CDN fetch a new one.
 - `Cache-Control` instead of `CDN-Cache-Control`. That header is also read by
   browsers, so a visitor would keep boundaries from a previous seed run for an hour.
 - Compression inside the output cache. Output-cache entries do not vary by
@@ -1175,8 +1179,19 @@ API entirely, compression reduces what the remaining requests send, and the requ
 limit bounds what a request loop aimed at the API address can consume. Together these
 keep the deployment inside the free daily quotas of entry 27.
 
+`stale-while-revalidate` removes the API's start-up time from the request that finds
+an expired copy. The Free App Service plan unloads the API when it is idle (entry 27),
+and Neon suspends the database, so a request that reaches the API after a quiet
+period waits for both to start. Inside the week that follows the hour, the CDN
+answers that request from its stored copy and fetches the new copy in the background.
+
 **What it costs:** A re-seed is visible to visitors after up to an hour, because the
 CDN keeps a stored copy for that long; the CDN cache can be purged to shorten it.
+After the hour, one more request receives the old copy, because it is the request
+that makes the CDN fetch the new one. The CDN keeps stored copies on a best-effort
+basis and deletes a copy that is rarely requested, so on a site with few visitors the
+first visit after a quiet period can still wait for the API to start.
+
 Compression spends CPU on every response that is not answered by the CDN. The global
 limit refuses legitimate visitors during a flood, because it cannot tell them apart
 from the flood; 120 requests a minute is about 60 page loads, as a page load costs
