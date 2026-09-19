@@ -11,7 +11,7 @@ import './legend.css';
 export function Legend({ counts }: { readonly counts: Readonly<Record<Coverage, number>> }) {
   return (
     <div className="legend">
-      <h2 className="legend__title">Mascot data</h2>
+      <h2 className="legend__title">Prefectures</h2>
       <ul className="legend__items">
         {COVERAGE_ORDER.map((coverage) => (
           <li key={coverage} className="legend__item">
