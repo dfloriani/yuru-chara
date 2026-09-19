@@ -164,7 +164,11 @@ function MascotCard({ mascot }: { readonly mascot: Mascot }) {
           <ul>
             {mascot.sourceCitations.map((citation) => (
               <li key={`${citation.field}-${citation.url}`}>
-                <span className="mascot__source-field">{citation.field}</span>{' '}
+                <span className="mascot__source-field">
+                  {/* An unknown property name is shown as it is, so that a
+                      citation is never hidden. */}
+                  {CITATION_FIELD_LABEL[citation.field] ?? citation.field}
+                </span>{' '}
                 <a href={citation.url} target="_blank" rel="noreferrer noopener">
                   {citation.sourceName}
                 </a>{' '}
@@ -207,6 +211,22 @@ const IMAGE_LICENCE_TEXT: Record<ImageLicenseStatus, string> = {
   CommonsFreeLicense:
     'A freely licensed photograph exists on Wikimedia Commons. No image is shown here.',
   NoReuseGranted: 'The terms forbid third-party reuse. No image is shown.'
+};
+
+/**
+ * A visitor-facing name for each C# property that a citation can back. Where the
+ * panel already shows a property under a label, the table uses the same word,
+ * for example "Debut" for `DebutYear`.
+ */
+const CITATION_FIELD_LABEL: Readonly<Record<string, string>> = {
+  NameJa: 'Name (Japanese)',
+  NameRomaji: 'Name (romaji)',
+  Motif: 'Motif',
+  DebutYear: 'Debut',
+  OwningBody: 'Owner',
+  OfficialUrl: 'Official site',
+  IsOfficial: 'Official status',
+  ImageLicenseStatus: 'Image licence'
 };
 
 /** The bare host, so a link says where it goes without printing a full URL. */
