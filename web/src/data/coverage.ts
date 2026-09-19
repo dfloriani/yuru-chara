@@ -41,9 +41,10 @@ export interface CoverageStyle {
  * custom properties because Leaflet sets SVG fills from JavaScript and would have
  * to read the computed style back out of the document to use a variable.
  *
- * The ramp is one hue at three lightnesses, not three hues. The states are
- * ordered — more confidence is a stronger colour — and lightness is the channel
- * that survives both a colour-vision deficiency and a phone screen in daylight.
+ * The three fills differ mainly in lightness: dark teal, light teal, and a grey
+ * with almost no hue. The states are ordered, and more confidence gets a darker
+ * fill. A reader with a colour-vision deficiency, or a reader of a phone screen
+ * in daylight, can see a difference in lightness when two hues look the same.
  */
 export const COVERAGE: Record<Coverage, CoverageStyle> = {
   verified: {
