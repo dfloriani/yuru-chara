@@ -41,6 +41,7 @@ public class PrefectureDetailTests(PostGisApiFixture fixture)
         // that matters about Kumamon's licence and "1" is not, and a name also means
         // inserting an enum member is not a breaking change on the wire.
         Assert.Equal("ApplicationRequired", mascot.GetProperty("imageLicenseStatus").GetString());
+        Assert.Equal("https://kumamon-land.jp/riyokyodaku/", mascot.GetProperty("licenseTermsUrl").GetString());
         Assert.Equal("ManuallyVerified", mascot.GetProperty("verificationLevel").GetString());
 
         // Per-field provenance, which is the point of the citations. See DECISIONS.md 19.

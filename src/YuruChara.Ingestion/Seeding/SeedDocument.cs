@@ -111,6 +111,7 @@ public sealed record SeedMascot(
     bool IsOfficial,
     ImageLicenseStatus ImageLicenseStatus,
     string? LicenseNotes,
+    string? LicenseTermsUrl,
     VerificationLevel VerificationLevel,
     string? WikidataId,
     string? ReviewNotes,

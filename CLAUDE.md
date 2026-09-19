@@ -156,7 +156,8 @@ Mascot
   OfficialUrl (Uri?)
   IsOfficial (bool)     — some prefectures have popular unofficial mascots
   ImageLicenseStatus
-  LicenseNotes (string?) — free text, e.g. link to the terms page
+  LicenseNotes (string?) — free text: what the terms require
+  LicenseTermsUrl (Uri?) — the page that publishes the terms or the application procedure
   VerificationLevel     — Automated | ManuallyVerified
   SourceCitations       — where each fact came from
 ```

@@ -290,6 +290,26 @@ the citation, rather than being upgraded by association.
   its `design` page render their content as images with no readable text, so
   neither the debut year nor the usage terms could be confirmed. Not promoted.
 
+### Licence terms pages
+
+**Retrieved:** 2026-09-19
+
+`licenseTermsUrl` in the seed file is the page that holds the usage terms or the
+application procedure for the mascot's design. For the six mascots below, the
+official site links to that page from the page in the "Linked from" column. Only
+the URL of the terms page was taken. For the other five mascots with a
+`licenseTermsUrl`, the terms page is the page that the mascot's
+`ImageLicenseStatus` citation names, read on 2026-08-13.
+
+| JIS | Mascot | Linked from | Terms page |
+|---:|---|---|---|
+| 09 | とちまるくん | <https://www.tochimarukun.jp/> | <https://www.tochimarukun.jp/application> |
+| 10 | ぐんまちゃん | <https://gunmachan-official.jp/> | <https://gunmachan-official.jp/guideline/> |
+| 12 | チーバくん | <https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/profile.html> | <https://www.pref.chiba.lg.jp/kouhou/miryoku/chi-ba-kun/designsiyou.html> |
+| 20 | アルクマ | <https://arukuma.jp/> | <https://arukuma.jp/request> |
+| 27 | もずやん | <https://www.pref.osaka.lg.jp/o070050/koho/character2/index.html> | <https://www.pref.osaka.lg.jp/o070050/koho/character2/mozuyangopic.html> |
+| 44 | めじろん | <https://www.pref.oita.jp/site/mejiron/> | <https://www.pref.oita.jp/site/mejiron/dezainborrowing.html> |
+
 ---
 
 ## 4. Prefectures with no mascot data

@@ -218,6 +218,19 @@
   color: var(--text-muted);
 }
 
+.mascot__licence-link {
+  /* On its own line below the note, and at least as tall as the official site
+     link, which is 2rem. Padding rather than a 2rem line height, so that a path
+     that wraps onto a second line does not leave a 2rem gap between lines. */
+  display: block;
+  width: fit-content;
+  padding-block: 0.375rem;
+  line-height: 1.25rem;
+  /* A path has no spaces, so without this it cannot wrap and runs past the
+     panel edge. */
+  overflow-wrap: anywhere;
+}
+
 .mascot__licence-label {
   font-weight: 700;
   text-transform: uppercase;

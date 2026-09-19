@@ -35,6 +35,12 @@ internal sealed class MascotConfiguration : IEntityTypeConfiguration<Mascot>
                 text => new Uri(text))
             .HasMaxLength(2048);
 
+        builder.Property(m => m.LicenseTermsUrl)
+            .HasConversion(
+                uri => uri!.ToString(),
+                text => new Uri(text))
+            .HasMaxLength(2048);
+
         builder.Property(m => m.ImageLicenseStatus)
             .HasConversion<string>()
             .HasMaxLength(32)

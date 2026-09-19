@@ -30,6 +30,7 @@ public sealed record MascotResponse(
     bool IsOfficial,
     ImageLicenseStatus ImageLicenseStatus,
     string? LicenseNotes,
+    Uri? LicenseTermsUrl,
     VerificationLevel VerificationLevel,
     // The domain's SourceCitation record is used as the wire type unmodified.
     // It has no storage concerns in it and its shape is already exactly what a
@@ -69,6 +70,7 @@ public sealed record MascotResponse(
             mascot.IsOfficial,
             mascot.ImageLicenseStatus,
             mascot.LicenseNotes,
+            mascot.LicenseTermsUrl,
             mascot.VerificationLevel,
             [.. mascot.SourceCitations]);
 }

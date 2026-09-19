@@ -201,28 +201,11 @@ public sealed class DatabaseSeeder(YuruCharaDbContext db)
         mascot.Motif = seed.Motif;
         mascot.DebutYear = seed.DebutYear;
         mascot.OwningBody = seed.OwningBody;
-
-        // The seed file holds the URL as a string so that a malformed one is a
-        // seed-file error with a readable message rather than a deserialiser
-        // exception. Uri.TryCreate is where that message comes from.
-        if (seed.OfficialUrl is null)
-        {
-            mascot.OfficialUrl = null;
-        }
-        else if (Uri.TryCreate(seed.OfficialUrl, UriKind.Absolute, out var url))
-        {
-            mascot.OfficialUrl = url;
-        }
-        else
-        {
-            throw new InvalidOperationException(
-                $"Mascot '{seed.NameJa}' ({seed.Id}) has an OfficialUrl that is not an absolute URI: " +
-                $"'{seed.OfficialUrl}'.");
-        }
-
+        mascot.OfficialUrl = ParseUrl(seed, nameof(SeedMascot.OfficialUrl), seed.OfficialUrl);
         mascot.IsOfficial = seed.IsOfficial;
         mascot.ImageLicenseStatus = seed.ImageLicenseStatus;
         mascot.LicenseNotes = seed.LicenseNotes;
+        mascot.LicenseTermsUrl = ParseUrl(seed, nameof(SeedMascot.LicenseTermsUrl), seed.LicenseTermsUrl);
         mascot.VerificationLevel = seed.VerificationLevel;
 
         mascot.SourceCitations = seed.SourceCitations
@@ -237,6 +220,24 @@ public sealed class DatabaseSeeder(YuruCharaDbContext db)
                 citation.RetrievedOn,
                 citation.Reliability))
             .ToList();
+    }
+
+    /// <summary>
+    /// The seed file holds URLs as strings so that a malformed one is a seed-file
+    /// error with a readable message rather than a deserialiser exception.
+    /// Uri.TryCreate is where that message comes from.
+    /// </summary>
+    private static Uri? ParseUrl(SeedMascot seed, string field, string? value)
+    {
+        if (value is null)
+        {
+            return null;
+        }
+
+        return Uri.TryCreate(value, UriKind.Absolute, out var url)
+            ? url
+            : throw new InvalidOperationException(
+                $"Mascot '{seed.NameJa}' ({seed.Id}) has a {field} that is not an absolute URI: '{value}'.");
     }
 
     private static void ValidateInputs(

@@ -117,6 +117,7 @@ public sealed class WikidataMascotPass(HttpClient http)
                 IsOfficial: true,
                 ImageLicenseStatus: ImageLicenseStatus.Unknown,
                 LicenseNotes: null,
+                LicenseTermsUrl: null,
                 VerificationLevel: VerificationLevel.Automated,
                 WikidataId: qid,
                 ReviewNotes: BuildAutomatedNote(row, websites),

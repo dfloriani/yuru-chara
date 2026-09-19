@@ -66,6 +66,7 @@ export interface Mascot {
   readonly isOfficial: boolean;
   readonly imageLicenseStatus: ImageLicenseStatus;
   readonly licenseNotes: string | null;
+  readonly licenseTermsUrl: string | null;
   readonly verificationLevel: VerificationLevel;
   readonly sourceCitations: readonly SourceCitation[];
 }

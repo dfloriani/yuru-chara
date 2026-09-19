@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using YuruChara.Infrastructure;
 namespace YuruChara.Infrastructure.Migrations
 {
     [DbContext(typeof(YuruCharaDbContext))]
-    partial class YuruCharaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260919135412_AddLicenseTermsUrl")]
+    partial class AddLicenseTermsUrl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

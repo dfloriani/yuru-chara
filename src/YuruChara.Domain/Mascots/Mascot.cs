@@ -44,8 +44,11 @@ public class Mascot
 
     public ImageLicenseStatus ImageLicenseStatus { get; set; } = ImageLicenseStatus.Unknown;
 
-    /// <summary>Free text, typically a link to the terms page the status was read from.</summary>
+    /// <summary>Free text: what the terms require. Holds no URL; the terms page is <see cref="LicenseTermsUrl"/>.</summary>
     public string? LicenseNotes { get; set; }
+
+    /// <summary>The page where the owning body publishes its usage terms or its application procedure.</summary>
+    public Uri? LicenseTermsUrl { get; set; }
 
     public VerificationLevel VerificationLevel { get; set; } = VerificationLevel.Automated;
 

@@ -152,6 +152,16 @@ function MascotCard({ mascot }: { readonly mascot: Mascot }) {
         <span className="mascot__licence-label">Image</span>{' '}
         {IMAGE_LICENCE_TEXT[mascot.imageLicenseStatus]}
         {mascot.licenseNotes !== null && <> {mascot.licenseNotes}</>}
+        {mascot.licenseTermsUrl !== null && (
+          <a
+            className="mascot__licence-link"
+            href={mascot.licenseTermsUrl}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Usage terms: {hostAndPathOf(mascot.licenseTermsUrl)}
+          </a>
+        )}
       </p>
 
       {mascot.sourceCitations.length > 0 && (
@@ -235,6 +245,20 @@ function hostOf(url: string): string {
   } catch {
     // The value comes from a .NET Uri, so this should not happen — but a bad seed
     // record must not blank the panel it appears in.
+    return url;
+  }
+}
+
+/**
+ * The URL without its scheme or a trailing slash. A terms page can be on the
+ * same host as the mascot's official site, and then the path is the only part
+ * of the link text that tells the two links apart.
+ */
+function hostAndPathOf(url: string): string {
+  try {
+    const parsed = new URL(url);
+    return `${parsed.host}${parsed.pathname}${parsed.search}`.replace(/\/$/, '');
+  } catch {
     return url;
   }
 }
