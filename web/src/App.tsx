@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { AttributionFooter } from './components/AttributionFooter';
 import { DetailPanel } from './components/DetailPanel';
 import { Legend } from './components/Legend';
+import { LoadingStatus } from './components/LoadingStatus';
 import { PrefectureList } from './components/PrefectureList';
 import { COVERAGE_ORDER, type Coverage } from './data/coverage';
 import { useAtlas } from './data/useAtlas';
@@ -143,9 +144,7 @@ export function App() {
           </div>
         )}
 
-        {atlas.status === 'loading' && (
-          <p className="app__status">Loading Japan’s 47 prefectures…</p>
-        )}
+        {atlas.status === 'loading' && <LoadingStatus />}
 
         {atlas.status === 'ready' && atlas.collection && (
           <>
