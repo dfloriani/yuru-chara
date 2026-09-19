@@ -212,10 +212,6 @@
   line-height: 2rem;
 }
 
-.mascot__link-host {
-  color: var(--text-muted);
-}
-
 .mascot__licence {
   margin: 0.5rem 0 0;
   font-size: 0.75rem;

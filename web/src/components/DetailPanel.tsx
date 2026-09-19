@@ -140,8 +140,7 @@ function MascotCard({ mascot }: { readonly mascot: Mascot }) {
       {mascot.officialUrl !== null && (
         <p className="mascot__link">
           <a href={mascot.officialUrl} target="_blank" rel="noreferrer noopener">
-            Official site
-            <span className="mascot__link-host"> {hostOf(mascot.officialUrl)}</span>
+            Official site: {hostOf(mascot.officialUrl)}
           </a>
         </p>
       )}
